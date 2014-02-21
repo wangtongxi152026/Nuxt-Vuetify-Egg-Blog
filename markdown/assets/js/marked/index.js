@@ -962,7 +962,7 @@ Renderer.prototype.heading = function (text, level, raw, slugger) {
     // }
     // ignore IDs
     // return '<h' + level + '>' + text + '</h' + level + '>\n';
-    
+
     let anchor = tocObj.add(text, level);
     return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
 
