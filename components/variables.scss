@@ -1,0 +1,19 @@
+$grid-breakpoints: (
+  (
+    'xs': 600px,
+    'sm': 768px,
+    'md': 960px - 16px,
+    'lg': 1280px - 16px,
+    'xl': 1300px
+  )
+);
+
+map-deep-merge: (
+  (
+    'sm': map-get($grid-breakpoints, 'sm') * 0.9375,
+    'md': map-get($grid-breakpoints, 'md') * 0.9375,
+    'lg': map-get($grid-breakpoints, 'lg') * 0.9375,
+    'xl': 1300px
+  )
+  $container-max-widths
+);

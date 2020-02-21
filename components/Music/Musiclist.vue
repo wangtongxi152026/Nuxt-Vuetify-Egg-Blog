@@ -1,0 +1,205 @@
+<template>
+  <v-card ref="header1" :height="getTabHeight" max-width="100vw" class="body-2">
+    <Scroll :data="list.length||getTabHeight">
+      <v-list-item-group>
+        <v-list-item>
+          <v-row class="d-flex align-center">
+            <v-col align="center" cols="2">
+              <v-icon
+                v-if="showDelIcon"
+                size="20"
+                class="iconfont icon-shanchu1"
+                @click.stop="clearAll"
+              ></v-icon>
+            </v-col>
+            <v-col cols="8" md="5">歌曲</v-col>
+            <v-col align="center" cols="4" v-if="isTimeshow">时长</v-col>
+          </v-row>
+        </v-list-item>
+
+        <v-list-item
+          v-for="(item,index) in list"
+          :key="index"
+          :class="{'wave':playing && currentSong.id===item.id}"
+          color="info"
+          @click="selectItem(item,index)"
+        >
+          <v-row
+            class="d-flex align-center"
+            :class="{rowHeight:$vuetify.breakpoint.mdAndUp}"
+            cols="12"
+          >
+            <!-- 索引 -->
+            <v-col cols="2" align="center" class="num index">{{ index + 1 }}</v-col>
+            <!-- 歌曲 -->
+            <v-col cols="8" md="5" justify-self="center">
+              <span class="songname">
+                {{ item.name }}
+                <span class="overline">-{{ item.singer }}</span>
+              </span>
+            </v-col>
+            <!-- 播放* -->
+            <v-col cols="1" align="center" v-if="$vuetify.breakpoint.mdAndUp">
+              <v-icon class="go" :class="getPlayIcon(item.id)" @click.stop="selectItem(item,index)"></v-icon>
+            </v-col>
+            <!-- 时间 **-->
+            <v-col cols="2" align="center" v-if="isTimeshow">
+              <span :class="{'durationTime':showDelIcon}">{{ item.duration | formatTime }}</span>
+            </v-col>
+            <!-- 删除按钮 -->
+            <v-col cols="2" align="center" v-if="showDelIcon">
+              <v-icon class="iconfont icon-chahao1" @click.stop="deleteItem(index,item)"></v-icon>
+            </v-col>
+          </v-row>
+        </v-list-item>
+
+        <Loading v-if="!list.length"></Loading>
+      </v-list-item-group>
+    </Scroll>
+    <Snackbar ref="Snackbar"></Snackbar>
+  </v-card>
+</template>
+
+<script>
+import Scroll from "~/components/Music/Scroller";
+import Snackbar from "~/components/Music/Snackbar";
+import { mapState, mapGetters, mapMutations } from "vuex";
+import Loading from "~/components/Music/Loading";
+
+export default {
+  name: "Musiclist",
+  components: { Loading, Scroll, Snackbar },
+  props: {
+    // 歌单列表
+    list: {
+      type: Array,
+      default: () => []
+    },
+    // 删除按钮
+    showDelIcon: {
+      type: Boolean,
+      default: true
+    }
+  },
+  watch: {
+    // 'list.length': {
+    //   handler (newValue, oldValue) {
+    //     console.log(this.list.length, 'listlength');
+    //     if (newValue !== oldValue) {
+    //       this.$nextTick(() => {
+    //         this.$refs.scroller.refresh()
+    //       })
+    //     }
+    //   }
+    // },
+  },
+  methods: {
+    ...mapMutations("music", {
+      setPlaying: "SET_PLAYING"
+    }),
+    // 如果当前出去播放状态&&选中的id和在播放的id相同  图标不变
+    getPlayIcon(itemId) {
+      const id = this.currentSong.id;
+      return this.playing && id === itemId
+        ? "Xfont iconfont icon-zanting"
+        : "Xfont iconfont icon-bofang";
+    },
+    // 选中歌曲
+    selectItem(item, index, e) {
+      if (item.id === this.currentSong.id) {
+        // 点击的歌曲id 和正在播放的歌曲相同 视为暂停 return
+        console.log(
+          "item.id, this.currentSong.id",
+          item.id,
+          this.currentSong.id
+        );
+        this.setPlaying(!this.playing);
+        return;
+      }
+      this.$emit("select", { item, index });
+    },
+    // 删除事件
+    deleteItem(index, item) {
+      this.$emit("delete", { index, item }); // 触发删除事件
+      this.$refs.Snackbar.show();
+    },
+    // 清空
+    clearAll() {
+      this.$emit("clear");
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      console.log(this.$refs.header1.$el.getBoundingClientRect().top);
+    });
+  },
+  computed: {
+    ...mapState("music", ["playing"]),
+    ...mapGetters("music", ["currentSong"]),
+    getTabHeight() {
+      return this.$vuetify.breakpoint.smAndDown
+        ? "calc(100vh - 80px - 112px)"
+        : "calc(100vh - 336px)";
+    },
+    // 歌曲时长的显示
+    isTimeshow() {
+      return this.$vuetify.breakpoint.smAndDown ? false : true;
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  color: #999 !important;
+}
+.v-card {
+  background: transparent !important;
+  // background-image: url(~~/assets/image/body.png);
+  // background-repeat: repeat;
+  // background-position: top center;
+  // background-attachment: scroll;
+  .rowHeight {
+    height: 55px;
+  }
+  .wave {
+    .num {
+      font-size: 0;
+      background: url("../../assets/image/wave.gif") no-repeat center;
+    }
+  }
+  .songname,
+  .singer {
+    // 1行显示溢出隐藏
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .overline {
+    color: #6e6e6e;
+  }
+  .iconfont {
+    color: orange;
+    font-size: 28px;
+  }
+  .icon-chahao1 {
+    color: #000;
+  }
+  .icon-chahao1:hover {
+    color: #7e7e7e;
+  }
+  .go {
+    display: none;
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+  .row:hover {
+    .go {
+      display: block;
+    }
+  }
+}
+</style>
