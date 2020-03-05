@@ -1,33 +1,25 @@
 <template>
   <v-col cols="12" class="py-0">
-    <v-form ref="form">
-      <form>
-        <v-text-field
-          class="pt-2"
-          v-model="searchValue"
-          :rules="rules"
-          @keydown.enter.prevent="doSearch"
-        >
-          <!-- 外部搜索按钮 -->
-          <template v-slot:append-outer>
-            <v-icon
-              class="searchicon"
-              color="info"
-              @mouseover="searchIcon"
-              @mouseout="musicIcon"
-              @click="doSearch"
-              :class="icon"
-            ></v-icon>
-          </template>
-          <!-- 内部清空按钮 -->
-          <template v-if="searchValue" v-slot:append>
-            <v-slide-x-reverse-transition mode="out-in">
-              <v-icon @click="clear" class="iconfont icon-chahao1"></v-icon>
-            </v-slide-x-reverse-transition>
-          </template>
-        </v-text-field>
-      </form>
-    </v-form>
+    <v-text-field class="pt-2" dark v-model="searchValue" @keydown.enter.prevent="doSearch">
+      <!-- 外部搜索按钮 -->
+      <template v-slot:append-outer>
+        <v-icon
+          class="searchicon"
+          color="info"
+          @mouseover="searchIcon"
+          @mouseout="musicIcon"
+          @click="doSearch"
+          :class="icon"
+        ></v-icon>
+      </template>
+      <!-- 内部清空按钮 -->
+      <template v-if="searchValue" v-slot:append>
+        <v-slide-x-reverse-transition mode="out-in">
+          <v-icon @click="clear" class="iconfont icon-chahao1"></v-icon>
+        </v-slide-x-reverse-transition>
+      </template>
+    </v-text-field>
+
     <MusicList
       v-if="list.length"
       class="mt--1"
@@ -61,30 +53,27 @@ import Loading from "~/components/Music/Loading";
 import { mapActions } from "vuex";
 export default {
   name: "music-serach",
-  async asyncData({ store }) {
-    const res = await store.dispatch("music/searchHot");
-    return { Artists: res.result.hots };
+  layout: "music",
+  created () {
+    this._searchHot()
+
+
+    console.log(this.$route);
   },
- layout: "music",
-  data() {
+
+  data () {
     return {
-      rules: [
-        v => {
-          let reg = /(^\s+)|(\s+$)/g;
-          return reg.test(v) ? "" : true;
-        }
-      ],
       lodingShow: false,
-      searchValue: null, // 搜索关键词
+      searchValue: '', // 搜索关键词
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页
       icon: "iconfont icon-yinle"
-    };
+    }
   },
   components: { MusicList, Loading },
   computed: {
-    getTabHeight() {
+    getTabHeight () {
       return this.$vuetify.breakpoint.smAndDown
         ? "calc(100vh - 80px - 112px - 58px )"
         : "calc(100vh - 336px - 58px)";
@@ -92,40 +81,51 @@ export default {
   },
   methods: {
     ...mapActions("music", ["insertOnePlay"]),
-    doSearch() {
-      this.lodingShow = true;
-      if (this.$refs.form.validate()) {
-        search(this.searchValue).then(res => {
-          if (res.data.code === 200) {
-            this.list = formatSongs(res.data.result.songs);
-            this.lodingShow = false;
-          }
-        });
+    async _searchHot () {
+      const res = await searchHot()
+      this.Artists = res.result.hots
+
+    },
+    doSearch () {
+
+
+      if (!this.searchValue) {
+        this.$message.err('请输入搜索词')
+        return
       }
+      this.lodingShow = true;
+      search(this.searchValue).then(res => {
+        if (res.data.code === 200) {
+          this.list = formatSongs(res.data.result.songs);
+          this.lodingShow = false;
+        }
+      });
+
+
     },
     // 索索结果中选择播放
-    async selectSearch({ item }) {
+    async selectSearch ({ item }) {
       let image = await this._getSearchImg(item.id);
       item.image = image;
       this.insertOnePlay({ item });
     },
-    searchIcon() {
+    searchIcon () {
       this.icon = "iconfont icon-search";
     },
-    musicIcon() {
+    musicIcon () {
       this.icon = "iconfont icon-yinle";
     },
-    clear() {
+    clear () {
       this.searchValue = null;
       this.list = [];
     },
     // 点击热搜
-    selectHot(v) {
+    selectHot (v) {
       this.searchValue = v;
       this.doSearch();
     },
     // 获取歌曲图片
-    _getSearchImg(id) {
+    _getSearchImg (id) {
       return getMusicDetail(id).then(res => {
         if (res.data.code === 200) {
           return res.data.songs[0].al.picUrl;

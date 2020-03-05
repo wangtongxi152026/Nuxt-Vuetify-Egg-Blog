@@ -4,13 +4,9 @@ import ajax from './ajax';
 //    register: axios.post('/blog/register', params);
 // }
 
-export function getUserInfo() {
-  console.log('getUserInfo');
-  return ajax.get('/blog/getUserInfo');
-}
-export function currentUser() {
-  return ajax.get('/blog/currentUser');
-}
+// export function currentUser() {
+//   return ajax.get('/blog/currentUser');
+// }
 
 export function login(params) {
   return ajax.post('/blog/login', params);
@@ -26,6 +22,10 @@ export function getUser(params) {
   return ajax.post('/blog/getUser', params);
 }
 
+export function getUserInfo() {
+  return ajax.get('/blog/getUserInfo');
+}
+
 export function addComment(params) {
   return ajax.post('/blog/addComment', params);
 }
@@ -39,7 +39,7 @@ export function getCommentList(params) {
 export function getArticleList(params) {
   return ajax.post('/blog/getArticleList', params);
 }
- 
+
 export function likeArticle(params) {
   return ajax.post('/blog/likeArticle', params);
 }
@@ -67,37 +67,12 @@ export function getCategoryList(params) {
 export function getTimelineList(params) {
   return ajax.post('/blog/getTimelineList', params);
 }
-export function getTimelineDetail(params) {
-  return ajax.post('/blog/getTimelineDetail', params);
-}
-export function getProjectList(params) {
-  return ajax.post('/blog/getProjectList', params);
-}
-export function getProjectDetail(params) {
-  return ajax.post('/blog/getProjectDetail', params);
-}
-
-// export const urls: object = {
-//   login: "login",
-//   logout: "logout",
-//   register: "register",
-//   getUser: "getUser",
-//   addComment: "addComment",
-//   addThirdComment: "addThirdComment",
-//   getCommentList: "getCommentList",
-//   getArticleList: "getArticleList",
-//   likeArticle: "likeArticle",
-//   getArticleDetail: "getArticleDetail",
-//   addMessage: "addMessage",
-//   getMessageList: "getMessageList",
-//   getMessageDetail: "getMessageDetail",
-//   getLinkList: "getLinkList",
-//   getTagList: "getTagList",
-//   getCategoryList: "getCategoryList",
-//   getTimeAxisList: "getTimeAxisList",
-//   getTimeAxisDetail: "getTimeAxisDetail",
-//   getProjectList: "getProjectList",
-//   getProjectDetail: "getProjectDetail"
-// };
-
-// export default urls;
+// export function getTimelineDetail(params) {
+//   return ajax.post('/blog/getTimelineDetail', params);
+// }
+// export function getProjectList(params) {
+//   return ajax.post('/blog/getProjectList', params);
+// }
+// export function getProjectDetail(params) {
+//   return ajax.post('/blog/getProjectDetail', params);
+// }

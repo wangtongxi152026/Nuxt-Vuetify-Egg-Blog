@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import Musiclist from "~/components/Music/Musiclist";
 import Dialog from "~/components/Music/Dialog";
 
@@ -20,7 +20,7 @@ export default {
   layout: "music",
   components: { Musiclist, Dialog },
   computed: {
-    ...mapState("music", ["historyList"])
+    ...mapGetters("music", ["historyList"])
   },
   methods: {
     ...mapMutations("music", {
@@ -35,21 +35,21 @@ export default {
       "clearHistory"
     ]),
     // 选择播放
-    selectHistory({ item }) {
+    selectHistory ({ item }) {
       this.insertOnePlay({ item });
     },
     // 删除一条历史
-    deleteOneHistory({ index }) {
+    deleteOneHistory ({ index }) {
       let list = this.historyList;
       list.splice(index, 1);
       this.removeOneHistory(list);
       // this.$mmToast('删除成功')
     },
     // 清空历史
-    clearHistoryList() {
+    clearHistoryList () {
       this.$refs.Dialog.show();
     },
-    doclear() {
+    doclear () {
       this.clearHistory();
       console.log("clearHistory GG");
     }

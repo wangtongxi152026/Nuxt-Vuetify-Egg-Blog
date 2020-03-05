@@ -1,133 +1,105 @@
 <template>
-  <v-footer  id="core-footer" class="grey--text text--lighten-1" inset>
-    <v-container class="px-0">
-
+  <v-footer id="core-footer">
+    <v-container>
       <v-row>
-        <v-col cols="12" md="5" lg='3'>
-          <strong class="mb-2  d-block subtitle-2">关于本站</strong>
-
-          <div class="body-2">
-            　　WTongxi 网站目前是人练手项目的音乐网站，本站不会修改任何音频文件，只提供查询服务，请勿用作商业用途！网站宗旨：希望每一个来访的朋友都能有所收获！
-          </div>
+        <v-col cols="12" md="5" lg="3">
+          <strong class="subtitle-2">关于本站</strong>
+          <div
+            class="body-2 mt-2"
+          >wangtongxi | 关注前端技术及互联网的个人网站， 基于nuxt ssr首屏服务器端渲染 ⚡， 并合并了酷炫音乐推荐，可以在线听音乐，网站宗旨：希望每一个来访的朋友都能有所收获！</div>
         </v-col>
-
-        <v-col cols="12" md="7" lg='9'>
+        <v-col class="tags" cols="12" md="7" lg="9">
           <v-row>
-            <v-col v-for="(section, i) in sections" :key="i" cols="6" md="3">
-              <strong class="d-block mb-3" v-text="section.heading" />
-              <div v-for="(child, j) in section.children" :key="j" class="body-2 mb-2">
-
-                <div v-if="child.to" class="text-capitalize" v-text="child.text"></div>
-                <!-- <router-link v-if="child.to" :to="child.to" class="text-capitalize" v-text="child.text" /> -->
-
-                <a v-else :href="child.href" class="text-capitalize" target="_blank" rel="noopener"
-                  v-text="child.text" />
+            <v-col v-for="(section, i) in sections" :key="i" cols="6" md="4">
+              <div v-for="(child, j) in section.children" :key="j" class="mb-2">
+                <v-icon size="16px" :class="`${child.icon} grey--text`" />
+                <nuxt-link
+                  :to="child.to"
+                  class="text-capitalize"
+                  rel="noopener"
+                  v-text="child.title"
+                ></nuxt-link>
               </div>
             </v-col>
           </v-row>
         </v-col>
+        <v-divider class="my-2" />
 
+        <v-col class="foottime" cols="12">
+          Copyright &copy;&nbsp; {{ date }}&nbsp;
+          <span>WTongxi网站</span>&nbsp;皖ICP备19024039号
+        </v-col>
+        <v-divider class="my-2" />
+        <!-- 网站总计时长 -->
+        <v-col class="foottime" cols="12">
+          <FooterTime></FooterTime>
+        </v-col>
       </v-row>
-
-      <v-divider class="mb-3 " />
-
-      <v-row justify='center'>
-        Copyright &copy;&nbsp; {{ date }}&nbsp;
-        <span>WTongxi网站</span>&nbsp; All Rights Reserved
-      </v-row>
-      <v-divider class="my-2" />
-      <!-- 网站总计时长 -->
-      <v-row justify='center'>
-        <FooterTime></FooterTime>
-      </v-row>
-
     </v-container>
   </v-footer>
 </template>
 
 <script>
-// Utilities
-// import {
-//   sync,
-// } from 'vuex-pathify'
+const PREFIX = 'iconfont icon-'
 import FooterTime from '~/components/FooterTime'
 export default {
   name: 'CoreFooter',
-
-  data: () => ({
-    date: (new Date()).getFullYear(),
-  }),
-  methods: {
-
-  },
+  components: { FooterTime },
   computed: {
-    // socialMedia: sync('app/socialMedia'),
-    // collections () {
-    //   const collections = sync('collections/collections').get.call(this) || []
-
-    //   return collections.filter(collection => {
-    //     return ![
-    //       process.env.VUE_APP_SHOPIFY_DEFAULT_COLLECTION,
-    //       process.env.VUE_APP_SHOPIFY_COLLECTION_FEATURED_PRODUCTS,
-    //     ].includes(collection.handle)
-    //   }).sort((a, b) => {
-    //     if (a.title > b.title) return 1
-    //     if (a.title < b.title) return -1
-    //     return 0
-    //   })
-    // },
+    date: () => new Date().getFullYear(),
     sections () {
       return [
         {
-          heading: 'General',
           children: [
-            { to: { name: 'About' }, text: 'About Vuetify' },
-            { to: { name: 'Contact' }, text: 'Contact Us' },
-            { to: { name: 'ThankYou' }, text: 'Thank You' },
-            { href: 'https://vuetifyjs.com/', text: 'Vuetify Documentation' },
+            { icon: PREFIX + 'tuijian', title: '推荐音乐', to: '/music' },
+            { icon: PREFIX + 'login', title: '我的音乐', to: '/music/userlist' },
+            { icon: PREFIX + 'sousuo', title: '搜索音乐', to: '/music/search' },
+            { icon: PREFIX + 'history', title: '刚刚听过', to: '/music/history' },
+            { icon: PREFIX + 'bofangliebiao', title: '播放列表', to: '/music/playlist' }
           ],
         },
         {
-          heading: 'Legal',
           children: [
-            { to: { name: 'Licenses' }, text: 'Licenses' },
-            { to: { name: 'Privacy' }, text: 'Privacy Policy' },
-            { to: { name: 'Refund' }, text: 'Refund Policy' },
-            { to: { name: 'Terms' }, text: 'Terms of Service' },
+            { icon: PREFIX + 'tuijian', title: '推荐音乐', to: '/music' },
+            { icon: PREFIX + 'login', title: '我的音乐', to: '/music/userlist' },
+            { icon: PREFIX + 'sousuo', title: '搜索音乐', to: '/music/search' },
+            { icon: PREFIX + 'history', title: '刚刚听过', to: '/music/history' },
+            { icon: PREFIX + 'bofangliebiao', title: '播放列表', to: '/music/playlist' }
           ],
         },
         {
-          heading: 'Product Collections',
-          children: (this.collections || []).map(collection => ({
-            text: collection.title,
-            to: {
-              name: 'Collections',
-              params: { handle: collection.handle },
-            },
-          })),
-        },
-        {
-          heading: 'Social',
           children: [
-            { href: 'https://community.vuetifyjs.com', text: 'Community' },
-            // ...this.socialMedia,
+            { icon: PREFIX + 'shouyex', title: '首页', to: '/' },
+            { icon: PREFIX + 'shijianzhou', title: '关于本站', to: '/timeline' },
+            { icon: PREFIX + 'js', title: '给我留言', to: '/message' },
           ],
         },
+
+
       ]
     },
   },
-  components: { FooterTime }
+
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@media (min-width: 1904px)
-  .container
-    background-color #414141
-    max-width 1785px
-#core-footer
-  background #414141
-  a
-    color #b3b3b3
-    text-decoration none
+@media (min-width: 1904px) {
+  max-width: 1785px;
+}
+
+.foottime {
+  text-align: center;
+}
+
+#core-footer {
+  background: #000;
+  color: #b3b3b3;
+  font-size: 14px;
+
+  a {
+    color: #b3b3b3;
+    text-decoration: none;
+  }
+}
 </style>

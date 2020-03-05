@@ -1,11 +1,11 @@
 <template>
   <div>
     <!--  <Carousel></Carousel>-->
-    <!-- <ModuleTransition 
-      <v-container v-if="recoShowModule"  class="carousel" fluid>
-       
-      </v-container>
-    </ModuleTransition>-->
+    <ModuleTransition delay="0.16">
+      <div v-show="recoShowModule" class="header">
+        <img class="carousel" :src="require('~/assets/image/sky.webp')" alt="sky" />
+      </div>
+    </ModuleTransition>
 
     <v-container tag="article">
       <ModuleTransition delay="0.24">
@@ -32,7 +32,7 @@
           </v-col>-->
           <!-- <SCard class="my-3"></SCard> -->
 
-          <v-col class="right" cols="12" md="4">
+          <v-col v-if="$vuetify.breakpoint.mdAndUp" class="right" cols="12" md="4">
             <SliderBar :total="article.count" />
 
             <!-- <SmCard class="my-12" v-for="person in team" :key="person.name" :data="person"></SmCard>
@@ -58,7 +58,7 @@ import SliderBar from '~/components/Blog/sliderBar'
 import { getArticleListAdmin } from '~/api/api'
 export default {
   mixins: [moduleTransitonMixin],
-
+  scrollToTop: true,
   async asyncData ({ $axios }) {
     const params = {
       keyword: "",
@@ -72,8 +72,6 @@ export default {
     };
     const result = await $axios.get('blog/getArticleList', { params })
     return { article: result.data.data }
-
-
   },
   components: { SCard, SSCard, SmCard, XSCard, RSCard, Carousel, ModuleTransition, SliderBar },
   computed: {
@@ -105,61 +103,21 @@ export default {
   data () {
     return {
       page: 1,
-      items: [
-        {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-        },
-        {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
-        },
-        {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-        },
-        {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
-        }
-      ],
-      team: [
-        {
-          id: 1,
-          name: 'The Net Ninja',
-          role: 'Web developer',
-
-          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-        },
-        {
-          id: 2,
-          name: 'Ryu',
-          role: 'Graphic designer',
-
-          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
-        },
-        {
-          id: 3,
-          name: 'Chun Li',
-          role: 'Web developer',
-
-          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-        },
-        {
-          id: 4,
-          name: 'The Net Ninja2',
-          role: 'Social media maverick',
-
-          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
-        }
-      ]
     }
   }
 }
 </script>
 
 <style lang="sass" scoped>
+.header
+  max-width: 100%
+  width: 100%
+  margin-right: auto
+  margin-left: auto
 .carousel
-  padding:0
-  background-image: url('~@/assets/image/javascript.gif')
-  background-position: center
-  background-size: cover
+  // background-image: url('~@/assets/image/javascript.gif')
+  // background-position: center
+  // background-size: cover
   width: 100%
   height: 350px 
      transform: translateY(-40px)

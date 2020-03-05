@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer id="core-navigation-drawer" v-model="$store.state.blog.drawer" app dark>
+  <v-navigation-drawer id="core-navigation-drawer" v-model="drawer" app dark>
     <v-list-item two-line class="mx-4 my-3 logo">
       <v-avatar size="56">
         <img src="~/assets/avatar.jpg" />
@@ -77,183 +77,119 @@ export default {
           }
         ]
       },
-      {
-        group: '/components',
-        icon: 'mdi-view-comfy',
-        title: 'components',
-        children: [
-          {
-            title: 'multi',
-            group: '',
-            children: [
-              {
-                title: 'example',
-                href: '#'
-              }
-            ]
-          },
-          {
-            title: 'buttons',
-            to: 'buttons'
-          },
-          {
-            title: 'grid',
-            to: 'grid-system'
-          },
-          {
-            title: 'tabs',
-            to: 'tabs'
-          },
-          {
-            title: 'notifications',
-            to: 'notifications'
-          },
-          {
-            title: 'icons',
-            to: 'icons'
-          },
-          {
-            title: 'typography',
-            to: 'typography'
-          }
-        ]
-      },
-      {
-        group: '/forms',
-        icon: 'mdi-clipboard-outline',
-        title: 'forms',
-        children: [
-          {
-            title: 'rforms',
-            to: 'regular'
-          },
-          {
-            title: 'eforms',
-            to: 'extended'
-          },
-          {
-            title: 'vforms',
-            to: 'validation'
-          },
-          {
-            title: 'wizard',
-            to: 'wizard'
-          }
-        ]
-      },
-      {
-        group: '/tables',
-        icon: 'mdi-grid',
-        title: 'tables',
-        children: [
-          {
-            title: 'rtables',
-            to: 'regular-tables'
-          },
-          {
-            title: 'etables',
-            to: 'extended-tables'
-          },
-          {
-            title: 'dtables',
-            to: 'data-tables'
-          }
-        ]
-      },
-      {
-        icon: 'mdi-widgets',
-        title: 'widgets',
-        to: '/widgets'
-      },
+      // {
+      //   group: '/components',
+      //   icon: 'mdi-view-comfy',
+      //   title: 'components',
+      //   children: [
+      //     {
+      //       title: 'multi',
+      //       group: '',
+      //       children: [
+      //         {
+      //           title: 'example',
+      //           href: '#'
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       title: 'buttons',
+      //       to: 'buttons'
+      //     },
+      //     {
+      //       title: 'grid',
+      //       to: 'grid-system'
+      //     },
+      //     {
+      //       title: 'tabs',
+      //       to: 'tabs'
+      //     },
+      //     {
+      //       title: 'notifications',
+      //       to: 'notifications'
+      //     },
+      //     {
+      //       title: 'icons',
+      //       to: 'icons'
+      //     },
+      //     {
+      //       title: 'typography',
+      //       to: 'typography'
+      //     }
+      //   ]
+      // },
+      // {
+      //   group: '/forms',
+      //   icon: 'mdi-clipboard-outline',
+      //   title: 'forms',
+      //   children: [
+      //     {
+      //       title: 'rforms',
+      //       to: 'regular'
+      //     },
+      //     {
+      //       title: 'eforms',
+      //       to: 'extended'
+      //     },
+      //     {
+      //       title: 'vforms',
+      //       to: 'validation'
+      //     },
+      //     {
+      //       title: 'wizard',
+      //       to: 'wizard'
+      //     }
+      //   ]
+      // },
+      // {
+      //   group: '/tables',
+      //   icon: 'mdi-grid',
+      //   title: 'tables',
+      //   children: [
+      //     {
+      //       title: 'rtables',
+      //       to: 'regular-tables'
+      //     },
+      //     {
+      //       title: 'etables',
+      //       to: 'extended-tables'
+      //     },
+      //     {
+      //       title: 'dtables',
+      //       to: 'data-tables'
+      //     }
+      //   ]
+      // },
+      // {
+      //   icon: 'mdi-widgets',
+      //   title: 'widgets',
+      //   to: '/widgets'
+      // },
       {
         icon: 'mdi-chart-timeline-variant',
-        title: 'charts',
-        to: '/charts'
+        title: '关于本站',
+        to: '/timeline'
       },
       {
         icon: 'mdi-calendar-range',
-        title: 'calendar',
-        to: '/calendar'
+        title: '给我留言',
+        to: '/message'
       }
     ]
-    // childrens: [
-    //   {
-    //     // group: "/pages",
-    //     icon: "mdi-image",
-    //     title: "关于本站",
-    //     children: [
-    //       {
-    //         title: "pricing",
-    //         to: "/timeline",
-    //         icon: "mdi-image"
-    //       }
-    //     ]
-    //   },
 
-    //   {
-    //     group: "/forms",
-    //     icon: "mdi-clipboard-outline",
-    //     title: "B",
-    //     to: "/timeline"
-    //   },
-
-    //   {
-    //     group: "/music",
-    //     icon: "mdi-music",
-    //     title: "听听音乐",
-    //     children: [
-    //       {
-    //         title: "网易",
-    //         to: "/music",
-    //         icon: "mdi-image"
-    //       },
-    //       {
-    //         title: "fullscreen",
-    //         icon: "mdi-image"
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     icon: "mdi-widgets",
-    //     title: "JS",
-    //     to: "/music"
-    //   },
-    //   {
-    //     icon: "mdi-chart-timeline-variant",
-    //     title: "Vue",
-    //     to: "/timeline"
-    //   },
-    //   {
-    //     icon: "mdi-calendar-range",
-    //     title: "X",
-    //     to: "/music"
-    //   }
-    // ]
   }),
 
   computed: {
-    drawer: {
-      get(){
-        return this.$store.state.blog.drawer
-      },
-      set(){
-        
-      }
+    drawer () {
+      return this.$store.state.blog.drawer
     },
-    computedItems() {
+    computedItems () {
       return this.items.map(this.mapItem)
     }
   },
-watch:{
-  '$vuetify.breakpoint.mdAndDown'() {
-     
-       
-      this.$store.state.blog.drawer=false
-    },
-},
   methods: {
     ...mapMutations('blog', ['setDrawer']),
-    mapItem(item) {
+    mapItem (item) {
       return {
         ...item,
         children: item.children ? item.children.map(this.mapItem) : undefined,

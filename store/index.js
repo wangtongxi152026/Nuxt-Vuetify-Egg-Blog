@@ -1,19 +1,17 @@
+import Vuex from 'vuex';
 
-import Vuex from 'vuex'
+import music from './modules/music/index';
+import blog from './modules/blog/index';
 
-import music from './modules/music/index'
-import blog from './modules/blog/index'
- 
+const store = () =>
+  new Vuex.Store({
+    modules: {
+      music,
+      blog
+    }
+  });
 
-const store = () => new Vuex.Store({
-  modules: {
-    music,
-    blog,
-   
-  }
-})
-
-export default store
+export default store;
 
 // import tag from './modules/tag'
 // import category from './modules/category'

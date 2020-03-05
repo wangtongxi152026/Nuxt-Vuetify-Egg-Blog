@@ -1,7 +1,6 @@
 <template>
   <div class="scroller" ref="scroller">
     <slot></slot>
-
   </div>
 </template>
 

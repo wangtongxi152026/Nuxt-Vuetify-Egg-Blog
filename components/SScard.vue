@@ -5,34 +5,34 @@
       <!-- <img class="post-image" :src="data.src" /> -->
       <img
         class="post-image elevation-13"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        src="https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
       />
 
       <div class="article-details">
-        <h4 class="post-category">TYBFD</h4>
+        <!-- <h4 class="post-category">{{article.tags[0].name}}</h4> -->
         <div class="titlepress text-center post-title subtitle-1">{{article.title}}</div>
-    
+
         <div class="body-2">{{article.desc}}</div>
-          <v-divider></v-divider>
+        <v-divider></v-divider>
         <v-card-actions>
           <v-btn color="grey" small text>
-            <v-icon left class="iconfont icon-history" />
+            <v-icon left class="iconfont icon-shijian" />
             <span class="caption">{{article.create_time|format}}</span>
           </v-btn>
           <v-spacer />
           <v-btn color="grey" small text>
             <v-icon left>mdi-eye</v-icon>
-            <span class="caption">12</span>
+            <span class="caption">{{article.meta.views}}</span>
           </v-btn>
 
           <v-btn color="grey" small text>
             <v-icon left class="iconfont icon-pinglun" />
-            <span class="caption">123</span>
+            <span class="caption">{{article.meta.comments}}</span>
           </v-btn>
 
           <v-btn color="grey" small text>
-            <v-icon class="iconfont icon-dianzan" left></v-icon>
-            <span class="caption">33</span>
+            <v-icon class="iconfont icon-like" left></v-icon>
+            <span class="caption">{{article.meta.likes}}</span>
           </v-btn>
         </v-card-actions>
       </div>
@@ -47,32 +47,14 @@ export default {
       defaut: null
     }
   },
-
-  data() {
-    return {
-      name: '10 Best Things to Do in Seattle',
-      category: 'Travel',
-      image: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-      author: 'Katherine Kato',
-      desc: `Seattle is a seaport city on the west coast of the United States...`
-    }
-  }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg: #eedfcc;
-$text: #777;
-$black: #121212;
-$red: #e04f62;
 $border: #ebebeb;
-$shadow: rgba(0, 0, 0, 0.2);
-
 @mixin transition($args...) {
   transition: $args;
 }
- 
-
 .card-link {
   position: relative;
   display: block;
@@ -80,7 +62,7 @@ $shadow: rgba(0, 0, 0, 0.2);
   text-decoration: none;
   &:hover .post-title {
     @include transition(color 0.3s ease);
-    color: $red;
+    color: #cda95d;
   }
 }
 
@@ -107,7 +89,8 @@ $shadow: rgba(0, 0, 0, 0.2);
 
 .post-title {
   @include transition(color 0.3s ease);
-  color: #26a69a $black;
+  color: #000;
+  // color: #26a69a $black;
 }
 
 @media (max-width: 40rem) {
@@ -141,19 +124,4 @@ $shadow: rgba(0, 0, 0, 0.2);
     }
   }
 }
-
-// .titlepress:after {
-//     content: "";
-//     position: absolute;
-//     width: 100%;
-//     height: 2px;
-//     bottom: 0;
-//     left: 0;
-//     background-color: #3eaf7c;
-//     visibility: hidden;
-//     -webkit-transform: scaleX(0);
-//     transform: scaleX(0);
-//     -webkit-transition: .3s ease-in-out;
-//     transition: .3s ease-in-out;
-// }
 </style>

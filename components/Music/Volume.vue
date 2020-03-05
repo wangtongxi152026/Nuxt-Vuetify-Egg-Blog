@@ -5,12 +5,11 @@
       <PorgressBar :percent="percentVolume" @percentChange="handleVolumeChange"></PorgressBar>
     </div>
   </div>
-
 </template>
 
 <script>
 import PorgressBar from '~/components/Music/ProgressBar';
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
   name: 'Volume',
   components: { PorgressBar },
@@ -21,14 +20,14 @@ export default {
     })
   },
   computed: {
-    ...mapState('music', ['volume']),
+    ...mapGetters('music', ['volume']),
     // 决定音量进度条===>>state中volume对应的百分比
     percentVolume () {
       return this.volume
     },
     // 获得音量图标
     getVolumeIcon () {
-      return this.isMute ? 'iconfont icon-jingyin' : 'iconfont icon-yinliang'
+      return this.isMute ? 'iconfont icon-jingyin1' : 'iconfont icon-yinliang'
     },
     isMute: {
       get () {
@@ -45,7 +44,7 @@ export default {
   },
   methods: {
     toggleVolume () {
-      console.log(this.isMute,'this.isMute');
+      console.log(this.isMute, 'this.isMute');
       this.isMute = !this.isMute
     },
     handleVolumeChange (percent) {

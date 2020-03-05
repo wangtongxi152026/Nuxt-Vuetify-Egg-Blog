@@ -11,10 +11,13 @@
       <v-row v-show="recoShowModule" justify="center" md="8">
         <v-col cols="12" md="8">
           <h1 class="text-center headline py-5">给我留言</h1>
-          <img :src="require('~/assets/img14.jpg')" class="articlebg" />
+          <!-- <img :src="require('~/assets/img14.jpg')" class="articlebg" /> -->
+          <img
+            src="https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
+            class="articlebg"
+          />
         </v-col>
         <v-col cols="12" md="8">
-          <!-- <v-form ref="form" v-model="valid" lazy-validation> -->
           <v-form ref="form" lazy-validation>
             <v-textarea
               height="115"
@@ -35,16 +38,15 @@
             <v-btn block :loading="loading" color="success" @click="submit">确定</v-btn>
           </v-form>
         </v-col>
-
-        <v-col cols="12" md="8">
-          <v-divider class="my-5"></v-divider>
+        <!-- <v-divider class="my-5"></v-divider> -->
+        <!-- <v-col cols="12" md="8">
           <v-card outlined>
             <v-card-title>全部评论:10</v-card-title>
           </v-card>
         </v-col>
         <v-col cols="12" md="8">
-          <!-- <ArtComment /> -->
-        </v-col>
+          
+        </v-col>-->
       </v-row>
     </ModuleTransition>
   </v-container>

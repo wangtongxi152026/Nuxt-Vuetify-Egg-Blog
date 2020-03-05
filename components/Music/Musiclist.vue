@@ -98,14 +98,14 @@ export default {
       setPlaying: "SET_PLAYING"
     }),
     // 如果当前出去播放状态&&选中的id和在播放的id相同  图标不变
-    getPlayIcon(itemId) {
+    getPlayIcon (itemId) {
       const id = this.currentSong.id;
       return this.playing && id === itemId
         ? "Xfont iconfont icon-zanting"
-        : "Xfont iconfont icon-bofang";
+        : "Xfont iconfont icon-play_icon";
     },
     // 选中歌曲
-    selectItem(item, index, e) {
+    selectItem (item, index, e) {
       if (item.id === this.currentSong.id) {
         // 点击的歌曲id 和正在播放的歌曲相同 视为暂停 return
         console.log(
@@ -119,16 +119,16 @@ export default {
       this.$emit("select", { item, index });
     },
     // 删除事件
-    deleteItem(index, item) {
+    deleteItem (index, item) {
       this.$emit("delete", { index, item }); // 触发删除事件
       this.$refs.Snackbar.show();
     },
     // 清空
-    clearAll() {
+    clearAll () {
       this.$emit("clear");
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       console.log(this.$refs.header1.$el.getBoundingClientRect().top);
     });
@@ -136,13 +136,13 @@ export default {
   computed: {
     ...mapState("music", ["playing"]),
     ...mapGetters("music", ["currentSong"]),
-    getTabHeight() {
+    getTabHeight () {
       return this.$vuetify.breakpoint.smAndDown
         ? "calc(100vh - 80px - 112px)"
-        : "calc(100vh - 336px)";
+        : "calc(100vh - 128px - 144px)";
     },
     // 歌曲时长的显示
-    isTimeshow() {
+    isTimeshow () {
       return this.$vuetify.breakpoint.smAndDown ? false : true;
     }
   }
@@ -165,7 +165,7 @@ export default {
   .wave {
     .num {
       font-size: 0;
-      background: url("../../assets/image/wave.gif") no-repeat center;
+      background: url('../../assets/image/wave.gif') no-repeat center;
     }
   }
   .songname,

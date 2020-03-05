@@ -1,5 +1,4 @@
 <template>
-  <!-- :src="require('~/assets/image/default.png')" -->
   <v-app-bar
     app
     dark
@@ -15,7 +14,7 @@
         :size="$vuetify.breakpoint.mdAndUp ? 60 : 40"
         :class="$vuetify.breakpoint.smAndDown ? 'justify: center' : 'mx-5'"
       >
-        <img src="../assets/logo.jpg" />
+        <img src="../assets/avatar.jpg" class="elevation-2" />
       </v-avatar>
 
       <v-toolbar-title
@@ -33,28 +32,32 @@
     </nuxt-link>
 
     <v-spacer></v-spacer>
-
-    <template v-if="$vuetify.breakpoint.mdAndUp">
-      <UserMenu v-if="$store.state.blog.userinfo" />
-
-      <template v-else>
-        <v-col class="d-flex justify-end">
-          <v-btn class="mx-3" color="primary" fab x-small @click="isSearching = !isSearching">
-            <v-icon size="15" class="iconfont icon-sousuo"></v-icon>
-          </v-btn>
-          <v-btn text depressed nuxt to="/login">
-            <v-icon left class="iconfont icon-login"></v-icon>登录
-          </v-btn>
-          <v-btn class="mx-3" nuxt color="#006064" to="/register">
-            <v-icon left class="iconfont icon-zhhuce"></v-icon>加入组织
-          </v-btn>
-        </v-col>
-      </template>
-    </template>
-
-    <v-btn v-else class="mx-3" fab small @click="isSearching = !isSearching">
+    <v-btn dark class="mx-3" fab small @click="isSearching = !isSearching">
       <v-icon size="20" class="iconfont icon-sousuo"></v-icon>
     </v-btn>
+
+    <!-- <UserMenu v-if="$vuetify.breakpoint.mdAndUp && userinfo" /> -->
+    <template v-if="$vuetify.breakpoint.mdAndUp && userinfo">
+      <div>
+        <v-avatar size="56">
+          <img :src="src" />
+        </v-avatar>
+        <v-btn text depressed n>{{userinfo.name}}</v-btn>
+        <v-btn text depressed @click="logout">
+          <v-icon left>mdi-exit-to-app</v-icon>退出
+        </v-btn>
+      </div>
+    </template>
+    <template v-else>
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" class="d-flex justify-end">
+        <v-btn text depressed nuxt to="/login">
+          <v-icon left class="iconfont icon-login"></v-icon>登录
+        </v-btn>
+        <v-btn class="mx-3" nuxt color="#006064" to="/register">
+          <v-icon left class="iconfont icon-zhhuce"></v-icon>加入组织
+        </v-btn>
+      </v-col>
+    </template>
 
     <template v-slot:extension>
       <v-tabs centered class="tabs" hide-slider>
@@ -117,59 +120,42 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-import { getUserInfo } from '~/api/api'
+
+import { mapMutations, mapState } from 'vuex'
+
 import UserMenu from '~/components/UserMenu'
 const PREFIX = 'iconfont icon-'
 export default {
   name: 'CoreAppBar',
-  async mounted () {
-    const result = await getUserInfo()
-    if (result.code === 0) {
-      this.$store.commit('blog/set_user_info', result.data)
-    }
+  asyncData ({ isDev, route, store, env, params, query, req, res, redirect, error }) {
+    console.log(error);
   },
-
-  components: { UserMenu },
+  // components: { UserMenu },
   data () {
     return {
       isSearching: false,
-
-      items: [
-        { icon: 'mdi-clock', text: 'Dashboard', route: '/' },
-        {
-          icon: 'mdi-music',
-          text: '听听音乐',
-          children: [
-            { icon: PREFIX + 'tuijian', title: '推荐音乐', to: '/music' },
-            {
-              icon: PREFIX + 'login',
-              title: '我的音乐',
-              to: '/music/userlist'
-            },
-            { icon: PREFIX + 'sousuo', title: '搜索音乐', to: '/music/search' },
-            {
-              icon: PREFIX + 'history',
-              title: '刚刚听过',
-              to: '/music/history'
-            },
-            {
-              icon: PREFIX + 'bofangliebiao',
-              title: '播放列表',
-              to: '/music/playlist'
-            }
-          ]
-        },
-        { icon: 'iconfont icon-login', text: '关于本站', route: '/timeline' },
-        { icon: 'mdi-flag', text: '给我留言', route: '/message' }
-      ]
+      isLogin: false
     }
   },
   methods: {
-    ...mapMutations('blog', ['toggleDrawer', 'setDrawer'])
+    ...mapMutations('blog', ['toggleDrawer', 'setDrawer']),
+    logout () {
+      this.$store.commit('blog/logout')
+      this.$message.success('退出成功')
+    },
   },
 
   computed: {
+    userinfo () {
+      return this.$store.state.blog.userinfo
+    },
+    src () {
+      if (this.userinfo.avatar === 'user' || '') {
+        return require('~/assets/avatar.jpg')
+      } else {
+        return this.userinfo.avatar
+      }
+    },
     // 响应式高度
     top_height () {
       return this.$vuetify.breakpoint.mdAndUp ? 80 : 56
@@ -177,12 +163,42 @@ export default {
     // tab栏高度
     extension_height () {
       return this.$vuetify.breakpoint.mdAndUp ? 64 : 56
-    }
+    },
+    items: () => [
+      { icon: 'mdi-home', text: '首页', route: '/' },
+      {
+        icon: 'mdi-music',
+        text: '听听音乐',
+        route: '/music',
+        children: [
+          { icon: PREFIX + 'tuijian', title: '推荐音乐', to: '/music' },
+          {
+            icon: PREFIX + 'login',
+            title: '我的音乐',
+            to: '/music/userlist'
+          },
+          { icon: PREFIX + 'sousuo', title: '搜索音乐', to: '/music/search' },
+          {
+            icon: PREFIX + 'history',
+            title: '刚刚听过',
+            to: '/music/history'
+          },
+          {
+            icon: PREFIX + 'bofangliebiao',
+            title: '播放列表',
+            to: '/music/playlist'
+          }
+        ]
+      },
+      { icon: 'iconfont icon-login', text: '关于本站', route: '/timeline' },
+      { icon: 'iconfont icon-js', text: '给我留言', route: '/message' }
+    ]
+
   },
 
   watch: {
     '$vuetify.breakpoint.mdAndUp' () {
-      this.$store.state.blog.drawer = false
+      this.$store.commit('blog/setDrawer', false)
     },
     hasItems (val) {
       if (!val) return

@@ -1,35 +1,43 @@
 const colors = require('vuetify/es5/util/colors').default;
-const config = require('./config/api.config');
 module.exports = {
   mode: 'universal',
   /*
    ** Headers of the page
    */
   head: {
-    // titleTemplate: '%s - ' + process.env.npm_package_name,
-    // title: process.env.npm_package_name || '',
+    htmlAttrs: {
+      lang: 'zh'
+    },
+    title: 'wangtongxi | 关注前端技术及互联网的个人网站',
     meta: [
       { charset: 'utf-8' },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1.0, user-scalable=no'
       },
+
+      { name: 'author', content: 'wangtongxi|王同喜|1520268401@qq.com|tony' },
+
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content:
+          '王同喜的个人网站,wangtongxi,开源网站,博客,个人网站,前后端分离,音乐,前端技术,vue ssr,nodejs项目,react,egg,1520268401,nuxt，听歌'
+      },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
+        content:
+          '王同喜的个人网站,包含音乐推荐,用于分享、记录、交流和学习，基于nuxt ssr首屏服务器端渲染 ⚡,希望可以帮助到小伙伴们。'
       }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_1486900_hcwcfgwjxhv.css'
+        href: '//at.alicdn.com/t/font_1486900_qbztft3ujyf.css'
       },
-      {
-        rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_1397212_iliqnod70q.css'
-      },
+
       {
         rel: 'stylesheet',
         href:
@@ -46,11 +54,12 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   // router: {
-  //   middleware: 'axiosMiddle'
+  //   middleware: 'auth'
+  //   // middleware: 'axiosMiddle'
   // },
   loading: { color: '#80bd01' },
   plugins: [
-    { src: '~/plugins/axios' },
+    // { src: '~/plugins/axios' },
     {
       src: '~/plugins/message',
       ssr: false

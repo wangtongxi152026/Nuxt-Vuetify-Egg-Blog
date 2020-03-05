@@ -10,7 +10,7 @@
 
     <v-row justify="center">
       <ModuleTransition delay="0.32">
-        <v-col v-show="recoShowModule" cols="12" style="background:pink" md="8">
+        <v-col v-show="recoShowModule" cols="12" md="8">
           <h1 class="text-center headline py-5">{{article.title}}</h1>
           <p class="text-center">
             <v-btn color="grey" small text>
@@ -28,8 +28,8 @@
               <span class="caption">{{article.meta.comments}}</span>
             </v-btn>
 
-            <v-btn color="grey" small text>
-              <v-icon class="iconfont icon-dianzan" left></v-icon>
+            <v-btn @click="handlelike" color="grey" small text>
+              <v-icon color="pink" class="iconfont icon-like" left></v-icon>
               <span class="caption">{{article.meta.likes}}</span>
             </v-btn>
             <!-- <v-icon class="iconfont icon-history"></v-icon>
@@ -37,7 +37,10 @@
           <v-icon class="iconfont icon-pinglun"></v-icon>t
             <span>10 286 °C</span>-->
           </p>
-          <img :src="require('~/assets/article_bg_1.jpg')" class="elevation-13 articlebg" />
+          <img
+            src="https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
+            class="elevation-13 articlebg"
+          />
 
           <Markdown
             class="pt=10"
@@ -52,7 +55,7 @@
         </v-col>
       </ModuleTransition>
       <!-- 目录 -->
-      <v-col class="right-bar" md="4">
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" class="right-bar" md="4">
         <Anchor :offset-top="160" show-ink class="ml-3">
           <AnchorLink
             v-for="item in $store.state.blog.toc"
@@ -79,9 +82,7 @@ import Anchor from '~/components/Blog/Anchor/anchor'
 import ArtComment from '~/components/Blog/ArtComment'
 import { likeArticle, addComment, getCommentList } from '~/api/api'
 import Markdown from '~/markdown/preview'
-let cacheTime = 0 // 缓存时间
-let times = 0 // 评论次数
-let likeTimes = 0 // 点赞次数
+
 export default {
   async asyncData ({ params, $axios }) {
     const result = await $axios.post('/blog/getArticleDetail', {
@@ -90,7 +91,6 @@ export default {
     const result2 = await $axios.post('/blog/getArticleComment', {
       id: params.id
     })
-
     return { article: result.data.data, comments: result2.data.data.comments }
   },
   head () {
@@ -129,28 +129,25 @@ export default {
       const result = await getCommentList({ id: this.article._id })
       this.comments = result.data.comments
     },
-    // async likeArticle() {
-    //   if (!this.$store.state.blog.userInfo) {
-    //     this.$message.success('登录才能点赞，请先登录！')
-    //     return
-    //   }
-    //   if (!this.article._id) {
-    //     this.$message.err('该文章不存在！')
-    //     return
-    //   }
-    //   if (this.likeTimes > 0) {
-    //     this.$message.success('您已经点过赞了！')
-    //     return
-    //   }
+    async handlelike () {
+      console.log(this.article._id, 8888);
+      if (!this.$store.state.blog.userinfo) {
+        this.$message.success('登录才能点赞，请先登录！')
+        return
+      }
+      if (!this.article._id) {
+        this.$message.err('该文章不存在！')
+        return
+      }
 
-    //   let params = {
-    //     id: this.$store.state.blog.userInfo._id
-    //   }
-    //   await likeArticle(params)
+      let params = {
+        id: this.article._id,
+        user_id: this.$store.state.blog.userinfo._id
+      }
+      await likeArticle(params)
 
-    //   this.likeTimes++
-    //   ++this.article.meta.likes
-    // },
+      ++this.article.meta.likes
+    },
   },
   watch: {},
   computed: {
@@ -163,13 +160,11 @@ export default {
         },
         {
           text: '文章',
-          disabled: false,
-          href: 'breadcrumbs_link_1'
+          disabled: true,
         },
         {
           text: this.article.title,
           disabled: true,
-          href: 'breadcrumbs_link_2'
         }
       ]
     }

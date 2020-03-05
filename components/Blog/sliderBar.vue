@@ -5,19 +5,16 @@
     <v-card-text class="text-center introduce">
       <h6 class="mb-1">写博客、记日志、听听音乐、鼓捣技术</h6>
       <h4 class="body-1 font-weight-light mb-3 black--text">把最实用的经验，分享给最需要的读者，希望每一位来访的朋友都能有所收获！</h4>
+
       <v-card-actions class="d-flex justify-center">
-        <v-btn small color="#ffeb3b" fab>
-          <v-icon class="iconfont icon-google" />
-        </v-btn>
-        <v-btn small color="#4caf50" fab>
-          <v-icon class="iconfont icon-weixin"></v-icon>
-        </v-btn>
-        <v-btn small color="#a7ffeb" fab>
-          <v-icon class="iconfont icon-qq"></v-icon>
-        </v-btn>
-        <v-btn small color="#848f9a" fab>
-          <v-icon class="iconfont icon-github"></v-icon>
-        </v-btn>
+        <v-tooltip open-on-click top v-for="tip in tips" :key="tip.color">
+          <template v-slot:activator="{ on }">
+            <v-btn class="ml-2" v-on="on" small :color="tip.color" fab>
+              <v-icon :class="tip.icon" />
+            </v-btn>
+          </template>
+          <span>{{tip.text}}</span>
+        </v-tooltip>
       </v-card-actions>
     </v-card-text>
 
@@ -32,8 +29,17 @@
 export default {
   props: {
     total: 0
-  }
+  },
+  computed: {
+    tips: () => [
+      { color: '#ffeb3b', text: 'wangtongxi', icon: 'iconfont icon-google' },
+      { color: '#4caf50', text: 'wz1520268401', icon: 'iconfont icon-weixin' },
+      { color: '#a7ffeb', text: 'QQ:2661241813', icon: 'iconfont icon-qq' },
+      { color: '#848f9a', text: 'https://github.com/wangtongxi152026', icon: 'iconfont icon-github' }
+    ]
+  },
 }
+
 </script>
 
 <style lang="sass" scoped>

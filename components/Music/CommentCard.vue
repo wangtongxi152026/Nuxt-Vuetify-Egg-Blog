@@ -1,29 +1,24 @@
 <template>
   <v-card class="mx-auto mb-1 card elevation-1">
     <v-list-item class="px-3" three-line>
-
       <v-list-item-avatar class="mr-4" size="38">
-        <img v-lazy="`${item.user.avatarUrl}?param=50y50`"></v-list-item-avatar>
+        <img v-lazy="`${item.user.avatarUrl}?param=50y50`" />
+      </v-list-item-avatar>
       <v-list-item-content>
+        <div class="caption name">{{ item.user.nickname }}</div>
 
-        <div class="caption name">
-          {{ item.user.nickname }}
-        </div>
-
-        <div class="caption mb-1 content"> {{item.content}} </div>
+        <div class="caption mb-1 content">{{item.content}}</div>
 
         <div class="caption time d-flex justify-space-between">
           {{ item.time | format }}
           <span>
-            <v-icon class="iconfont mb-1 icon-dianzan"></v-icon> {{ item.likedCount }}
+            <v-icon class="iconfont mb-1 icon-like"></v-icon>
+            {{ item.likedCount }}
           </span>
         </div>
-
       </v-list-item-content>
-
     </v-list-item>
   </v-card>
-
 </template>
 
 <script>
@@ -90,7 +85,7 @@ export default {
 .time {
   color: #333;
 }
-.icon-dianzan {
+.icon-like {
   font-size: 15px;
   color: #333;
 }

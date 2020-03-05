@@ -10,9 +10,7 @@
         <h4 class="post-category">{{ category }}</h4>
         <div class="titlepress text-center post-title font-weight-bold subtitle-1">{{article.title}}</div>
 
-        <v-card-text
-          class="body-2"
-        >{{}}</v-card-text>
+        <v-card-text class="body-2">{{}}</v-card-text>
 
         <v-divider></v-divider>
 
@@ -33,7 +31,7 @@
           </v-btn>
 
           <v-btn color="grey" small text>
-            <v-icon class="iconfont icon-dianzan" left></v-icon>
+            <v-icon class="iconfont icon-like" left></v-icon>
             <span class="caption">33</span>
           </v-btn>
         </v-card-actions>
@@ -50,7 +48,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       name: '10 Best Things to Do in Seattle',
       category: 'Travel',

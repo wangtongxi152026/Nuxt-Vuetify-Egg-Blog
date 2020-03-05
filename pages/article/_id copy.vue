@@ -29,7 +29,7 @@
             </v-btn>
 
             <v-btn color="grey" small text>
-              <v-icon class="iconfont icon-dianzan" left></v-icon>
+              <v-icon class="iconfont icon-like" left></v-icon>
               <span class="caption">{{article.meta.likes}}</span>
             </v-btn>
             <!-- <v-icon class="iconfont icon-history"></v-icon>

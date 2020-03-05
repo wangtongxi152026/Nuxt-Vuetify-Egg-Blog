@@ -1,7 +1,5 @@
 <template>
-
   <v-app>
-
     <CoreToolbar></CoreToolbar>
 
     <CoreDrawer></CoreDrawer>
@@ -11,7 +9,6 @@
     <CoreFooter></CoreFooter>
 
     <audio ref="audio"></audio>
-
   </v-app>
 </template>
 
@@ -22,13 +19,12 @@ import { formatTopSongs } from '~/plugins/song'
 
 export default {
   name: 'App',
-  fetch ({store}) {
-    store.commit(['music/SET_AUDIO'],this.$refs.audio)
+  created () {
+    if (!this.$store.state.music.audio) {
+      this.$nextTick(() => this.setAudio())
+    }
+
   },
-  
-  // created () {
-  //   this.$nextTick(() => this.setAudio())
-  // },
   data () {
     return {
 
@@ -39,7 +35,7 @@ export default {
     CoreDrawer: () => import('~/core/Drawer'),
     CoreView: () => import('~/core/View'),
     CoreFooter: () => import('~/core/Footer'),
-    
+
   },
   methods: {
     ...mapMutations('music', {

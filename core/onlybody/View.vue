@@ -17,9 +17,9 @@ export default {
   }),
 
   computed: {
-    src() {
+    src () {
       let url = "";
-       
+
       if (this.$vuetify.breakpoint.mdAndup) {
         console.log('smAnddown');
         const _route = this.$route.path;
@@ -30,7 +30,6 @@ export default {
           url = require(`~/assets/${this.srcs[_route]}`);
         }
       }
-      console.log(url,'url');
       return url;
     }
   }

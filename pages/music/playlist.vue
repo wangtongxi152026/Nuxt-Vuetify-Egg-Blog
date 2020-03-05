@@ -11,14 +11,14 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import Musiclist from "~/components/Music/Musiclist";
 import Dialog from "~/components/Music/Dialog";
 export default {
   name: "music-Playlist",
- 
+
   components: { Musiclist, Dialog },
- layout: "music",
+  layout: "music",
   computed: {
     ...mapGetters("music", ["currentSong", "playlist"])
   },
@@ -30,25 +30,22 @@ export default {
     }),
     ...mapActions("music", ["removeOnePlaylist", "clearPlayList"]),
 
-    selectOne({ item, index }) {
+    selectOne ({ item, index }) {
       if (item.id !== this.currentSong.id) {
         this.setCurrentIndex(index);
         this.setPlaying(true);
       }
     },
-    deleteOne({ item }) {
+    deleteOne ({ item }) {
       this.removeOnePlaylist(item);
     },
-    clearPList() {
+    clearPList () {
       this.$refs.Dialog.show();
     },
-    doclear() {
+    doclear () {
       this.clearPlayList();
       // this.$mmToast('列表清空成功')
     }
   }
 };
 </script>
-
-<style lang="less" scoped>
-</style>

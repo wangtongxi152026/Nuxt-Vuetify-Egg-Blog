@@ -55,10 +55,10 @@
 
 <script>
 import { getUserPlaylist } from "@/api";
-import { mapState, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Dialog from "~/components/Music/Dialog";
 export default {
-  data() {
+  data () {
     return {
       inputUid: "",
       user: {}, //头像名称
@@ -76,13 +76,13 @@ export default {
     };
   },
   components: { Dialog },
-  created() {
+  created () {
     this.uid && this._getUserPlaylist(this.uid);
   },
-  computed: { ...mapState("music", ["uid"]) },
+  computed: { ...mapGetters("music", ["uid"]) },
   methods: {
     ...mapActions("music", ["setUseruid"]),
-    _getUserPlaylist(uid) {
+    _getUserPlaylist (uid) {
       getUserPlaylist(uid).then(res => {
         if (res.data.code === 200) {
           this.inputUid = "";
@@ -100,7 +100,7 @@ export default {
       });
     },
 
-    login() {
+    login () {
       if (this.$refs.form.validate()) {
         this._getUserPlaylist(this.inputUid);
         // 关闭登录窗口
@@ -108,10 +108,10 @@ export default {
       }
     },
     // 退出登录
-    logout() {
+    logout () {
       this.$refs.Dialog.show();
     },
-    dologout() {
+    dologout () {
       this.dialogout = false;
       this.user = {};
       this.setUseruid(null);

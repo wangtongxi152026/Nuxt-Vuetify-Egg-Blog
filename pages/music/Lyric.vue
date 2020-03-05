@@ -57,7 +57,7 @@ export default {
   },
   mounted () {
     // 开局加载歌词
-    if (this.currentSong.id) {
+    if (this.currentSong) {
       this._getLyric(this.currentSong.id)
     }
 

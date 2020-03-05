@@ -1,34 +1,31 @@
 <template>
-
   <v-container class="comment pb-0" :style="{'height':getTabHeight}">
-
-    <Scroll ref="Scroll" :data=" getListLength || getTabHeight" @init='pullUp'>
-
+    <Scroll ref="Scroll" :data=" getListLength || getTabHeight" @init="pullUp">
       <div>
         <v-row>
           <v-col cols="12">
-            <div class="title">精彩评论<v-icon color='orange' class="iconfont icon-qingzhu1 mb-2"></v-icon>
+            <div class="title">
+              精彩评论
+              <v-icon color="orange" class="iconfont icon-qingzhu1 mb-2"></v-icon>
             </div>
             <div v-for="item in hotComments" :key="item.commentId">
-              <CommentCard :item='item'></CommentCard>
+              <CommentCard :item="item"></CommentCard>
             </div>
           </v-col>
 
           <v-col cols="12" class="py-0">
-            <div class="title">最新评论<v-icon small color='info' class="iconfont icon-zuixinnewchunse"></v-icon>
+            <div class="title">
+              最新评论
+              <v-icon small color="info" class="iconfont icon-zuixinnewchunse"></v-icon>
             </div>
             <div v-for="item in newComments" :key="item.commentId">
-              <CommentCard :item='item'></CommentCard>
+              <CommentCard :item="item"></CommentCard>
             </div>
-
           </v-col>
         </v-row>
-
       </div>
-
     </Scroll>
   </v-container>
-
 </template>
 
 <script>
@@ -42,7 +39,7 @@ export default {
   created () {
     this._getComment()
   },
-   layout: "music",
+  layout: "music",
   // beforeRouteUpdate (to, from, next) {
   //   this.$nextTick(() => this._getComment(), this.$refs.Scroll.goTop())
   //   next()

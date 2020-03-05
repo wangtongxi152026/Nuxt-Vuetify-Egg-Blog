@@ -1,5 +1,5 @@
 // import axios from 'axios';
-
+// const cookieparser = require('cookieparser');
 // export default function({ req, res }, next) {
 //   if (process.server) {
 //     if (req.headers !== undefined) {

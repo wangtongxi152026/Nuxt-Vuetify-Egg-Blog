@@ -1,5 +1,5 @@
 <template>
-  <v-content id="pages">
+  <v-content>
     <div class="blur" :style="{'background-image':`url(${musicPicUrl})`}"></div>
     <nuxt />
   </v-content>
@@ -11,19 +11,15 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters("music", ["currentSong"]),
-
-    musicPicUrl() {
+    musicPicUrl () {
       return this.currentSong.image
         ? `${this.currentSong.image}?param=150y150`
-        : "https://cdn.vuetifyjs.com/images/carousel/sky.jpg";
+        : "https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302";
     }
   }
 };
 </script>
 <style lang='less' scoped>
-#pages {
-  background-color: #eee;
-}
 .blur {
   width: 100vw;
   height: 100%;
@@ -35,5 +31,4 @@ export default {
   transition: all 0.8s;
   filter: blur(10px) brightness(0.35);
 }
-
 </style>

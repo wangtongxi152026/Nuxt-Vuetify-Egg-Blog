@@ -14,19 +14,19 @@ import { mapActions } from "vuex";
 export default {
   name: "listdetail",
   components: { Musiclist },
-   layout: "music",
-  created() {
+  layout: "music",
+  created () {
     // 获取歌单详情
     this._getPlaylistDetail();
   },
   computed: {
     // 歌单id
-    getListID() {
+    getListID () {
       return this.$route.params.id;
     }
   },
 
-  data() {
+  data () {
     return {
       detailList: []
     };
@@ -34,7 +34,7 @@ export default {
   methods: {
     ...mapActions("music", ["selectPlay"]),
     // 获取歌单详情
-    _getPlaylistDetail() {
+    _getPlaylistDetail () {
       getPlaylistDetail(this.getListID).then(res => {
         if (res.data.code === 200) {
           this.detailList = formatTopSongs(res.data.playlist.tracks);
@@ -43,7 +43,7 @@ export default {
         }
       });
     },
-    selectItem({ index }) {
+    selectItem ({ index }) {
       this.selectPlay({
         list: this.detailList,
         index

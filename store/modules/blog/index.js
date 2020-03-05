@@ -1,13 +1,11 @@
-import { login, getUser } from '~/api/api';
 import { setToken, removeToken, getCookie } from '~/util/auth';
-import vue from 'vue';
-import tocObj from '~/markdown/assets/js/marked/createToc';
-const state = {
+
+const state = () => ({
   drawer: false,
   token: '',
   userinfo: '',
   toc: ''
-};
+});
 const getters = {};
 
 const mutations = {
@@ -27,14 +25,23 @@ const mutations = {
 };
 
 const actions = {
-   
+  async getUserInfo({ state, commit }) {
+    if (state.userinfo) {
+      return;
+    }
+    try {
+      this.$axios.setHeader('Authorization', state.token);
+      const result = await this.$axios.get('/blog/getUserInfo');
+      commit('set_user_info', result.data.data);
+    } catch (error) {
+      console.log(error, 'getUserInfo erro');
+    }
+  },
 
   nuxtServerInit({ commit }, { req }) {
-    console.log(req.headers);
     if (req.headers.cookie) {
       try {
         const Token = getCookie(req.headers.cookie);
-        console.log(Token, 'Token');
         commit(set_token, Token);
       } catch (error) {
         console.log(error, 'err');

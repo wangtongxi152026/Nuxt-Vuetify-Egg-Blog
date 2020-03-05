@@ -57,7 +57,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import { getUserInfo, login, currentUser, getUser } from '~/api/api'
+import { getUserInfo, login, getUser } from '~/api/api'
 import config from '~/util/config'
 export default {
   layout: 'onlybody',
@@ -96,8 +96,8 @@ export default {
         const result = await getUser({ code })
 
         if (result.code === 0) {
-          const { token, id } = result.data
-          this.$store.commit('blog/set_user_id', id)
+          const { token } = result.data
+
           this.$store.commit('blog/set_token', token)
           this.$message.success(result.message)
           this.$router.push('/')
@@ -139,9 +139,10 @@ export default {
 
       const result = await login(pramas)
       if (result.code === 0) {
-        const { token, id } = result.data
-        this.$store.commit('blog/set_user_id', id)
+        const { token } = result.data
+
         this.$store.commit('blog/set_token', token)
+        this.$store.dispatch('blog/getUserInfo');
         this.$message.success(result.message)
         // 获取域名
         let hostName = this.$route.query.redirect

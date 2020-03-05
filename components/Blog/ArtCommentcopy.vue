@@ -13,7 +13,7 @@
             </div>
             <div class="caption time">{{ e.create_time|format}}</div>
             <span class="body-2">
-              {{'回复：' + e.to_user.name}}
+              {{'@' + e.to_user.name}}
               {{e.to_user.type === 0 ? 'admin' : ''}}：{{e.content}}
             </span>
             <v-btn @click="reply(item_id, item_user, e.user)" text>
