@@ -7,8 +7,8 @@
 <script>
 // 歌单表单
 import Musiclist from "~/components/Music/Musiclist";
-import { getPlaylistDetail } from "@/api";
-import { formatTopSongs } from "@/plugins/song";
+import { getPlaylistDetail } from "~/api";
+import { formatTopSongs } from "~/plugins/song";
 import { mapActions } from "vuex";
 
 export default {
@@ -38,8 +38,8 @@ export default {
       getPlaylistDetail(this.getListID).then(res => {
         if (res.data.code === 200) {
           this.detailList = formatTopSongs(res.data.playlist.tracks);
-          // document.title = `${res.data.playlist.name} - mmPlayer在线音乐播放器`
-          // this._hideLoad()
+          document.title = res.data.playlist.name
+
         }
       });
     },

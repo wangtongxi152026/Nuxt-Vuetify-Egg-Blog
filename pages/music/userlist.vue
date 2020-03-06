@@ -19,7 +19,7 @@ import MCard from "~/components/Music/MusicCard";
 import MusicHeader from "~/components/Music/MusicHeader";
 import { getUserPlaylist } from "@/api";
 import { mapGetters } from "vuex";
-import NoData from "~/components/Music/NoData";
+import NoData from "~/components/Music/NoData"; import ismdAndUp from '~/components/Mixin/ismdAndUp'
 export default {
   name: "music-userlist",
   layout: "music",
@@ -33,6 +33,7 @@ export default {
     };
   },
 
+  mixins: [ismdAndUp],
   watch: {
     uid (newUid) {
       if (newUid) {
@@ -49,7 +50,7 @@ export default {
       return this.list.length
     },
     getTabHeight () {
-      return this.$vuetify.breakpoint.smAndDown
+      return !this.ismdAndUp
         ? "calc(100vh - 80px - 112px)"
         : "calc(100vh - 128px - 144px)";
     },

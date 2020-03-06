@@ -15,11 +15,11 @@
 <script>
 import { mapMutations, mapActions, mapState } from 'vuex'
 import { getPlaylistDetail } from '~/api'
-import { formatTopSongs } from '~/plugins/song'
+
 
 export default {
   name: 'App',
-  created () {
+  mounted () {
     if (!this.$store.state.music.audio) {
       this.$nextTick(() => this.setAudio())
     }

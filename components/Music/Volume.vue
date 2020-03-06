@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex">
     <v-icon :class="getVolumeIcon" class="mx-3" @click="toggleVolume"></v-icon>
-    <div style="width:100px" v-if="$vuetify.breakpoint.mdAndUp">
+    <div style="width:100px" v-if="ismdAndUp">
       <PorgressBar :percent="percentVolume" @percentChange="handleVolumeChange"></PorgressBar>
     </div>
   </div>
@@ -9,10 +9,11 @@
 
 <script>
 import PorgressBar from '~/components/Music/ProgressBar';
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'; import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
 export default {
   name: 'Volume',
-  components: { PorgressBar },
+  components: { PorgressBar }, mixins: [ismdAndUp],
   mounted () {
     // 还原上次音量
     this.$nextTick(() => {

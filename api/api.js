@@ -1,12 +1,4 @@
 import ajax from './ajax';
-// let ajax = this.$axios,
-// export default {
-//    register: axios.post('/blog/register', params);
-// }
-
-// export function currentUser() {
-//   return ajax.get('/blog/currentUser');
-// }
 
 export function login(params) {
   return ajax.post('/blog/login', params);

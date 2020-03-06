@@ -23,7 +23,7 @@
           <nuxt-child keep-alive :keep-alive-props="{ exclude: ['Listdetail','comment'] }" />
         </v-scroll-y-transition>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" md="4" class="sliderRight px-0">
+      <v-col v-if="ismdAndUp" md="4" class="sliderRight px-0">
         <LyricInfo></LyricInfo>
       </v-col>
     </v-row>
@@ -32,68 +32,79 @@
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-
-
-
-
+import { getPlaylistDetail } from '~/api';
+import { formatTopSongs } from '~/plugins/song'
 import LyricInfo from "~/components/Music/LyricInfo";
 import MusicHeader from "~/components/Music/MusicHeader";
-import Controler from "~/components/Music/Controler";
+import Controler from "~/components/Music/Controler"; import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
 export default {
   components: { LyricInfo, MusicHeader, CoreControl: () => import("~/core/BottomControl") },
   layout: "music",
+  mixins: [ismdAndUp],
   created () {
-
-
     this._getPlaylistDetail(2796821320);
   },
 
-  data () {
-    return {
-      items: [
-        {
-          icon: "iconfont icon-shijianzhou",
-          text: "播放列表",
-          route: "/music/playlist"
-        },
-        {
-          icon: "iconfont icon-tuijian",
-          text: "推荐歌单",
-          route: "/music"
-        },
-        {
-          icon: "iconfont icon-login",
-          text: "我的歌单",
-          route: "/music/userlist"
-        },
-        {
-          icon: "iconfont icon-history",
-          text: "最近播放",
-          route: "/music/historylist"
-        },
-        {
-          icon: "iconfont icon-sousuo",
-          text: "搜歌",
-          route: "/music/search"
-        }
-      ]
-    }
-
-
-  },
   methods: {
+    ...mapActions('music', ['setPlaylist']),
+    ...mapMutations('music', {
+      setSequenceList: 'SET_SEQUENCE_LIST',
 
-    ...mapActions("music", ["_getPlaylistDetail"])
+    }),
+    async _getPlaylistDetail () {
+
+      const res = await this.$axios.get('/musc/playlist/detail', {
+        params: {
+          id: 2796821320
+        }
+      });
+      if (res.data.code === 200) {
+
+        let list = formatTopSongs(res.data.playlist.tracks)
+
+        this.setSequenceList(list)
+        this.setPlaylist(list)
+      }
+
+    },
   },
   getTabHeight () {
-    return this.$vuetify.breakpoint.smAndDown
-      ? "calc(100vh - 80px - 112px)"
-      : "calc(100vh - 128px - 144px)";
+    return this.ismdAndUp
+      ? "calc(100vh - 128px - 144px)"
+      : "calc(100vh - 80px - 112px)";
   },
   computed: {
+    items: () => [
+      {
+        icon: "iconfont icon-shijianzhou",
+        text: "播放列表",
+        route: "/music/playlist"
+      },
+      {
+        icon: "iconfont icon-tuijian",
+        text: "推荐歌单",
+        route: "/music"
+      },
+      {
+        icon: "iconfont icon-login",
+        text: "我的歌单",
+        route: "/music/userlist"
+      },
+      {
+        icon: "iconfont icon-history",
+        text: "最近播放",
+        route: "/music/historylist"
+      },
+      {
+        icon: "iconfont icon-sousuo",
+        text: "搜歌",
+        route: "/music/search"
+      }
+    ],
     ...mapGetters("music", ["currentSong"]),
     isActive () {
-      return this.$vuetify.breakpoint.mdAndUp ? true : false;
+      return this.ismdAndUp ? true : false;
     },
   }
 };

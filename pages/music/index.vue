@@ -24,7 +24,7 @@
 <script>
 import { getToplistDetail, getPersonalized } from "~/api/index";
 import Scroll from "~/components/Music/Scroller";
-import MCard from "~/components/Music/MusicCard";
+import MCard from "~/components/Music/MusicCard"; import ismdAndUp from '~/components/Mixin/ismdAndUp'
 export default {
   components: { MCard, Scroll },
   layout: "music",
@@ -35,35 +35,40 @@ export default {
   },
 
   methods: {
-    async _getToplistDetail () {
-      const res = await getToplistDetail()
-
-      if (res.code === 200) { // 将包含前四个的选出来
-        let list = res.list.filter(item => {
-          if (item.ToplistType) {
-            return item;
-          }
-        });
-        this.list = list;
-      }
+    _getToplistDetail () {
+      getToplistDetail().then(res => {
+        if (res.data.code === 200) {
+          let list = res.data.list.filter(item => { // 将包含前四个的选出来
+            if (item.ToplistType) {
+              return item
+            }
+          })
+          console.log(list, '_getToplistDetail');
+          this.list = list
+        }
+      })
     },
-    async _getPersonalized () {
-      const res = await getPersonalized()
+    _getPersonalized () {
+      getPersonalized().then(res => {
+        if (res.data.code === 200) {
+          console.log(res.data.result, '_getToplistDetail');
+          this.hotList = res.data.result
+        }
+      })
+    },
 
-      if (res.code === 200) {
-        this.hotList = res.result;
-      }
-    }
   },
 
+
+  mixins: [ismdAndUp],
   computed: {
     getDatalength () {
       return this.hotList.length + this.list.length;
     },
     getTabHeight () {
-      return this.$vuetify.breakpoint.smAndDown
-        ? "calc(100vh - 80px - 112px)"
-        : "calc(100vh - 100px - 144px)";
+      return this.ismdAndUp
+        ? "calc(100vh - 100px - 144px)"
+        : "calc(100vh - 80px - 112px)";
     }
 
   },

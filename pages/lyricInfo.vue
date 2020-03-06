@@ -16,11 +16,7 @@
 
     <v-row>
       <v-col cols="12">
-        <div
-          ref="musicLyric"
-          class="lyric"
-          :class="$vuetify.breakpoint.smAndDown?'smHeight':'lgHeight'"
-        >
+        <div ref="musicLyric" class="lyric" :class=" ismdAndUp ?'lgHeight':'smHeight'">
           <Scroll :data="lyric.length" ref="musicScroll">
             <div class="lyric-items body-2">
               <template v-if="lyric.length">
@@ -47,10 +43,11 @@ import Scroll from "~/components/Music/Scroller";
 import { mapState, mapGetters } from "vuex";
 import { getLyric } from "@/api";
 import { parseLyric } from "~/plugins/util.js";
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
 export default {
-  components: { Scroll },
-  data() {
+  components: { Scroll }, mixins: [ismdAndUp],
+  data () {
     return {
       lyric: [], //歌词
       nolyric: false, // 是否有歌词
@@ -58,7 +55,7 @@ export default {
       top: 0 // 歌词居中
     };
   },
-  mounted() {
+  mounted () {
     // 开局加载歌词
     this._getLyric(this.currentSong.id);
     // window.addEventListener('resize', () => {
@@ -71,12 +68,12 @@ export default {
     ...mapState("music", ["playing", "currentTime"]),
     ...mapGetters("music", ["currentSong"]),
 
-    getTabHeight() {
-      return this.$vuetify.breakpoint.smAndDown
-        ? "calc(100vh - 80px - 112px)"
-        : "calc(100vh - 336px)";
+    getTabHeight () {
+      return ismdAndUp
+        ? "calc(100vh - 336px)"
+        : "calc(100vh - 80px - 112px)"
     },
-    musicPicUrl() {
+    musicPicUrl () {
       return this.currentSong.image
         ? `${this.currentSong.image}?param=150y150`
         : require("~/assets/image/player_cover.png");
@@ -84,7 +81,7 @@ export default {
   },
   watch: {
     // 获取lyricIndex
-    currentTime(newTime) {
+    currentTime (newTime) {
       if (this.nolyric) {
         return;
       }
@@ -97,12 +94,12 @@ export default {
       this.lyricIndex = lyricIndex;
       // 时间干煸
     },
-    lyricIndex(newIndex, oldIndex) {
+    lyricIndex (newIndex, oldIndex) {
       if (newIndex !== oldIndex) {
         this.scrollToCurLyric();
       }
     },
-    currentSong(newSong, oldSong) {
+    currentSong (newSong, oldSong) {
       if (!newSong.id) {
         // 当在 playlist为空时，无歌词
         return;
@@ -117,7 +114,7 @@ export default {
   },
 
   methods: {
-    scrollToCurLyric() {
+    scrollToCurLyric () {
       if (this.lyricIndex) {
         const { lyrics, musicScroll } = this.$refs;
         if (lyrics && lyrics[this.lyricIndex]) {
@@ -130,7 +127,7 @@ export default {
       }
     },
     // 计算歌词居中的 top值
-    clacTop() {
+    clacTop () {
       const dom = this.$refs.musicLyric;
       if (window.getComputedStyle(dom).display === "none") {
         return;
@@ -139,7 +136,7 @@ export default {
       this.top = Math.floor(dom.offsetHeight / 36 / 2);
     },
 
-    _getLyric(id) {
+    _getLyric (id) {
       getLyric(id).then(res => {
         if (res.status === 200) {
           if (res.data.nolyric) {

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" :fullscreen="$vuetify.breakpoint.smAndDown" max-width="600px">
+  <v-dialog v-model="dialog" max-width="600px">
     <v-card>
       <v-card-title>
         <span class="headline">回复{{to_user.name}}:</span>

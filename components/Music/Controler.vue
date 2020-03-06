@@ -28,7 +28,7 @@
     <div class="rightIcon d-flex align-center">
       <v-icon
         size="25"
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="!ismdAndUp"
         class="iconfont icon-ci mr-2 mb-1"
         @click="$router.push(`/music/lyric`)"
       ></v-icon>
@@ -37,7 +37,7 @@
         @click="$router.push(`/music/comment/${currentSong.id}`)"
       ></v-icon>
 
-      <Volume v-if="$vuetify.breakpoint.smAndUp" @volumeChange="changeVolume"></Volume>
+      <Volume v-if="ismdAndUp" @volumeChange="changeVolume"></Volume>
     </div>
     <v-tooltip open-on-click top>
       <template v-slot:activator="{ on }">
@@ -55,6 +55,7 @@ import Volume from "~/components/Music/Volume";
 import ProgressBar from "~/components/Music/ProgressBar";
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import { shuffle, debounce } from "~/plugins/util.js";
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
 const LISTLOOP_INDEX = 0;
 const SEQUENCE_INDEX = 1;
@@ -64,7 +65,7 @@ const RANDOM_INDEX = 3;
 export default {
   name: "Controler",
   components: { ProgressBar, Volume },
-
+  mixins: [ismdAndUp],
   mounted () {
     this.$nextTick(() => {
       Conveny.initAudio(this);

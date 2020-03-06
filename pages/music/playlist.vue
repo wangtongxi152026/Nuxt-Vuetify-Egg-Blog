@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import Musiclist from "~/components/Music/Musiclist";
 import Dialog from "~/components/Music/Dialog";
 export default {
@@ -20,7 +20,8 @@ export default {
   components: { Musiclist, Dialog },
   layout: "music",
   computed: {
-    ...mapGetters("music", ["currentSong", "playlist"])
+    ...mapGetters("music", ["currentSong", "playlist"]),
+    ...mapState("music", ["playlist"])
   },
 
   methods: {

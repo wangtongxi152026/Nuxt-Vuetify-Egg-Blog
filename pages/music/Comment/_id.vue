@@ -33,9 +33,11 @@ import { getComment } from '@/api'
 import { mapGetters } from 'vuex'
 import Scroll from '~/components/Music/Scroller'
 import CommentCard from '~/components/Music/CommentCard'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
 export default {
   name: 'comment',
-  components: { Scroll, CommentCard },
+  components: { Scroll, CommentCard }, mixins: [ismdAndUp],
   created () {
     this._getComment()
   },
@@ -61,7 +63,7 @@ export default {
   computed: {
     ...mapGetters('music', ['currentSong']),
     getTabHeight () {
-      return this.$vuetify.breakpoint.smAndDown ? 'calc(100vh - 80px - 112px)' : 'calc(100vh - 336px)'
+      return this.ismdAndUp ? 'calc(100vh - 336px)' : 'calc(100vh - 80px - 112px)'
     },
     getListLength () {
       return this.hotComments.length + this.newComments.length

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import ajax from './ajax';
+
 const defaultLimit = 15;
 // asyncdata
 export function getTopList() {
@@ -16,17 +16,16 @@ export function topList(idx) {
 
 // 排行榜列表 asyncdata
 export async function getToplistDetail() {
-  return ajax.get('/musc/toplist/detail');
+  return axios.get('/musc/toplist/detail');
 }
 
 // 推荐歌单 asyncdata
 export function getPersonalized() {
-  return ajax.get('/musc/personalized');
+  return axios.get('/musc/personalized');
 }
 
 // 歌单详情 客服端
 export function getPlaylistDetail(id) {
-  console.log(999999999, id);
   return axios.get('/musc/playlist/detail', {
     params: {
       id: id
@@ -51,7 +50,7 @@ export function search(keywords, page = 0, limit = defaultLimit) {
 
 // 热搜 asyncdata
 export function searchHot() {
-  return ajax.get('/musc/search/hot');
+  return axios.get('/musc/search/hot');
 }
 // 获取音乐评论 asyncdata
 export function getComment(id, page, limit = defaultLimit) {

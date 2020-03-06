@@ -44,8 +44,10 @@ import BaseItem from '~/components/BaseItem'
 import ItemGroup from '~/components/ItemGroup'
 import Avatar from '~/components/Avatar'
 const PREFIX = 'iconfont icon-'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
 export default {
-  components: { Avatar, ItemGroup, BaseItem },
+  components: { Avatar, ItemGroup, BaseItem }, mixins: [ismdAndUp],
   data: () => ({
     items: [
       {
@@ -178,10 +180,19 @@ export default {
     ]
 
   }),
-
+  watch: {
+    'ismdAndUp' () {
+      this.$store.commit('blog/setDrawer', false)
+    },
+  },
   computed: {
-    drawer () {
-      return this.$store.state.blog.drawer
+    drawer: {
+      get () {
+        return this.$store.state.blog.drawer
+      },
+      set (val) {
+        this.setDrawer(val)
+      }
     },
     computedItems () {
       return this.items.map(this.mapItem)

@@ -24,11 +24,7 @@
           color="info"
           @click="selectItem(item,index)"
         >
-          <v-row
-            class="d-flex align-center"
-            :class="{rowHeight:$vuetify.breakpoint.mdAndUp}"
-            cols="12"
-          >
+          <v-row class="d-flex align-center" :class="{rowHeight:ismdAndUp}" cols="12">
             <!-- 索引 -->
             <v-col cols="2" align="center" class="num index">{{ index + 1 }}</v-col>
             <!-- 歌曲 -->
@@ -39,7 +35,7 @@
               </span>
             </v-col>
             <!-- 播放* -->
-            <v-col cols="1" align="center" v-if="$vuetify.breakpoint.mdAndUp">
+            <v-col cols="1" align="center" v-if="ismdAndUp">
               <v-icon class="go" :class="getPlayIcon(item.id)" @click.stop="selectItem(item,index)"></v-icon>
             </v-col>
             <!-- 时间 **-->
@@ -65,6 +61,7 @@ import Scroll from "~/components/Music/Scroller";
 import Snackbar from "~/components/Music/Snackbar";
 import { mapState, mapGetters, mapMutations } from "vuex";
 import Loading from "~/components/Music/Loading";
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
 export default {
   name: "Musiclist",
@@ -81,18 +78,7 @@ export default {
       default: true
     }
   },
-  watch: {
-    // 'list.length': {
-    //   handler (newValue, oldValue) {
-    //     console.log(this.list.length, 'listlength');
-    //     if (newValue !== oldValue) {
-    //       this.$nextTick(() => {
-    //         this.$refs.scroller.refresh()
-    //       })
-    //     }
-    //   }
-    // },
-  },
+  mixins: [ismdAndUp],
   methods: {
     ...mapMutations("music", {
       setPlaying: "SET_PLAYING"
@@ -137,13 +123,13 @@ export default {
     ...mapState("music", ["playing"]),
     ...mapGetters("music", ["currentSong"]),
     getTabHeight () {
-      return this.$vuetify.breakpoint.smAndDown
-        ? "calc(100vh - 80px - 112px)"
-        : "calc(100vh - 128px - 144px)";
+      return this.ismdAndUp
+        ? "calc(100vh - 128px - 144px)"
+        : "calc(100vh - 80px - 112px)"
     },
     // 歌曲时长的显示
     isTimeshow () {
-      return this.$vuetify.breakpoint.smAndDown ? false : true;
+      return !this.ismdAndUp ? false : true;
     }
   }
 };

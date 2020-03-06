@@ -30,6 +30,7 @@
     <!-- loading组件 -->
     <Loading v-else-if="lodingShow"></Loading>
     <!-- 热搜 -->
+
     <v-btn
       v-else
       color="grey mr-4 mb-4"
@@ -46,7 +47,9 @@
 </template>
 
 <script>
-import { search, searchHot, getMusicDetail } from "@/api";
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
+import { search, searchHot, getMusicDetail } from "~/api";
 import { formatSongs } from "~/plugins/song";
 import MusicList from "~/components/Music/Musiclist";
 import Loading from "~/components/Music/Loading";
@@ -57,10 +60,8 @@ export default {
   created () {
     this._searchHot()
 
-
-    console.log(this.$route);
   },
-
+  mixins: [ismdAndUp],
   data () {
     return {
       lodingShow: false,
@@ -74,16 +75,17 @@ export default {
   components: { MusicList, Loading },
   computed: {
     getTabHeight () {
-      return this.$vuetify.breakpoint.smAndDown
-        ? "calc(100vh - 80px - 112px - 58px )"
-        : "calc(100vh - 336px - 58px)";
+      return ismdAndUp
+        ? "calc(100vh - 336px - 58px)"
+        : "calc(100vh - 80px - 112px - 58px )"
     }
   },
   methods: {
     ...mapActions("music", ["insertOnePlay"]),
     async _searchHot () {
       const res = await searchHot()
-      this.Artists = res.result.hots
+      console.log(res.data.result.hots, 'hot');
+      this.Artists = res.data.result.hots
 
     },
     doSearch () {

@@ -32,7 +32,7 @@
           </v-col>-->
           <!-- <SCard class="my-3"></SCard> -->
 
-          <v-col v-if="$vuetify.breakpoint.mdAndUp" class="right" cols="12" md="4">
+          <v-col v-if="ismdAndUp" class="right" cols="12" md="4">
             <SliderBar :total="article.count" />
 
             <!-- <SmCard class="my-12" v-for="person in team" :key="person.name" :data="person"></SmCard>
@@ -54,11 +54,11 @@ import XSCard from '~/components/XSCard'
 import SmCard from '~/components/SmCard'
 import Carousel from '~/components/Carousel'
 import SliderBar from '~/components/Blog/sliderBar'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
 import { getArticleListAdmin } from '~/api/api'
 export default {
-  mixins: [moduleTransitonMixin],
-  scrollToTop: true,
+  mixins: [moduleTransitonMixin, ismdAndUp],
   async asyncData ({ $axios }) {
     const params = {
       keyword: "",
@@ -120,5 +120,5 @@ export default {
   // background-size: cover
   width: 100%
   height: 350px 
-     transform: translateY(-40px)
+  transform: translateY(-40px)
 </style>

@@ -14,11 +14,7 @@
 
     <v-row>
       <v-col cols="12">
-        <div
-          ref="musicLyric"
-          class="lyric"
-          :class="$vuetify.breakpoint.smAndDown?'smHeight':'lgHeight'"
-        >
+        <div ref="musicLyric" class="lyric" :class="ismdAndUp?'lgHeight':'smHeight'">
           <Scroll :data="lyric.length" ref="musicScroll">
             <div class="lyric-items body-2">
               <template v-if="lyric.length">
@@ -45,8 +41,10 @@ import Scroll from '~/components/Music/Scroller'
 import { mapGetters } from 'vuex'
 import { getLyric } from '~/api'
 import { parseLyric } from '~/plugins/util.js'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
 export default {
-  components: { Scroll },
+  components: { Scroll }, mixins: [ismdAndUp],
   data () {
     return {
       lyric: [],//歌词
@@ -72,7 +70,7 @@ export default {
 
 
     getTabHeight () {
-      return this.$vuetify.breakpoint.smAndDown ? 'calc(100vh - 80px - 112px)' : 'calc(100vh - 336px)'
+      return this.ismdAndUp ? 'calc(100vh - 336px)' : 'calc(100vh - 80px - 112px)'
     },
     musicPicUrl () {
       return this.currentSong.image ? `${this.currentSong.image}?param=150y150` : require('~/assets/image/player_cover.png')

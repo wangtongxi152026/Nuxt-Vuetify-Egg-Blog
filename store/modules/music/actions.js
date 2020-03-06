@@ -24,7 +24,6 @@ export const setPlayVolume = ({ commit }, volume) => {
 };
 // 设置播放列表
 export const setPlaylist = ({ commit }, list) => {
-  console.log(list);
   commit(types.SET_PLAYLIST, list);
   // commit(types.SET_SEQUENCE_LIST, list)
 };
@@ -154,7 +153,7 @@ export const clearPlayList = function({ commit }) {
 // 歌单详情 客服端
 export const _getPlaylistDetail = async function({ commit }, id) {
   try {
-    const res = await this.$axios.get('/musc/playlist/detail', {
+    const res = await this.$axios.$get('/musc/playlist/detail', {
       params: { id }
     });
     const list = formatTopSongs(res.playlist.tracks);
@@ -168,14 +167,10 @@ export const _getPlaylistDetail = async function({ commit }, id) {
 
 // 排行榜列表
 export async function getToplistDetail() {
-  return await this.$axios.get('/toplist/detail');
+  return await this.$axios.$get('/musc/toplist/detail');
 }
 
 // 推荐歌单
 export async function getPersonalized() {
-  return await this.$axios.$get('/personalized');
-}
-// 热搜 asyncdata
-export async function searchHot() {
-  return await this.$axios.$get('/search/hot');
+  return await this.$axios.$get('/musc/personalized');
 }

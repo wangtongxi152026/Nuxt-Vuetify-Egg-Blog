@@ -15,7 +15,7 @@
     <template v-for="(child, i) in item.children">
       <ItemSupGruop v-if="child.children" :key="`sub-group-${i}`" :item="child" />
 
-      <BaseItem dense v-else :key="`item-${i}`" :item="child" />
+      <BaseItem :dense="true" v-else :key="`item-${i}`" :item="child" />
     </template>
   </v-list-group>
 </template>
@@ -27,7 +27,7 @@ import BaseItem from '~/components/BaseItem'
 export default {
   name: 'ItemGroup',
   components: { ItemSupGruop, BaseItem },
-  data() {
+  data () {
     return {
       barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)'
     }
@@ -47,20 +47,20 @@ export default {
     }
   },
   computed: {
-    children() {
+    children () {
       return this.item.children.map(item => ({
         ...item,
         to: !item.to ? undefined : `${this.item.group}/${item.to}`
       }))
     },
 
-    group() {
+    group () {
       return this.genGroup(this.item.children)
     }
   },
 
   methods: {
-    genGroup(children) {
+    genGroup (children) {
       return children
         .filter(item => item.to)
         .map(item => {

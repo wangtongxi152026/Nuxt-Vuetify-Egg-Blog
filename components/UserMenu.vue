@@ -30,9 +30,6 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  created () {
-    console.log(this.userinfo, 4444);
-  },
   data () {
     return {
       barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',

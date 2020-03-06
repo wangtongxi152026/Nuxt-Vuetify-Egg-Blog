@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height tag="section">
     <v-row justify="center" class="pm-main-sign-up">
-      <v-col id="max-width" v-if="$vuetify.breakpoint.mdAndUp" cols="6">
+      <v-col id="max-width" v-if="ismdAndUp" cols="6">
         <div class="left-section">
           <v-list-item class="mt-6">
             <v-avatar size="56">
@@ -101,8 +101,10 @@
 import { register } from '~/api/api'
 import { getUserInfo, currentUser, getUser } from '~/api/api'
 import config from '~/util/config'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
+
 export default {
-  layout: 'onlybody',
+  layout: 'onlybody', mixins: [ismdAndUp],
   components: {
     // Stars
   },

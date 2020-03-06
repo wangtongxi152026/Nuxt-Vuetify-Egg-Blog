@@ -42,7 +42,8 @@ const actions = {
     if (req.headers.cookie) {
       try {
         const Token = getCookie(req.headers.cookie);
-        commit(set_token, Token);
+        commit('set_token', Token);
+        commit('getUserInfo');
       } catch (error) {
         console.log(error, 'err');
       }

@@ -6,21 +6,18 @@
     :elevate-on-scroll="!isSearching"
     hide-on-scroll
     :height="top_height"
-    :style="`height: ${$vuetify.breakpoint.mdAndUp ? 144 : 112}px`"
+    :style="`height: ${ismdAndUp ? 144 : 112}px`"
     :extension-height="extension_height"
   >
     <nuxt-link to="/" class="d-flex" tag="div">
-      <v-avatar
-        :size="$vuetify.breakpoint.mdAndUp ? 60 : 40"
-        :class="$vuetify.breakpoint.smAndDown ? 'justify: center' : 'mx-5'"
-      >
+      <v-avatar :size="ismdAndUp ? 60 : 40" :class=" ismdAndUp ?  'mx-5':'justify: center' ">
         <img src="../assets/avatar.jpg" class="elevation-2" />
       </v-avatar>
 
       <v-toolbar-title
         class="display-1 font-weight-medium align-self-center"
         :class="
-          `${$vuetify.breakpoint.mdAndUp ? 'subtitle-1' : 'px-2 subtitle-1'}`
+          `${ismdAndUp ? 'subtitle-1' : 'px-2 subtitle-1'}`
         "
       >
         <div class="font-weight-light">
@@ -36,8 +33,8 @@
       <v-icon size="20" class="iconfont icon-sousuo"></v-icon>
     </v-btn>
 
-    <!-- <UserMenu v-if="$vuetify.breakpoint.mdAndUp && userinfo" /> -->
-    <template v-if="$vuetify.breakpoint.mdAndUp && userinfo">
+    <!-- <UserMenu v-if="ismdAndUp && userinfo" /> -->
+    <template v-if="ismdAndUp && userinfo">
       <div>
         <v-avatar size="56">
           <img :src="src" />
@@ -49,7 +46,7 @@
       </div>
     </template>
     <template v-else>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" class="d-flex justify-end">
+      <v-col v-if="ismdAndUp" class="d-flex justify-end">
         <v-btn text depressed nuxt to="/login">
           <v-icon left class="iconfont icon-login"></v-icon>登录
         </v-btn>
@@ -77,7 +74,7 @@
             <template v-slot:append-outer>
               <v-icon
                 class="mr-2"
-                :class="$vuetify.breakpoint.mdAndUp ? 'mt-2' : 'mt-1'"
+                :class="ismdAndUp ? 'mt-2' : 'mt-1'"
                 @click="isSearching = false"
               >$vuetify.close</v-icon>
             </template>
@@ -85,7 +82,7 @@
         </v-container>
 
         <v-app-bar-nav-icon
-          v-else-if="$vuetify.breakpoint.smAndDown"
+          v-else-if="!ismdAndUp "
           class="ml-1 align-self-center"
           color="orange"
           @click="toggleDrawer"
@@ -95,13 +92,13 @@
           <v-spacer></v-spacer>
           <v-menu open-on-hover offset-y v-for="item in items" :key="item.text">
             <template v-slot:activator="{ on }">
-              <v-tab v-on="on" class="body" :to="item.route">
+              <v-btn depressed text v-on="on" class="body" :to="item.route">
                 <v-icon>{{ item.icon }}</v-icon>
                 {{ item.text }}
                 <v-icon>mdi-menu-down</v-icon>
-              </v-tab>
+              </v-btn>
             </template>
-            <v-list v-if="item.children">
+            <v-list nav dense v-if="item.children">
               <v-list-item v-for=" e in item.children" :key="e.title" nuxt :to="e.to">
                 <v-list-item-icon>
                   <v-icon v-text="e.icon" />
@@ -124,17 +121,16 @@
 import { mapMutations, mapState } from 'vuex'
 
 import UserMenu from '~/components/UserMenu'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
 const PREFIX = 'iconfont icon-'
 export default {
   name: 'CoreAppBar',
-  asyncData ({ isDev, route, store, env, params, query, req, res, redirect, error }) {
-    console.log(error);
-  },
-  // components: { UserMenu },
+
+  mixins: [ismdAndUp],
+
   data () {
     return {
       isSearching: false,
-      isLogin: false
     }
   },
   methods: {
@@ -144,8 +140,11 @@ export default {
       this.$message.success('退出成功')
     },
   },
-
+  mounted () {
+    console.log(this.ismdAndUp, 888888888787878);
+  },
   computed: {
+
     userinfo () {
       return this.$store.state.blog.userinfo
     },
@@ -158,11 +157,11 @@ export default {
     },
     // 响应式高度
     top_height () {
-      return this.$vuetify.breakpoint.mdAndUp ? 80 : 56
+      return this.ismdAndUp ? 80 : 56
     },
     // tab栏高度
     extension_height () {
-      return this.$vuetify.breakpoint.mdAndUp ? 64 : 56
+      return this.ismdAndUp ? 64 : 56
     },
     items: () => [
       { icon: 'mdi-home', text: '首页', route: '/' },
@@ -197,7 +196,7 @@ export default {
   },
 
   watch: {
-    '$vuetify.breakpoint.mdAndUp' () {
+    'ismdAndUp' () {
       this.$store.commit('blog/setDrawer', false)
     },
     hasItems (val) {

@@ -55,7 +55,7 @@
         </v-col>
       </ModuleTransition>
       <!-- 目录 -->
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" class="right-bar" md="4">
+      <v-col v-if="ismdAndUp" class="right-bar" md="4">
         <Anchor :offset-top="160" show-ink class="ml-3">
           <AnchorLink
             v-for="item in $store.state.blog.toc"
@@ -82,6 +82,7 @@ import Anchor from '~/components/Blog/Anchor/anchor'
 import ArtComment from '~/components/Blog/ArtComment'
 import { likeArticle, addComment, getCommentList } from '~/api/api'
 import Markdown from '~/markdown/preview'
+import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
 export default {
   async asyncData ({ params, $axios }) {
@@ -93,6 +94,7 @@ export default {
     })
     return { article: result.data.data, comments: result2.data.data.comments }
   },
+
   head () {
     return {
       title: this.article.title,
@@ -103,7 +105,7 @@ export default {
     }
   },
 
-  mixins: [moduleTransitonMixin],
+  mixins: [moduleTransitonMixin, ismdAndUp],
   components: {
     Markdown,
     ArtComment,
@@ -130,7 +132,6 @@ export default {
       this.comments = result.data.comments
     },
     async handlelike () {
-      console.log(this.article._id, 8888);
       if (!this.$store.state.blog.userinfo) {
         this.$message.success('登录才能点赞，请先登录！')
         return
