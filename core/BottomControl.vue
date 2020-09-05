@@ -236,7 +236,7 @@ export default {
       }
       // 如果播放到了第一首&&顺序播放 就暂停（this.playlist.length + 1 === this.currentIndex）判断是不是就一手哥了
       if (
-        this.playlist.length + 1 === this.currentIndex &&
+        this.playlist.length === this.currentIndex - 1 &&
         this.mode === playMode[SEQUENCE_INDEX].code
       ) {
         this.setCurrentIndex(-1);
@@ -265,7 +265,7 @@ export default {
       }
       // 如果播放到了最后一首&&顺序播放 就暂停
       if (
-        this.playlist.length - 1 === this.currentIndex &&
+        this.playlist.length === this.currentIndex + 1 &&
         this.mode === playMode[SEQUENCE_INDEX].code
       ) {
         this.setCurrentIndex(-1);
@@ -313,7 +313,6 @@ export default {
         // 随机模式 将顺序列表重新洗牌 生成无序列表
         case playMode[RANDOM_INDEX].code:
           list = shuffle(this.sequenceList);
-          console.log(list);
           break;
       }
       this.resetCurrentIndex(list);

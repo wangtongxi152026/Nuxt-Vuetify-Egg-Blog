@@ -43,6 +43,9 @@ module.exports = {
         href:
           '//cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css'
       }
+    ],
+    script: [
+      { src: 'https://hm.baidu.com/hm.js?93cf422417a83066e3b244005feeb6c0' }
     ]
   },
 
@@ -65,6 +68,7 @@ module.exports = {
       ssr: false
     },
     '~plugins/filters',
+    '~plugins/analytics.js',
     { src: '~plugins/vue-lazyload', ssr: false },
     { src: '~plugins/fastclick', ssr: false }
   ],

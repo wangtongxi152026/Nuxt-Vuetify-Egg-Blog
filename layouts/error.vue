@@ -1,8 +1,8 @@
 <template>
   <v-app dark>
-    <NuxtLink to="/">
+    <nuxt-link to="/">
       <h1>出错了~~~~HOME</h1>
-    </NuxtLink>
+    </nuxt-link>
   </v-app>
 </template>
 

@@ -1,4 +1,4 @@
-# Nuxt技术栈+Egg+Mongodb实现个人网站
+# Nuxt技术栈+Vuetif+Egg实现个人网站
 ## 项目介绍
 这个项目就是一个简单的增删改查的个人博客和音乐推荐。前端用基于nuxt服务器端渲染 ⚡、后端是egg+mongoose。
 ### 技术栈：

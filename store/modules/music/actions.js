@@ -109,7 +109,7 @@ export const insertOnePlay = ({ commit, state, getters }, { item }) => {
   // 镜像一份播放列表和顺序列表
   let playlist = state.playlist.slice();
   let sequenceList = state.sequenceList.slice();
-  //记录当前歌曲
+  // 记录当前歌曲
   let currentSong = getters.currentSong;
 
   // 在playlist中正在播放歌曲的索引
@@ -120,8 +120,9 @@ export const insertOnePlay = ({ commit, state, getters }, { item }) => {
   // 查找当前列表中是否包含待插入的歌曲并返回其索引
   let pIndex = findIndex(playlist, item);
   let sIndex = findIndex(sequenceList, item);
+
   console.log('insertOnePlay:', item);
-  // 如果在playlist中已经包含了这首歌
+
   if (pIndex > -1) {
     commit(types.SET_CURRENT_INDEX, pIndex);
   } else {
