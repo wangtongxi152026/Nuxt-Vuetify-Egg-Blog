@@ -10,10 +10,9 @@ export default {
       reloaded: false
     };
   },
-  created() {
+  mounted() {
     this.$nextTick(() => (this.reloaded = true));
   },
-
   computed: {
     ismdAndUp() {
       return this.reloaded

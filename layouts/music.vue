@@ -2,7 +2,6 @@
   <v-app>
     <CoreToolbar />
     <CoreDrawer />
-
     <CoreViewMusic />
     <audio ref="audio"></audio>
   </v-app>

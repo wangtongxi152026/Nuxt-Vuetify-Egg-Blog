@@ -1,12 +1,12 @@
 <template>
   <!-- <v-container> -->
-  <Scroll :data="getDatalength">
+  <!-- <Scroll :data="getDatalength"> -->
     <div class="box">
       <v-row>
         <v-col cols="12" class="py-0">
-          <div class="headline font-weight-light mt-1">云村榜单</div>
+          <div class="font-weight-light mt-1">云村榜单</div>
         </v-col>
-        <v-col cols="4" lg="3" md="4" v-for=" item in list" :key="item.name">
+        <v-col cols="4" lg="3" md="4" v-for="item in list" :key="item.name">
           <MCard :item="item"></MCard>
         </v-col>
         <v-col cols="12" class="py-0">
@@ -31,14 +31,14 @@ export default {
 
   components: { MCard, Scroll },
   mixins: [ismdAndUp],
-  created () {
+  created() {
     // 获取前四条数据
     this._getToplistDetail();
     this._getPersonalized();
   },
 
   methods: {
-    _getToplistDetail () {
+    _getToplistDetail() {
       getToplistDetail().then(res => {
         if (res.data.code === 200) {
           let list = res.data.list.filter(item => {
@@ -51,7 +51,7 @@ export default {
         }
       });
     },
-    _getPersonalized () {
+    _getPersonalized() {
       getPersonalized().then(res => {
         if (res.data.code === 200) {
           this.hotList = res.data.result;
@@ -61,16 +61,16 @@ export default {
   },
 
   computed: {
-    getDatalength () {
+    getDatalength() {
       return this.hotList.length + this.list.length;
     },
-    getTabHeight () {
+    getTabHeight() {
       return this.ismdAndUp ? "calc(100vh - 336px)" : "calc(100vh - 80px - 112px)"
 
 
     }
   },
-  data () {
+  data() {
     return {
       list: [], // 云村榜单
       hotList: [] // 热门歌单

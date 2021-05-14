@@ -7,35 +7,30 @@
         </v-col>
       </v-row>
     </ModuleTransition>
-
     <v-row justify="center">
       <ModuleTransition delay="0.32">
         <v-col v-show="recoShowModule" cols="12" md="8">
-          <h1 class="text-center headline py-5">{{article.title}}</h1>
+          <h1 class="text-center headline py-5">{{ article.title }}</h1>
           <p class="text-center">
             <v-btn color="grey" small text>
               <v-icon left class="iconfont icon-history" />
 
-              <span class="caption">{{article.create_time|format}}</span>
+              <span class="caption">{{ article.create_time | format }}</span>
             </v-btn>
 
             <v-btn color="grey" small text>
               <v-icon left>mdi-eye</v-icon>
-              <span class="caption">{{article.meta.views}}</span>
+              <span class="caption">{{ article.meta.views }}</span>
             </v-btn>
             <v-btn color="grey" small text>
               <v-icon left class="iconfont icon-pinglun" />
-              <span class="caption">{{article.meta.comments}}</span>
+              <span class="caption">{{ article.meta.comments }}</span>
             </v-btn>
 
             <v-btn @click="handlelike" color="grey" small text>
               <v-icon color="pink" class="iconfont icon-like" left></v-icon>
-              <span class="caption">{{article.meta.likes}}</span>
+              <span class="caption">{{ article.meta.likes }}</span>
             </v-btn>
-            <!-- <v-icon class="iconfont icon-history"></v-icon>
-          <span class="mr-5">2020年1月17日</span>
-          <v-icon class="iconfont icon-pinglun"></v-icon>t
-            <span>10 286 °C</span>-->
           </p>
           <img
             src="https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
@@ -50,7 +45,6 @@
             width="100%"
           />
           <v-divider class="my-3"></v-divider>
-
           <ArtComment :article_id="article._id" :comments="comments" />
         </v-col>
       </ModuleTransition>
@@ -74,18 +68,16 @@
 
 import ModuleTransition from '~/components/Transtion/ModuleTransition'
 import moduleTransitonMixin from '~/components/Transtion/moduleTransiton'
-
 import AnchorLinks from '~/components/Blog/Anchor/anchorLinks'
 import AnchorLink from '~/components/Blog/Anchor/anchorLink'
 import Anchor from '~/components/Blog/Anchor/anchor'
-// {{article.numbers}}
 import ArtComment from '~/components/Blog/ArtComment'
 import { likeArticle, addComment, getCommentList } from '~/api/api'
 import Markdown from '~/markdown/preview'
 import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
 export default {
-  async asyncData ({ params, $axios }) {
+  async asyncData({ params, $axios }) {
     const result = await $axios.post('/blog/getArticleDetail', {
       id: params.id
     })
@@ -95,7 +87,7 @@ export default {
     return { article: result.data.data, comments: result2.data.data.comments }
   },
 
-  head () {
+  head() {
     return {
       title: this.article.title,
       meta: [
@@ -115,23 +107,23 @@ export default {
     ModuleTransition
 
   },
-  provide () {
+  provide() {
     return {
       'refresh': this.refresh
     }
   },
-  data () {
+  data() {
     return {
       article: '',
       comments: []
     }
   },
   methods: {
-    async refresh () {
+    async refresh() {
       const result = await getCommentList({ id: this.article._id })
       this.comments = result.data.comments
     },
-    async handlelike () {
+    async handlelike() {
       if (!this.$store.state.blog.userinfo) {
         this.$message.success('登录才能点赞，请先登录！')
         return
@@ -152,7 +144,7 @@ export default {
   },
   watch: {},
   computed: {
-    breadtitle () {
+    breadtitle() {
       return [
         {
           text: '首页',
@@ -173,18 +165,17 @@ export default {
 }
 </script>
 
- 
 <style lang="sass" scoped>
-
 .right-slider
   position: sticky
   right: 0
   top: 300px
-.anchor 
+.anchor
   display: block
   position: sticky
   top: 213px
 .right-bar
+  border-radius: 4px
   background-color: #fff
 .articlebg
   width: 100%
@@ -205,12 +196,10 @@ export default {
   width: 128px
   overflow: hidden
   top: 64px
-  left: calc(  50% - 64px  )
+  left: calc( 50% - 64px )
 .right-side
   position: sticky
- 
   top: 150px
 .introduce
   margin-top: 120px
-
 </style>

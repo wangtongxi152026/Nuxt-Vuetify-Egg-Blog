@@ -142,11 +142,12 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) { },
     // 开启打包分析
     analyze: true,
-    assetFilter: function(assetFilename) {
+    assetFilter: function (assetFilename) {
       return assetFilename.endsWith('.js');
-    }
+    },
+    vendor: ['axios']
   }
 };

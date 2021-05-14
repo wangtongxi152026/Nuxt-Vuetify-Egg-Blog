@@ -3,9 +3,7 @@
     <v-dialog dark v-model="Dialog" max-width="290">
       <v-card>
         <v-card-title class="headline">消息提示</v-card-title>
-        <v-card-text>
-          小伙子，你确定要{{msg}}吗
-        </v-card-text>
+        <v-card-text> 你确定要{{ msg }}吗 </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="success" text @click="hide">取消</v-btn>
@@ -24,19 +22,19 @@ export default {
       type: String,
     }
   },
-  data () {
+  data() {
     return {
       Dialog: false
     }
   },
   methods: {
-    show () {
+    show() {
       this.Dialog = true
     },
-    hide () {
+    hide() {
       this.Dialog = false
     },
-    confirm () {
+    confirm() {
       this.hide()
       this.$emit('handleConfirm')
     }

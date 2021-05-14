@@ -7,14 +7,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-
+import coreMusciCover from './core-musci-cover.jpg'
 export default {
   computed: {
     ...mapGetters("music", ["currentSong"]),
     musicPicUrl () {
       return this.currentSong.image
         ? `${this.currentSong.image}?param=150y150`
-        : "https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302";
+        : coreMusciCover;
     }
   }
 };
