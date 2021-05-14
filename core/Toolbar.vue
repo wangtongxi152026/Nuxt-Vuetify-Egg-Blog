@@ -7,7 +7,7 @@
     :height="top_height"
     :style="`height: ${ismdAndUp ? 144 / 2 : 112 / 2}px`"
   >
-    <div>
+    <div style="width:100%;overflow: hidden;height: 100%;"> 
       <div :class="['top-menu', { translateTop: !isScrollingUp }]">
         <nuxt-link to="/" class="d-flex" tag="div">
           <v-avatar
@@ -249,7 +249,7 @@ export default {
   transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 .translateBottom {
-  transform: translateY(100%);
+  transform: translateY(-100%);
 }
 .translateTop {
   transform: translateY(-100%);
