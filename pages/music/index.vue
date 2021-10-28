@@ -1,27 +1,22 @@
 <template>
   <div :style="{ height: getTabHeight }">
-    <Scroll :data="getDatalength">
+    <Scroll :data="hotList.length + list.length">
       <div>
-        <v-row>
-          <v-col cols="12" class="py-0">
-            <div class="headline font-weight-light mt-1">云村榜单</div>
-          </v-col>
-          <v-col cols="4" lg="3" md="4" v-for="item in list" :key="item.name">
-            <MCard :item="item"></MCard>
-          </v-col>
-          <v-col cols="12" class="py-0">
-            <div class="headline font-weight-light">推荐歌单</div>
-          </v-col>
-          <v-col
-            cols="4"
-            lg="3"
-            md="4"
-            v-for="item in hotList"
-            :key="item.name"
-          >
-            <MCard :picType="0" :item="item"></MCard>
-          </v-col>
-        </v-row>
+        <Loading v-if="!hotList.length"></Loading>
+        <div v-else>
+          <div class="headline font-weight-light py-3">云村榜单</div>
+          <div class="box">
+            <template v-for="item in list">
+              <MCard :key="item.name" :item="item"></MCard>
+            </template>
+          </div>
+          <div class="headline font-weight-light py-3">推荐歌单</div>
+          <div class="box">
+            <template v-for="item in hotList">
+              <MCard :key="item.name" :picType="0" :item="item"></MCard>
+            </template>
+          </div>
+        </div>
       </div>
     </Scroll>
   </div>
@@ -32,15 +27,14 @@ import { getToplistDetail, getPersonalized } from "~/api/index";
 import Scroll from "~/components/Music/Scroller";
 import MCard from "~/components/Music/MusicCard";
 import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import Loading from "~/components/Music/Loading";
 export default {
-  components: { MCard, Scroll },
+  components: { MCard, Scroll, Loading },
   layout: "music",
   created() {
-    // 获取前四条数据
     this._getToplistDetail();
     this._getPersonalized();
   },
-
   methods: {
     async _getToplistDetail() {
       const res = await getToplistDetail()
@@ -50,7 +44,6 @@ export default {
             return item
           }
         })
-        console.log(list, '_getToplistDetail');
         this.list = list
       }
     },
@@ -61,21 +54,19 @@ export default {
         this.hotList = res.data.result
       }
     },
-
   },
 
 
   mixins: [ismdAndUp],
   computed: {
     getDatalength() {
-      return this.hotList.length + this.list.length;
+      return [...this.hotList, ...this.list].length;
     },
     getTabHeight() {
       return this.ismdAndUp
-        ? "calc(100vh - 100px - 144px)"
+        ? "calc(100vh - 100px - 124px)"
         : "calc(100vh - 80px - 112px)";
     }
-
   },
   data() {
     return {
@@ -85,3 +76,30 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+.box {
+  display: grid;
+  grid-gap: 0.8rem;
+}
+@media (min-width: 600px) {
+  .box {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .box {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (min-width: 960px) {
+  .box {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (min-width: 1264px) {
+  .box {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+</style>>
+ 

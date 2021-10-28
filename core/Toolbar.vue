@@ -4,84 +4,86 @@
     dark
     id="core-app-bar"
     :elevate-on-scroll="!isSearching"
-    :height="top_height"
-    :style="`height: ${ismdAndUp ? 144 / 2 : 112 / 2}px`"
+    :height="extension_height"
   >
-    <div style="width:100%;overflow: hidden;height: 100%;"> 
+    <div style="width: 100%; overflow: hidden; height: 100%">
       <div :class="['top-menu', { translateTop: !isScrollingUp }]">
-        <nuxt-link to="/" class="d-flex" tag="div">
-          <v-avatar
-            :size="ismdAndUp ? 60 : 40"
-            :class="ismdAndUp ? 'mx-5' : 'justify: center'"
+        <v-container fluid v-if="isSearching" class="white pa-0">
+          <v-autocomplete
+            ref="search"
+            rounded
+            append-icon
+            append-outer-icon="$vuetify.close"
+            flat
+            :height="extension_height"
+            hide-no-data
+            label="输入你想搜索的内容"
+            light
+            solo
           >
-            <img src="../assets/avatar.jpg" class="elevation-2" />
-          </v-avatar>
-          <v-toolbar-title
-            class="display-1 font-weight-medium align-self-center"
-            :class="`${ismdAndUp ? 'subtitle-1' : 'px-2 subtitle-1'}`"
-          >
-            <div class="font-weight-light">
-              <div class="hidden-sm-and-down">WTongxi</div>
-              <span class="hidden-md-and-up">WTongxi</span>
-              <div class="hidden-sm-and-down">乐享生活</div>
-            </div>
-          </v-toolbar-title>
-        </nuxt-link>
-        <v-btn dark class="mx-3" fab small @click="isSearching = !isSearching">
-          <v-icon size="20" class="iconfont icon-sousuo"></v-icon>
-        </v-btn>
-        <!-- <UserMenu v-if="ismdAndUp && userinfo" /> -->
-        <template v-if="ismdAndUp && userinfo">
-          <div>
-            <v-avatar size="56">
-              <img :src="src" />
-            </v-avatar>
-            <v-btn text depressed n>{{ userinfo.name }}</v-btn>
-            <v-btn text depressed @click="logout">
-              <v-icon left>mdi-exit-to-app</v-icon>退出
-            </v-btn>
-          </div>
-        </template>
+            <template v-slot:append-outer>
+              <v-icon
+                class="mr-2"
+                :class="ismdAndUp ? 'mt-2' : 'mt-1'"
+                @click="isSearching = false"
+                >$vuetify.close</v-icon
+              >
+            </template>
+          </v-autocomplete>
+        </v-container>
         <template v-else>
-          <v-col v-if="ismdAndUp" class="d-flex justify-end">
-            <v-btn text depressed nuxt to="/login">
-              <v-icon left class="iconfont icon-login"></v-icon>登录
-            </v-btn>
-            <v-btn class="mx-3" nuxt color="#006064" to="/register">
-              <v-icon left class="iconfont icon-zhhuce"></v-icon>注册
-            </v-btn>
-          </v-col>
+          <nuxt-link to="/" class="d-flex" tag="div">
+            <v-avatar :size="ismdAndUp ? 56 : 40" class="mx-5">
+              <img src="../assets/avatar.jpg" class="elevation-2" />
+            </v-avatar>
+            <v-toolbar-title
+              class="display-1 font-weight-medium align-self-center"
+              :class="`${ismdAndUp ? 'subtitle-1' : 'px-2 subtitle-1'}`"
+            >
+              <div class="font-weight-light">
+                <div class="hidden-sm-and-down">WTongxi</div>
+                <span class="hidden-md-and-up">WTongxi</span>
+                <div class="hidden-sm-and-down">乐享生活</div>
+              </div>
+            </v-toolbar-title>
+          </nuxt-link>
+          <v-btn dark class="mx-3" fab small @click="toggleSearchimg">
+            <v-icon size="20" class="iconfont icon-sousuo"></v-icon>
+          </v-btn>
+          <!-- <UserMenu v-if="ismdAndUp && userinfo" /> -->
+          <template v-if="ismdAndUp && userinfo">
+            <div>
+              <v-avatar size="56">
+                <img :src="src" />
+              </v-avatar>
+              <v-btn text depressed n>{{ userinfo.name }}</v-btn>
+              <v-btn text depressed @click="logout">
+                <v-icon left>mdi-exit-to-app</v-icon>退出
+              </v-btn>
+            </div>
+          </template>
+          <template v-else>
+            <v-col v-if="ismdAndUp" class="d-flex justify-end">
+              <v-btn text depressed nuxt to="/login">
+                <v-icon left class="iconfont icon-login"></v-icon>登录
+              </v-btn>
+              <v-btn class="mx-3" nuxt color="#006064" to="/register">
+                <v-icon left class="iconfont icon-zhhuce"></v-icon>注册
+              </v-btn>
+            </v-col>
+          </template>
         </template>
       </div>
-      <!-- <template v-slot:extension> -->
       <div :class="['bottom-menu', { translateBottom: !isScrollingUp }]">
-        <v-tabs centered class="tabs" hide-slider>
-          <v-container fluid v-if="isSearching" class="white pa-0">
-            <v-autocomplete
-              ref="search"
-              rounded
-              append-icon
-              append-outer-icon="$vuetify.close"
-              flat
-              :height="extension_height"
-              hide-no-data
-              label="输入你想搜索的内容"
-              light
-              solo
-            >
-              <template v-slot:append-outer>
-                <v-icon
-                  class="mr-2"
-                  :class="ismdAndUp ? 'mt-2' : 'mt-1'"
-                  @click="isSearching = false"
-                  >$vuetify.close</v-icon
-                >
-              </template>
-            </v-autocomplete>
-          </v-container>
-
+        <v-tabs
+          background-color="transparent"
+          centered
+          :height="extension_height"
+          class="tabs"
+          hide-slider
+        >
           <v-app-bar-nav-icon
-            v-else-if="!ismdAndUp"
+            v-if="!ismdAndUp"
             class="ml-1 align-self-center"
             color="orange"
             @click="toggleDrawer"
@@ -97,13 +99,20 @@
               :key="item.text"
             >
               <template v-slot:activator="{ on }">
-                <v-btn depressed text v-on="on" class="body" :to="item.route">
-                  <v-icon>{{ item.icon }}</v-icon>
+                <v-btn
+                  plain
+                  depressed
+                  text
+                  v-on="on"
+                  class="mx-2"
+                  :to="item.route"
+                >
+                  <v-icon class="mr-2">{{ item.icon }}</v-icon>
                   {{ item.text }}
-                  <v-icon>mdi-menu-down</v-icon>
+                  <v-icon v-if="item.children">mdi-menu-down</v-icon>
                 </v-btn>
               </template>
-              <v-list nav dense v-if="item.children">
+              <v-list flat nav dense v-if="item.children">
                 <v-list-item
                   v-for="e in item.children"
                   :key="e.title"
@@ -113,10 +122,9 @@
                   <v-list-item-icon>
                     <v-icon v-text="e.icon" />
                   </v-list-item-icon>
-
-                  <v-list-item-title class="caption">{{
-                    e.title
-                  }}</v-list-item-title>
+                  <v-list-item-title class="caption">
+                    {{ e.title }}
+                  </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -124,13 +132,13 @@
           </template>
         </v-tabs>
       </div>
-      <!-- </template> -->
     </div>
   </v-app-bar>
 </template>
 
 <script>
-
+const HEIGHT_MD = 64
+const HEIGHT_SM = 56
 import { mapMutations, mapState } from 'vuex'
 import UserMenu from '~/components/UserMenu'
 import ismdAndUp from '~/components/Mixin/ismdAndUp'
@@ -138,37 +146,38 @@ const PREFIX = 'iconfont icon-'
 export default {
   name: 'CoreAppBar',
   mixins: [ismdAndUp],
-  destroyed() {
-    window.removeEventListener('scroll', this.getScroll);
-  },
-
   data() {
     return {
       previousScroll: 0,
       currentScroll: 0,
       isScrollingUp: 0,
       isSearching: false,
+      disabledScroll: false,
     }
   },
   methods: {
     ...mapMutations('blog', ['toggleDrawer', 'setDrawer']),
+    toggleSearchimg() {
+      this.isSearching = !this.sSearching
+    },
     logout() {
       this.$store.commit('blog/logout')
       this.$message.success('退出成功')
     },
     getScroll() {
+      if (this.disabledScroll) {
+        return
+      }
       this.previousScroll = this.currentScroll
-      // this.currentScroll = this.target
-      //   ? this.target.scrollTop
-      //   : window.pageYOffset
       this.currentScroll = window.pageYOffset
-      console.log(' this.currentScroll < this.previousScroll', this.currentScroll < this.previousScroll)
       this.isScrollingUp = this.currentScroll < this.previousScroll
     },
   },
   mounted() {
-    console.log(this.ismdAndUp, 'mounted');
     window.addEventListener('scroll', this.getScroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.getScroll);
   },
   computed: {
     userinfo() {
@@ -182,10 +191,6 @@ export default {
       }
     },
     // 响应式高度
-    top_height() {
-      return this.ismdAndUp ? 64 : 56
-    },
-    // tab栏高度
     extension_height() {
       return this.ismdAndUp ? 64 : 56
     },
@@ -222,15 +227,25 @@ export default {
   },
 
   watch: {
-    'ismdAndUp'() {
-      this.$store.commit('blog/setDrawer', false)
+    "ismdAndUp": {
+      handler: function (value) {
+        if (value) {
+          this.$store.commit('blog/setDrawer', false)
+        }
+      },
+      immediate: true
     },
     hasItems(val) {
       if (!val) return
       this.$refs.drawer.isActive = false
     },
     async isSearching(val) {
-      if (!val) return
+      if (val) {
+        this.disabledScroll = true;
+      } else {
+        this.disabledScroll = false;
+        return
+      }
       await this.$nextTick()
       this.$refs.search.focus()
     }
@@ -240,6 +255,7 @@ export default {
 
 <style scoped>
 .top-menu {
+  min-height: 56px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -257,11 +273,14 @@ export default {
 
 #core-app-bar {
   background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)),
-    url('~@/assets/trend_tit.jpg');
+    url('https://picsum.photos/1920/1080?random');
   background-size: cover;
 }
 #core-app-bar >>> .v-slide-group__content {
   align-items: center;
+}
+#core-app-bar >>> .v-toolbar__content {
+  padding: 0;
 }
 @keyframes move {
   16.65% {
@@ -305,3 +324,4 @@ export default {
   background-color: inherit;
 }
 </style>
+ 

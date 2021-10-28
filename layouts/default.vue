@@ -23,12 +23,6 @@ export default {
     if (!this.$store.state.music.audio) {
       this.$nextTick(() => this.setAudio())
     }
-
-  },
-  data () {
-    return {
-
-    }
   },
   components: {
     CoreToolbar: () => import('~/core/Toolbar'),
@@ -41,7 +35,6 @@ export default {
     ...mapMutations('music', {
       setAudio: 'SET_AUDIO',
     }),
-
   },
 };
 </script>

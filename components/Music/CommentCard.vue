@@ -6,9 +6,7 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <div class="caption name">{{ item.user.nickname }}</div>
-
         <div class="caption mb-1 content">{{item.content}}</div>
-
         <div class="caption time d-flex justify-space-between">
           {{ item.time | format }}
           <span>

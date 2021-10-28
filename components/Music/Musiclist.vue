@@ -1,6 +1,6 @@
 <template>
   <v-card ref="header1" :height="getTabHeight" max-width="100vw" class="body-2">
-    <Scroll :data="list.length||getTabHeight">
+    <Scroll :data="list.length || getTabHeight">
       <v-list-item-group>
         <v-list-item>
           <v-row class="d-flex align-center">
@@ -18,15 +18,21 @@
         </v-list-item>
 
         <v-list-item
-          v-for="(item,index) in list"
+          v-for="(item, index) in list"
           :key="index"
-          :class="{'wave':playing && currentSong.id===item.id}"
+          :class="{ wave: playing && currentSong.id === item.id }"
           color="info"
-          @click="selectItem(item,index)"
+          @click="selectItem(item, index)"
         >
-          <v-row class="d-flex align-center" :class="{rowHeight:ismdAndUp}" cols="12">
+          <v-row
+            class="d-flex align-center"
+            :class="{ rowHeight: ismdAndUp }"
+            cols="12"
+          >
             <!-- 索引 -->
-            <v-col cols="2" align="center" class="num index">{{ index + 1 }}</v-col>
+            <v-col cols="2" align="center" class="num index">{{
+              index + 1
+            }}</v-col>
             <!-- 歌曲 -->
             <v-col cols="8" md="5" justify-self="center">
               <span class="songname">
@@ -36,19 +42,27 @@
             </v-col>
             <!-- 播放* -->
             <v-col cols="1" align="center" v-if="ismdAndUp">
-              <v-icon class="go" :class="getPlayIcon(item.id)" @click.stop="selectItem(item,index)"></v-icon>
+              <v-icon
+                class="go"
+                :class="getPlayIcon(item.id)"
+                @click.stop="selectItem(item, index)"
+              ></v-icon>
             </v-col>
             <!-- 时间 **-->
             <v-col cols="2" align="center" v-if="isTimeshow">
-              <span :class="{'durationTime':showDelIcon}">{{ item.duration | formatTime }}</span>
+              <span :class="{ durationTime: showDelIcon }">{{
+                item.duration | formatTime
+              }}</span>
             </v-col>
             <!-- 删除按钮 -->
             <v-col cols="2" align="center" v-if="showDelIcon">
-              <v-icon class="iconfont icon-chahao1" @click.stop="deleteItem(index,item)"></v-icon>
+              <v-icon
+                class="iconfont icon-chahao1"
+                @click.stop="deleteItem(index, item)"
+              ></v-icon>
             </v-col>
           </v-row>
         </v-list-item>
-
         <Loading v-if="!list.length"></Loading>
       </v-list-item-group>
     </Scroll>
@@ -57,14 +71,14 @@
 </template>
 
 <script>
-import Scroll from "~/components/Music/Scroller";
-import Snackbar from "~/components/Music/Snackbar";
-import { mapState, mapGetters, mapMutations } from "vuex";
-import Loading from "~/components/Music/Loading";
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import Scroll from '~/components/Music/Scroller';
+import Snackbar from '~/components/Music/Snackbar';
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import Loading from '~/components/Music/Loading';
+import ismdAndUp from '~/components/Mixin/ismdAndUp';
 
 export default {
-  name: "Musiclist",
+  name: 'Musiclist',
   components: { Loading, Scroll, Snackbar },
   props: {
     // 歌单列表
@@ -80,55 +94,55 @@ export default {
   },
   mixins: [ismdAndUp],
   methods: {
-    ...mapMutations("music", {
-      setPlaying: "SET_PLAYING"
+    ...mapMutations('music', {
+      setPlaying: 'SET_PLAYING'
     }),
     // 如果当前出去播放状态&&选中的id和在播放的id相同  图标不变
-    getPlayIcon (itemId) {
+    getPlayIcon(itemId) {
       const id = this.currentSong.id;
       return this.playing && id === itemId
-        ? "Xfont iconfont icon-zanting"
-        : "Xfont iconfont icon-play_icon";
+        ? 'Xfont iconfont icon-zanting'
+        : 'Xfont iconfont icon-play_icon';
     },
     // 选中歌曲
-    selectItem (item, index, e) {
+    selectItem(item, index, e) {
       if (item.id === this.currentSong.id) {
         // 点击的歌曲id 和正在播放的歌曲相同 视为暂停 return
         console.log(
-          "item.id, this.currentSong.id",
+          'item.id, this.currentSong.id',
           item.id,
           this.currentSong.id
         );
         this.setPlaying(!this.playing);
         return;
       }
-      this.$emit("select", { item, index });
+      this.$emit('select', { item, index });
     },
     // 删除事件
-    deleteItem (index, item) {
-      this.$emit("delete", { index, item }); // 触发删除事件
+    deleteItem(index, item) {
+      this.$emit('delete', { index, item }); // 触发删除事件
       this.$refs.Snackbar.show();
     },
     // 清空
-    clearAll () {
-      this.$emit("clear");
+    clearAll() {
+      this.$emit('clear');
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       console.log(this.$refs.header1.$el.getBoundingClientRect().top);
     });
   },
   computed: {
-    ...mapState("music", ["playing"]),
-    ...mapGetters("music", ["currentSong"]),
-    getTabHeight () {
+    ...mapState('music', ['playing']),
+    ...mapGetters('music', ['currentSong']),
+    getTabHeight() {
       return this.ismdAndUp
-        ? "calc(100vh - 128px - 144px)"
-        : "calc(100vh - 80px - 112px)"
+        ? 'calc(100vh - 100px - 124px)'
+        : 'calc(100vh - 80px - 112px)';
     },
     // 歌曲时长的显示
-    isTimeshow () {
+    isTimeshow() {
       return !this.ismdAndUp ? false : true;
     }
   }
@@ -140,11 +154,8 @@ export default {
   color: #999 !important;
 }
 .v-card {
+  box-shadow: none;
   background: transparent !important;
-  // background-image: url(~~/assets/image/body.png);
-  // background-repeat: repeat;
-  // background-position: top center;
-  // background-attachment: scroll;
   .rowHeight {
     height: 55px;
   }

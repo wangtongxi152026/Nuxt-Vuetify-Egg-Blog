@@ -18,7 +18,6 @@ const defaultOpt = {
   click: true,
   scrollY: true,
   probeType: 3,
-
   slide: {
     loop: true,
     threshold: 100
@@ -39,9 +38,7 @@ const defaultOpt = {
 }
 export default {
   name: 'Scroller',
-
-
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       if (!this.scroller) {
         this.scroller = new BScroll(this.$refs.scroller,
@@ -51,36 +48,29 @@ export default {
       }
     })
   },
-
   props: {
     data: { default: null },
-    options: {
-      type: Object,
-      default: () => ({})
-    }
+    options: { type: Object, default: () => ({}) }
   },
-
   methods: {
-    goTop () {
+    goTop() {
       this.scroller.scrollTo(0, 0)
     },
-    getScroller () {
+    getScroller() {
       return this.scroller
     },
-    refresh () {
-      console.log('Scroll组件,data:', this.data);
+    refresh() {
       this.$nextTick(() => {
         this.scroller.refresh()
       })
     },
   },
   watch: {
-
     'data': {
-      handler (newValue, oldValue) {
+      handler(newValue, oldValue) {
         if (newValue !== oldValue) {
-
-          this.$nextTick(() => this.refresh())
+          console.log('Scroll组件,data:', newValue, oldValue);
+          this.refresh()
         }
       }
     },
@@ -94,6 +84,7 @@ export default {
   overflow: hidden;
   height: 100%;
   .bscroll-indicator {
+    width: 70% !important;
     border: none !important;
     background: inherit;
   }

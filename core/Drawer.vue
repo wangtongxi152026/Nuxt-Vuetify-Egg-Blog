@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer id="core-navigation-drawer" v-model="drawer" app dark>
+  <v-navigation-drawer
+    id="core-navigation-drawer"
+    @input="inputHandle"
+    v-model="drawer"
+    app
+    dark
+  >
     <v-list-item two-line class="mx-4 my-3 logo">
       <v-avatar size="56">
         <img src="~/assets/avatar.jpg" />
@@ -30,7 +36,11 @@
 
     <v-list expand nav>
       <template v-for="(item, i) in computedItems">
-        <ItemGroup v-if="item.children" :key="`group-${i}`" :item="item"></ItemGroup>
+        <ItemGroup
+          v-if="item.children"
+          :key="`group-${i}`"
+          :item="item"
+        ></ItemGroup>
 
         <base-item v-else :key="`item-${i}`" :item="item" />
       </template>
@@ -181,30 +191,45 @@ export default {
 
   }),
   watch: {
-    'ismdAndUp' () {
-      this.$store.commit('blog/setDrawer', false)
+    "ismdAndUp": {
+      handler: function (value) {
+        if (value) {
+          this.$store.commit('blog/setDrawer', false)
+        }
+      },
+      immediate: true
+
     },
   },
   computed: {
     drawer: {
-      get () {
+      get() {
         return this.$store.state.blog.drawer
       },
-      set (val) {
-        this.setDrawer(val)
+      set(val) {
+        if (val) {
+          this.setDrawer(!val)
+        } else {
+          this.setDrawer(val)
+        }
       }
     },
-    computedItems () {
+    computedItems() {
       return this.items.map(this.mapItem)
     }
   },
   methods: {
     ...mapMutations('blog', ['setDrawer']),
-    mapItem (item) {
+    mapItem(item) {
       return {
         ...item,
         children: item.children ? item.children.map(this.mapItem) : undefined,
         title: item.title
+      }
+    },
+    inputHandle(obj) {
+      if (obj) {
+        this.setDrawer(!val)
       }
     }
   }

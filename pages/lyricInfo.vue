@@ -1,5 +1,4 @@
 <template>
-  <!-- <div :style="{'height':getTabHeight}"> -->
   <div>
     <div class="musicCd">
       <!-- 支架 -->
