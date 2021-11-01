@@ -2,7 +2,7 @@
   <v-navigation-drawer
     id="core-navigation-drawer"
     @input="inputHandle"
-    v-model="drawer"
+    :value="drawer"
     app
     dark
   >
@@ -49,15 +49,16 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import BaseItem from '~/components/BaseItem'
-import ItemGroup from '~/components/ItemGroup'
-import Avatar from '~/components/Avatar'
-const PREFIX = 'iconfont icon-'
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import { mapState, mapMutations, mapGetters } from 'vuex';
+import BaseItem from '~/components/BaseItem';
+import ItemGroup from '~/components/ItemGroup';
+import Avatar from '~/components/Avatar';
+const PREFIX = 'iconfont icon-';
+import ismdAndUp from '~/components/Mixin/ismdAndUp';
 
 export default {
-  components: { Avatar, ItemGroup, BaseItem }, mixins: [ismdAndUp],
+  components: { Avatar, ItemGroup, BaseItem },
+  mixins: [ismdAndUp],
   data: () => ({
     items: [
       {
@@ -188,34 +189,32 @@ export default {
         to: '/message'
       }
     ]
-
   }),
   watch: {
-    "ismdAndUp": {
-      handler: function (value) {
+    ismdAndUp: {
+      handler: function(value) {
         if (value) {
-          this.$store.commit('blog/setDrawer', false)
+          this.$store.commit('blog/setDrawer', false);
         }
       },
       immediate: true
-
-    },
+    }
   },
   computed: {
     drawer: {
       get() {
-        return this.$store.state.blog.drawer
+        return this.$store.state.blog.drawer;
       },
       set(val) {
         if (val) {
-          this.setDrawer(!val)
+          this.setDrawer(!val);
         } else {
-          this.setDrawer(val)
+          this.setDrawer(val);
         }
       }
     },
     computedItems() {
-      return this.items.map(this.mapItem)
+      return this.items.map(this.mapItem);
     }
   },
   methods: {
@@ -225,15 +224,15 @@ export default {
         ...item,
         children: item.children ? item.children.map(this.mapItem) : undefined,
         title: item.title
-      }
+      };
     },
-    inputHandle(obj) {
-      if (obj) {
-        this.setDrawer(!val)
+    inputHandle(val) {
+      if (val) {
+        this.setDrawer(!val);
       }
     }
   }
-}
+};
 </script>
 <style lang="less">
 #core-navigation-drawer {

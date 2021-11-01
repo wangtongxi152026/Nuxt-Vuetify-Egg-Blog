@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import BScroll from "@better-scroll/core"
-import ScrollBar from "@better-scroll/scroll-bar"
-import MouseWheel from "@better-scroll/mouse-wheel"
-import Pullup from '@better-scroll/pull-up'
-BScroll.use(ScrollBar)
-BScroll.use(MouseWheel)
-BScroll.use(Pullup)
+import BScroll from '@better-scroll/core';
+import ScrollBar from '@better-scroll/scroll-bar';
+import MouseWheel from '@better-scroll/mouse-wheel';
+import Pullup from '@better-scroll/pull-up';
+BScroll.use(ScrollBar);
+BScroll.use(MouseWheel);
+BScroll.use(Pullup);
 
 const defaultOpt = {
   mouseWheel: true,
@@ -29,24 +29,31 @@ const defaultOpt = {
   // stopPropagation: true,
 
   pullUpLoad: {
-    threshold: -50, // 当上拉距离超过90px时触发 pullingUp 事件
+    threshold: -50 // 当上拉距离超过90px时触发 pullingUp 事件
   },
   scrollbar: {
     interactive: true,
     fade: true
   }
-}
+};
 export default {
   name: 'Scroller',
+  data() {
+    return {
+      scroller: null
+    };
+  },
   mounted() {
     this.$nextTick(() => {
+      console.log(this.scroller);
       if (!this.scroller) {
-        this.scroller = new BScroll(this.$refs.scroller,
+        this.scroller = new BScroll(
+          this.$refs.scroller,
           Object.assign({}, defaultOpt, this.options)
-        )
-        this.$emit("init", this.scroller)
+        );
+        this.$emit('init', this.scroller);
       }
-    })
+    });
   },
   props: {
     data: { default: null },
@@ -54,31 +61,31 @@ export default {
   },
   methods: {
     goTop() {
-      this.scroller.scrollTo(0, 0)
+      this.scroller.scrollTo(0, 0);
     },
     getScroller() {
-      return this.scroller
+      return this.scroller;
     },
     refresh() {
       this.$nextTick(() => {
-        this.scroller.refresh()
-      })
-    },
+        this.scroller.refresh();
+      });
+    }
   },
   watch: {
-    'data': {
+    data: {
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
           console.log('Scroll组件,data:', newValue, oldValue);
-          this.refresh()
+          this.refresh();
         }
       }
-    },
+    }
   }
-}
+};
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .scroller {
   position: relative;
   overflow: hidden;
@@ -90,4 +97,3 @@ export default {
   }
 }
 </style>
-

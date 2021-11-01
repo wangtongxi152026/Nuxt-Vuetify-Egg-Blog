@@ -38,7 +38,7 @@
             </v-avatar>
             <v-toolbar-title
               class="display-1 font-weight-medium align-self-center"
-              :class="`${ismdAndUp ? 'subtitle-1' : 'px-2 subtitle-1'}`"
+              :class="['subtitle-1', { 'px-2': !ismdAndUp }]"
             >
               <div class="font-weight-light">
                 <div class="hidden-sm-and-down">WTongxi</div>
@@ -137,12 +137,12 @@
 </template>
 
 <script>
-const HEIGHT_MD = 64
-const HEIGHT_SM = 56
-import { mapMutations, mapState } from 'vuex'
-import UserMenu from '~/components/UserMenu'
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
-const PREFIX = 'iconfont icon-'
+const HEIGHT_MD = 64;
+const HEIGHT_SM = 56;
+import { mapMutations, mapState } from 'vuex';
+import UserMenu from '~/components/UserMenu';
+import ismdAndUp from '~/components/Mixin/ismdAndUp';
+const PREFIX = 'iconfont icon-';
 export default {
   name: 'CoreAppBar',
   mixins: [ismdAndUp],
@@ -152,26 +152,26 @@ export default {
       currentScroll: 0,
       isScrollingUp: 0,
       isSearching: false,
-      disabledScroll: false,
-    }
+      disabledScroll: false
+    };
   },
   methods: {
     ...mapMutations('blog', ['toggleDrawer', 'setDrawer']),
     toggleSearchimg() {
-      this.isSearching = !this.sSearching
+      this.isSearching = !this.isSearching;
     },
     logout() {
-      this.$store.commit('blog/logout')
-      this.$message.success('退出成功')
+      this.$store.commit('blog/logout');
+      this.$message.success('退出成功');
     },
     getScroll() {
       if (this.disabledScroll) {
-        return
+        return;
       }
-      this.previousScroll = this.currentScroll
-      this.currentScroll = window.pageYOffset
-      this.isScrollingUp = this.currentScroll < this.previousScroll
-    },
+      this.previousScroll = this.currentScroll;
+      this.currentScroll = window.pageYOffset;
+      this.isScrollingUp = this.currentScroll < this.previousScroll;
+    }
   },
   mounted() {
     window.addEventListener('scroll', this.getScroll);
@@ -181,18 +181,18 @@ export default {
   },
   computed: {
     userinfo() {
-      return this.$store.state.blog.userinfo
+      return this.$store.state.blog.userinfo;
     },
     src() {
       if (this.userinfo.avatar === 'user' || '') {
-        return require('~/assets/avatar.jpg')
+        return require('~/assets/avatar.jpg');
       } else {
-        return this.userinfo.avatar
+        return this.userinfo.avatar;
       }
     },
     // 响应式高度
     extension_height() {
-      return this.ismdAndUp ? 64 : 56
+      return this.ismdAndUp ? 64 : 56;
     },
     menuList: () => [
       { icon: 'mdi-home', text: '首页', route: '/' },
@@ -223,34 +223,34 @@ export default {
       { icon: 'iconfont icon-login', text: '关于本站', route: '/timeline' },
       { icon: 'iconfont icon-js', text: '给我留言', route: '/message' }
     ]
-
   },
 
   watch: {
-    "ismdAndUp": {
-      handler: function (value) {
+    ismdAndUp: {
+      handler: function(value) {
+        console.log({ ismdAndUp: value });
         if (value) {
-          this.$store.commit('blog/setDrawer', false)
+          this.$store.commit('blog/setDrawer', false);
         }
       },
       immediate: true
     },
     hasItems(val) {
-      if (!val) return
-      this.$refs.drawer.isActive = false
+      if (!val) return;
+      this.$refs.drawer.isActive = false;
     },
     async isSearching(val) {
       if (val) {
         this.disabledScroll = true;
       } else {
         this.disabledScroll = false;
-        return
+        return;
       }
-      await this.$nextTick()
-      this.$refs.search.focus()
+      await this.$nextTick();
+      this.$refs.search.focus();
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -324,4 +324,3 @@ export default {
   background-color: inherit;
 }
 </style>
- 

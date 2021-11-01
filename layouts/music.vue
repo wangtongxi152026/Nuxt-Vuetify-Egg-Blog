@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <CoreToolbar />
-    <CoreDrawer />
+    <!-- <CoreToolbar />
+    <CoreDrawer /> -->
     <CoreViewMusic />
     <audio ref="audio"></audio>
   </v-app>

@@ -13,28 +13,25 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from 'vuex'
-import { getPlaylistDetail } from '~/api'
-
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'App',
-  mounted () {
+  mounted() {
     if (!this.$store.state.music.audio) {
-      this.$nextTick(() => this.setAudio())
+      this.$nextTick(() => this.setAudio());
     }
   },
   components: {
     CoreToolbar: () => import('~/core/Toolbar'),
     CoreDrawer: () => import('~/core/Drawer'),
     CoreView: () => import('~/core/View'),
-    CoreFooter: () => import('~/core/Footer'),
-
+    CoreFooter: () => import('~/core/Footer')
   },
   methods: {
     ...mapMutations('music', {
-      setAudio: 'SET_AUDIO',
-    }),
-  },
+      setAudio: 'SET_AUDIO'
+    })
+  }
 };
 </script>

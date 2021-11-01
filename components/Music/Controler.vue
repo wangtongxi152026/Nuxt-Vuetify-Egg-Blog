@@ -2,7 +2,6 @@
   <v-bottom-navigation
     :class="{'disable':!songReady||!currentSong.id}"
     fixed
-    min-height="80"
     class="controler"
   >
     <div class="music-bar d-flex justify-space-around">

@@ -1,10 +1,5 @@
 <template>
-  <v-bottom-navigation
-    :class="{'disable':!songReady||!currentSong.id}"
-    app
-    min-height="80"
-    class="controler"
-  >
+  <div :class="{ disable: !songReady || !currentSong.id }" class="controler">
     <div class="music-bar d-flex justify-space-around">
       <v-icon class="iconfont icon-shangyishou" @click="prev"></v-icon>
 
@@ -14,16 +9,19 @@
     </div>
 
     <div class="progress-wrapper">
-      <span class="time time-l">{{currentTime|formatTime}}</span>
+      <span class="time time-l">{{ currentTime | formatTime }}</span>
 
       <div class="progress-bar-wrapper">
-        <ProgressBar :cachePercent="cache" :percent="percentMusic" @percentChange="changeProgress"></ProgressBar>
+        <ProgressBar
+          :cachePercent="cache"
+          :percent="percentMusic"
+          @percentChange="changeProgress"
+        ></ProgressBar>
       </div>
 
-      <span
-        class="time time-r"
-        v-if="currentSong.duration"
-      >{{ currentSong.duration % 3600 | formatTime }}</span>
+      <span class="time time-r" v-if="currentSong.duration">{{
+        currentSong.duration % 3600 | formatTime
+      }}</span>
       <span class="time time-r" v-else>00:00</span>
     </div>
 
@@ -45,21 +43,26 @@
 
     <v-tooltip open-on-click top>
       <template v-slot:activator="{ on }">
-        <v-icon class="leftIcon" v-on="on" :class="getModeIcon" @click="modeChange"></v-icon>
+        <v-icon
+          class="leftIcon"
+          v-on="on"
+          :class="getModeIcon"
+          @click="modeChange"
+        ></v-icon>
       </template>
-      <span>{{getModeText}}</span>
+      <span>{{ getModeText }}</span>
     </v-tooltip>
-  </v-bottom-navigation>
+  </div>
 </template>
 
 <script>
-import { playMode } from "~/plugins/config.js";
-import { Conveny } from "~/plugins/audioConveny";
-import Volume from "~/components/Music/Volume";
-import ProgressBar from "~/components/Music/ProgressBar";
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import { shuffle, debounce } from "~/plugins/util.js";
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import { playMode } from '~/plugins/config.js';
+import { Conveny } from '~/plugins/audioConveny';
+import Volume from '~/components/Music/Volume';
+import ProgressBar from '~/components/Music/ProgressBar';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { shuffle, debounce } from '~/plugins/util.js';
+import ismdAndUp from '~/components/Mixin/ismdAndUp';
 
 const LISTLOOP_INDEX = 0;
 const SEQUENCE_INDEX = 1;
@@ -67,8 +70,9 @@ const LOOP_INDEX = 2;
 const RANDOM_INDEX = 3;
 
 export default {
-  components: { ProgressBar, Volume }, mixins: [ismdAndUp],
-  mounted () {
+  components: { ProgressBar, Volume },
+  mixins: [ismdAndUp],
+  mounted() {
     if (process.client) {
       this.$nextTick(() => {
         Conveny.initAudio(this);
@@ -81,60 +85,60 @@ export default {
           this.audio.currentTime = this.currentTime;
         }
         // this.changeVolume(this.volume)
-        window.addEventListener("beforeunload", this.renewSong);
+        window.addEventListener('beforeunload', this.renewSong);
       });
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.renewSong();
   },
-  destroyed () {
-    window.removeEventListener("beforeunload", this.renewSong);
+  destroyed() {
+    window.removeEventListener('beforeunload', this.renewSong);
   },
 
   computed: {
-    ...mapGetters("music", [
-      "playing",
-      "mode",
-      "volume",
-      "audio",
+    ...mapGetters('music', [
+      'playing',
+      'mode',
+      'volume',
+      'audio',
       'currentSong',
-      "playlist",
-      "currentIndex",
-      "currentTime",
-      "historyList",
-      "sequenceList"
+      'playlist',
+      'currentIndex',
+      'currentTime',
+      'historyList',
+      'sequenceList'
     ]),
     // 音乐的进度百分比
-    percentMusic () {
+    percentMusic() {
       return this.currentTime / this.currentSong.duration;
     },
     // 当前播放模式
-    currentMode () {
+    currentMode() {
       return playMode[this.mode];
     },
     // 暂停播放的图标
-    getPlayIcon () {
+    getPlayIcon() {
       return this.playing
-        ? "Xfont iconfont icon-zanting"
-        : "Xfont iconfont icon-play_icon";
+        ? 'Xfont iconfont icon-zanting'
+        : 'Xfont iconfont icon-play_icon';
     },
     // 播放模式的图标
-    getModeIcon () {
+    getModeIcon() {
       return this.currentMode.icon;
     },
     //播放模式的提示
-    getModeText () {
+    getModeText() {
       return this.currentMode.name;
     },
-    musicPicUrl () {
+    musicPicUrl() {
       return this.currentSong.image
         ? `${this.currentSong.image}?param=150y150`
         : null;
     }
   },
   watch: {
-    currentSong (newSong, oldSong) {
+    currentSong(newSong, oldSong) {
       if (!newSong.id) {
         // 当在 playlist为空时
         return;
@@ -151,7 +155,7 @@ export default {
       });
     },
 
-    playing (newPlaying) {
+    playing(newPlaying) {
       this.$nextTick(() => {
         if (newPlaying) {
           this.audio.play();
@@ -164,32 +168,32 @@ export default {
     }
   },
   methods: {
-    renewSong () {
+    renewSong() {
       this.setCurrentTime(this.audio.currentTime);
     },
-    ...mapMutations("music", {
-      setPlaying: "SET_PLAYING",
-      setCurrentIndex: "SET_CURRENT_INDEX",
-      noACtsetCurTime: "SET_CURRENT_Time"
+    ...mapMutations('music', {
+      setPlaying: 'SET_PLAYING',
+      setCurrentIndex: 'SET_CURRENT_INDEX',
+      noACtsetCurTime: 'SET_CURRENT_Time'
     }),
-    ...mapActions("music", [
-      "setPlayMode",
-      "setPlaylist",
-      "setPlayVolume",
-      "setPlayHistory",
-      "setCurrentTime"
+    ...mapActions('music', [
+      'setPlayMode',
+      'setPlaylist',
+      'setPlayVolume',
+      'setPlayHistory',
+      'setCurrentTime'
     ]),
     // 通过用户滑动进度条百分比决定 改变currettime改变进度
-    changeProgress (percent) {
+    changeProgress(percent) {
       this.audio.currentTime = this.currentSong.duration * percent;
     },
-    changeVolume (percent) {
-      console.log("changeVolume", this.volume);
+    changeVolume(percent) {
+      console.log('changeVolume', this.volume);
       percent === 0 ? (this.isMute = true) : (this.isMute = false);
       this.setPlayVolume(percent);
       this.audio.volume = percent;
     },
-    initKeyDown () {
+    initKeyDown() {
       document.onkeydown = e => {
         let v = this.volume;
         let plus = null;
@@ -223,14 +227,14 @@ export default {
       };
     },
     // 停止与播放
-    play () {
+    play() {
       console.log(this.songReady);
       if (!this.songReady) {
         return;
       }
       this.setPlaying(!this.playing);
     },
-    prev () {
+    prev() {
       if (!this.songReady) {
         return;
       }
@@ -258,7 +262,7 @@ export default {
         this.songReady = false;
       }
     },
-    next () {
+    next() {
       console.log(this.songReady);
       if (!this.songReady) {
         return;
@@ -287,16 +291,16 @@ export default {
         this.songReady = false;
       }
     },
-    loop () {
+    loop() {
       // 进度归0，执行播放
       console.log(this.mode);
       this.audio.currentTime = 0;
       this.audio.play();
-      console.log("setPlaying,loop");
+      console.log('setPlaying,loop');
       this.setPlaying(true);
     },
     // 切换播放顺序
-    modeChange () {
+    modeChange() {
       const mode = (this.mode + 1) % 4;
       console.log(mode);
       this.setPlayMode(mode);
@@ -319,14 +323,14 @@ export default {
       this.setPlaylist(list);
     },
     // 切换播放模式 当前歌曲不变 在新列表中通过歌曲id选出当前歌曲 修改索引
-    resetCurrentIndex (list) {
+    resetCurrentIndex(list) {
       const index = list.findIndex(item => {
         return item.id === this.currentSong.id;
       });
       this.setCurrentIndex(index);
     }
   },
-  data () {
+  data() {
     return {
       cache: 0, //缓存进度
       songReady: false, // 歌曲准备就绪？
@@ -342,12 +346,14 @@ export default {
 }
 
 .controler {
-  background-image: url('~@/assets/image/body.png');
-  background-repeat: repeat;
-  background-position: top;
-  background-attachment: scroll;
-  height: 80px;
-  color: orange;
+  bottom: 0;
+  display: flex;
+  left: 0;
+  justify-content: center;
+  width: 100%;
+  position: fixed;
+  background: transparent;
+  min-height: 80px;
 
   .leftIcon {
     position: absolute;
@@ -408,4 +414,4 @@ export default {
     font-size: 40px;
   }
 }
-</style> 
+</style>

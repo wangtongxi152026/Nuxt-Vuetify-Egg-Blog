@@ -56,7 +56,7 @@ import Carousel from '~/components/Carousel'
 import SliderBar from '~/components/Blog/sliderBar'
 import ismdAndUp from '~/components/Mixin/ismdAndUp'
 
-import { getArticleListAdmin } from '~/api/api'
+
 export default {
   mixins: [moduleTransitonMixin, ismdAndUp],
   async asyncData ({ $axios }) {
