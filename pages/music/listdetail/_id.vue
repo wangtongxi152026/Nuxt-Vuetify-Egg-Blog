@@ -1,49 +1,50 @@
 <template>
-  <!-- loading -->
-  <!-- 传detailList给子组件 接受子组件的触发-->
-  <Musiclist :list="detailList" :showDelIcon="false" @select="selectItem"></Musiclist>
+  <Musiclist
+    :list="detailList"
+    :showDelIcon="false"
+    @select="selectItem"
+  ></Musiclist>
 </template>
 
 <script>
 // 歌单表单
-import Musiclist from "~/components/Music/Musiclist";
-import { getPlaylistDetail } from "~/api";
-import { formatTopSongs } from "~/plugins/song";
-import { mapActions } from "vuex";
+import Musiclist from '~/components/Music/Musiclist';
+import { getPlaylistDetail } from '~/api';
+import { formatTopSongs } from '~/plugins/song';
+import { mapActions } from 'vuex';
 
 export default {
-  name: "listdetail",
+  name: 'listdetail',
   components: { Musiclist },
-  layout: "music",
-  created () {
+  layout: 'music',
+  created() {
     // 获取歌单详情
     this._getPlaylistDetail();
   },
   computed: {
     // 歌单id
-    getListID () {
+    getListID() {
       return this.$route.params.id;
     }
   },
 
-  data () {
+  data() {
     return {
       detailList: []
     };
   },
   methods: {
-    ...mapActions("music", ["selectPlay"]),
+    ...mapActions('music', ['selectPlay']),
     // 获取歌单详情
-    _getPlaylistDetail () {
+    _getPlaylistDetail() {
       getPlaylistDetail(this.getListID).then(res => {
         if (res.data.code === 200) {
           this.detailList = formatTopSongs(res.data.playlist.tracks);
-          document.title = res.data.playlist.name
-
+          document.title = res.data.playlist.name;
         }
       });
     },
-    selectItem ({ index }) {
+    selectItem({ index }) {
       this.selectPlay({
         list: this.detailList,
         index
@@ -53,5 +54,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

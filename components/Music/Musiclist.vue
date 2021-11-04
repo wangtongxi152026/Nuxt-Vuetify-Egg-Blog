@@ -8,6 +8,7 @@
               <v-icon
                 v-if="showDelIcon"
                 size="20"
+                :disabled="!list.length"
                 class="iconfont icon-shanchu1"
                 @click.stop="clearAll"
               ></v-icon>
@@ -16,55 +17,59 @@
             <v-col align="center" cols="4" v-if="isTimeshow">时长</v-col>
           </v-row>
         </v-list-item>
-
-        <v-list-item
-          v-for="(item, index) in list"
-          :key="index"
-          :class="{ wave: playing && currentSong.id === item.id }"
-          color="info"
-          @click="selectItem(item, index)"
-        >
-          <v-row
-            class="d-flex align-center"
-            :class="{ rowHeight: ismdAndUp }"
-            cols="12"
+        <template v-if="list.length">
+          <v-list-item
+            v-for="(item, index) in list"
+            :key="index"
+            :class="{ wave: playing && currentSong.id === item.id }"
+            color="info"
+            @click="selectItem(item, index)"
           >
-            <!-- 索引 -->
-            <v-col cols="2" align="center" class="num index">{{
-              index + 1
-            }}</v-col>
-            <!-- 歌曲 -->
-            <v-col cols="8" md="5" justify-self="center">
-              <span class="songname">
-                {{ item.name }}
-                <span class="overline">-{{ item.singer }}</span>
-              </span>
-            </v-col>
-            <!-- 播放* -->
-            <v-col cols="1" align="center" v-if="ismdAndUp">
-              <v-icon
-                class="go"
-                :class="getPlayIcon(item.id)"
-                @click.stop="selectItem(item, index)"
-              ></v-icon>
-            </v-col>
-            <!-- 时间 **-->
-            <v-col cols="2" align="center" v-if="isTimeshow">
-              <span :class="{ durationTime: showDelIcon }">{{
-                item.duration | formatTime
-              }}</span>
-            </v-col>
-            <!-- 删除按钮 -->
-            <v-col cols="2" align="center" v-if="showDelIcon">
-              <v-icon
-                class="iconfont icon-chahao1"
-                @click.stop="deleteItem(index, item)"
-              ></v-icon>
-            </v-col>
-          </v-row>
-        </v-list-item>
-        <Loading v-if="!list.length"></Loading>
+            <v-row
+              class="d-flex align-center"
+              :class="{ rowHeight: ismdAndUp }"
+              cols="12"
+            >
+              <!-- 索引 -->
+              <v-col cols="2" align="center" class="num index">{{
+                index + 1
+              }}</v-col>
+              <!-- 歌曲 -->
+              <v-col cols="8" md="5" justify-self="center">
+                <span class="songname">
+                  {{ item.name }}
+                  <span class="overline">-{{ item.singer }}</span>
+                </span>
+              </v-col>
+              <!-- 播放* -->
+              <v-col cols="1" align="center" v-if="ismdAndUp">
+                <v-icon
+                  class="go"
+                  :class="getPlayIcon(item.id)"
+                  @click.stop="selectItem(item, index)"
+                ></v-icon>
+              </v-col>
+              <!-- 时间 **-->
+              <v-col cols="2" align="center" v-if="isTimeshow">
+                <span :class="{ durationTime: showDelIcon }">{{
+                  item.duration | formatTime
+                }}</span>
+              </v-col>
+              <!-- 删除按钮 -->
+              <v-col cols="2" align="center" v-if="showDelIcon">
+                <v-icon
+                  class="iconfont icon-chahao1"
+                  @click.stop="deleteItem(index, item)"
+                ></v-icon>
+              </v-col>
+            </v-row>
+          </v-list-item>
+        </template>
+        <p style="text-align: center;color:#999;margin-top:30%" v-else>
+          没有历史记录哦
+        </p>
       </v-list-item-group>
+      <Loading v-if="!isHistoryList && !list.length"></Loading>
     </Scroll>
     <Snackbar ref="Snackbar"></Snackbar>
   </v-card>
@@ -90,6 +95,10 @@ export default {
     showDelIcon: {
       type: Boolean,
       default: true
+    },
+    isHistoryList: {
+      type: Boolean,
+      default: false
     }
   },
   mixins: [ismdAndUp],
@@ -138,8 +147,8 @@ export default {
     ...mapGetters('music', ['currentSong']),
     getTabHeight() {
       return this.ismdAndUp
-        ? 'calc(100vh - 100px - 124px)'
-        : 'calc(100vh - 80px - 112px)';
+        ? 'calc(100vh - 80px - 44px - 48px)'
+        : 'calc(100vh - 80px - 44px - 48px)';
     },
     // 歌曲时长的显示
     isTimeshow() {

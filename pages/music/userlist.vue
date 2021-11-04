@@ -49,10 +49,10 @@ export default {
     getlistlen () {
       return this.list.length
     },
-    getTabHeight () {
-      return !this.ismdAndUp
-        ? "calc(100vh - 80px - 112px)"
-        : "calc(100vh - 128px - 144px)";
+    getTabHeight() {
+      return this.ismdAndUp
+        ? 'calc(100vh - 80px - 44px - 48px)'
+        : 'calc(100vh - 80px - 44px - 48px)';
     },
     userList () {
       //歌曲数目>0的歌单

@@ -1,10 +1,18 @@
 <template>
-  <div :style="{'height':getTabHeight}">
+  <div :style="{ height: getTabHeight }">
     <div class="musicCd">
       <img class="play-bar-support" src="~/assets/image/play-bar-support.png" />
-      <img :class="{playing}" class="play-bar" src="~/assets/image/play-bar.png" />
+      <img
+        :class="{ playing }"
+        class="play-bar"
+        src="~/assets/image/play-bar.png"
+      />
       <div class="img-outer-border" ref="disc">
-        <div :class="{paused: !playing}" class="img-outer elevation-1" ref="discRotate">
+        <div
+          :class="{ paused: !playing }"
+          class="img-outer elevation-1"
+          ref="discRotate"
+        >
           <v-avatar class="img-wrap" size="130">
             <img :src="musicPicUrl" />
           </v-avatar>
@@ -14,16 +22,22 @@
 
     <v-row>
       <v-col cols="12">
-        <div ref="musicLyric" class="lyric" :class="!ismdAndUp?'smHeight':'lgHeight'">
+        <div
+          ref="musicLyric"
+          class="lyric"
+          :class="!ismdAndUp ? 'smHeight' : 'lgHeight'"
+        >
           <Scroll :data="lyric.length" ref="musicScroll">
             <div class="lyric-items body-2">
               <template v-if="lyric.length">
                 <p
-                  :class="{activeLyric:lyricIndex===index}"
-                  v-for="(item,index) in lyric"
+                  :class="{ activeLyric: lyricIndex === index }"
+                  v-for="(item, index) in lyric"
                   :key="index"
                   ref="lyrics"
-                >{{ item.text }}</p>
+                >
+                  {{ item.text }}
+                </p>
               </template>
               <p class="align" v-else-if="!currentSong.id">没有在播放音乐哦</p>
               <p class="align" v-else-if="nolyric">该歌曲没有歌词~</p>
@@ -37,27 +51,28 @@
 </template>
 
 <script>
-import Scroll from '~/components/Music/Scroller'
-import { mapGetters } from 'vuex'
-import { getLyric } from '~/api'
-import { parseLyric } from '~/plugins/util.js'
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import Scroll from '~/components/Music/Scroller';
+import { mapGetters } from 'vuex';
+import { getLyric } from '~/api';
+import { parseLyric } from '~/plugins/util.js';
+import ismdAndUp from '~/components/Mixin/ismdAndUp';
 
 export default {
-  components: { Scroll }, mixins: [ismdAndUp],
-  data () {
+  components: { Scroll },
+  mixins: [ismdAndUp],
+  data() {
     return {
-      lyric: [],//歌词
+      lyric: [], //歌词
       nolyric: false, // 是否有歌词
       lyricIndex: 0, // 当前播放歌词下标
       top: 0 // 歌词居中
-    }
+    };
   },
   mixins: [ismdAndUp],
-  mounted () {
+  mounted() {
     // 开局加载歌词
     if (this.currentSong) {
-      this._getLyric(this.currentSong.id)
+      this._getLyric(this.currentSong.id);
     }
 
     // window.addEventListener('resize', () => {
@@ -69,89 +84,94 @@ export default {
   computed: {
     ...mapGetters('music', ['playing', 'currentTime', 'currentSong']),
 
-
-    getTabHeight () {
-      return !this.ismdAndUp ? 'calc(100vh - 80px - 112px)' : 'calc(100vh - 336px)'
+    getTabHeight() {
+      return this.ismdAndUp
+        ? 'calc(100vh - 80px - 44px - 48px)'
+        : 'calc(100vh - 80px - 44px - 48px)';
     },
-    musicPicUrl () {
-      return this.currentSong.image ? `${this.currentSong.image}?param=150y150` : require('~/assets/image/player_cover.png')
-    },
+    musicPicUrl() {
+      return this.currentSong.image
+        ? `${this.currentSong.image}?param=150y150`
+        : require('~/assets/image/player_cover.png');
+    }
     // lyricTop () {
     //   return `transform :translate3d(0, ${-36 * (this.lyricIndex - this.top)}px, 0)`
     // },
   },
   watch: {
     // 获取lyricIndex
-    currentTime (newTime) {
+    currentTime(newTime) {
       if (this.nolyric) {
-        return
+        return;
       }
-      let lyricIndex = 0
+      let lyricIndex = 0;
       for (let i = 0; i < this.lyric.length; i++) {
         if (newTime > this.lyric[i].time) {
-          lyricIndex = i
+          lyricIndex = i;
         }
       }
-      this.lyricIndex = lyricIndex
+      this.lyricIndex = lyricIndex;
       // 时间干煸
     },
-    lyricIndex (newIndex, oldIndex) {
+    lyricIndex(newIndex, oldIndex) {
       if (newIndex !== oldIndex) {
-        this.scrollToCurLyric()
+        this.scrollToCurLyric();
       }
     },
-    currentSong (newSong, oldSong) {
-      if (!newSong.id) {// 当在 playlist为空时，无歌词
-        return
+    currentSong(newSong, oldSong) {
+      if (!newSong.id) {
+        // 当在 playlist为空时，无歌词
+        return;
       }
-      if (newSong.id === oldSong.id) { // 当单曲循环时，歌词不变化
-        return
+      if (newSong.id === oldSong.id) {
+        // 当单曲循环时，歌词不变化
+        return;
       }
-      this.lyric = []
-      this.$nextTick(
-        () => this._getLyric(newSong.id)
-      )
+      this.lyric = [];
+      this.$nextTick(() => this._getLyric(newSong.id));
     }
   },
 
   methods: {
-    scrollToCurLyric () {
+    scrollToCurLyric() {
       if (this.lyricIndex) {
-        const { lyrics, musicScroll } = this.$refs
+        const { lyrics, musicScroll } = this.$refs;
         if (lyrics && lyrics[this.lyricIndex]) {
           this.$nextTick(() => {
-            musicScroll.getScroller().scrollToElement(lyrics[this.lyricIndex], 600, 0, true)
-          })
+            musicScroll
+              .getScroller()
+              .scrollToElement(lyrics[this.lyricIndex], 600, 0, true);
+          });
         }
       }
     },
     // 计算歌词居中的 top值
-    clacTop () {
-      const dom = this.$refs.musicLyric
+    clacTop() {
+      const dom = this.$refs.musicLyric;
       if (window.getComputedStyle(dom).display === 'none') {
-        return
+        return;
       }
       // 歌词半瓶时的高度
-      this.top = Math.floor(dom.offsetHeight / 36 / 2)
+      this.top = Math.floor(dom.offsetHeight / 36 / 2);
     },
 
-    _getLyric (id) {
+    _getLyric(id) {
       getLyric(id).then(res => {
         if (res.status === 200) {
           if (res.data.nolyric) {
-            this.nolyric = true
+            this.nolyric = true;
           } else {
-            this.nolyric = false
-            this.lyric = parseLyric(res.data.lrc.lyric)
+            this.nolyric = false;
+            this.lyric = parseLyric(res.data.lrc.lyric);
           }
         }
-      })
-    },
+      });
+    }
   }
-}
+};
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .smHeight {
   height: calc(100vh - 80px - 64px - 250px);
 }

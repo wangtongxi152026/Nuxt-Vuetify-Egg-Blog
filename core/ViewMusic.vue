@@ -27,6 +27,6 @@ export default {
   background-size: cover;
   background-attachment: scroll;
   transition: all 0.8s;
-  filter: blur(10px) brightness(0.35);
+  filter: blur(10px) brightness(0.5);
 }
 </style>

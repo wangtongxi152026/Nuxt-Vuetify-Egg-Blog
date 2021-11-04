@@ -67,10 +67,10 @@ export default {
     ...mapState("music", ["playing", "currentTime"]),
     ...mapGetters("music", ["currentSong"]),
 
-    getTabHeight () {
-      return ismdAndUp
-        ? "calc(100vh - 336px)"
-        : "calc(100vh - 80px - 112px)"
+    getTabHeight() {
+      return this.ismdAndUp
+        ? 'calc(100vh - 80px - 44px - 48px)'
+        : 'calc(100vh - 80px - 44px - 48px)';
     },
     musicPicUrl () {
       return this.currentSong.image

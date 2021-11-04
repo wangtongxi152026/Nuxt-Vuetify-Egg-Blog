@@ -85,8 +85,8 @@ export default {
   computed: {
     getTabHeight() {
       return this.ismdAndUp
-        ? 'calc(100vh - 100px - 124px)'
-        : 'calc(100vh - 80px - 112px)';
+        ? 'calc(100vh - 80px - 44px - 48px)'
+        : 'calc(100vh - 80px - 44px - 48px)';
     }
   },
   data() {

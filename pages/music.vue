@@ -1,31 +1,27 @@
 <template>
   <div>
-    <div>
-      <v-btn class="ml-2 mt-2" outlined fab color="orange darken-2">
-        <v-icon>mdi-arrow-left</v-icon>
-      </v-btn>
-      <div style="color:#fff">
-        Size
-      </div>
+    <div style="display: flex" class="px-2 pt-2">
+      <v-icon color="orange darken-2"> mdi-arrow-left </v-icon>
+      <div class="title">在线播放器Player</div>
     </div>
     <v-container class="music-main">
       <v-row>
         <v-col cols="12" class="pa-0">
-          <v-bottom-navigation
-            :grow="isActive"
-            dark
-            color="orange"
-            active-class=""
-            background-color="transparent"
-            height="48"
-          >
+          <div class="nav">
             <template v-for="(item, i) in items">
-              <v-btn nuxt :key="i" :to="item.route" height="48">
-                <span v-if="isActive">{{ item.text }}</span>
-                <v-icon :class="item.icon"></v-icon>
-              </v-btn>
+              <div
+                :class="[
+                  $route.path == item.route ? 'active' : 'normal',
+                  'button'
+                ]"
+                @click="click(item)"
+                :key="i"
+              >
+                <span class="nav-title" v-if="isActive">{{ item.text }}</span>
+                <v-icon style="color: inherit" :class="item.icon"></v-icon>
+              </div>
             </template>
-          </v-bottom-navigation>
+          </div>
         </v-col>
         <v-col md="8">
           <v-scroll-y-transition mode="out-in">
@@ -44,12 +40,10 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-import { getPlaylistDetail } from '~/api';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { formatTopSongs } from '~/plugins/song';
 import LyricInfo from '~/components/Music/LyricInfo';
 import MusicHeader from '~/components/Music/MusicHeader';
-import Controler from '~/components/Music/Controler';
 import ismdAndUp from '~/components/Mixin/ismdAndUp';
 
 export default {
@@ -59,7 +53,6 @@ export default {
     CoreControl: () => import('~/core/BottomControl')
   },
   layout: 'music',
-  mixins: [ismdAndUp],
   created() {
     this._getPlaylistDetail(2796821320);
   },
@@ -68,10 +61,10 @@ export default {
     ...mapMutations('music', {
       setSequenceList: 'SET_SEQUENCE_LIST'
     }),
-    async _getPlaylistDetail() {
+    async _getPlaylistDetail(id) {
       const res = await this.$axios.get('/musc/playlist/detail', {
         params: {
-          id: 2796821320
+          id
         }
       });
       if (res.data.code === 200) {
@@ -80,13 +73,12 @@ export default {
         this.setSequenceList(list);
         this.setPlaylist(list);
       }
+    },
+    click(e) {
+      this.$router.push({ path: e.route });
     }
   },
-  getTabHeight() {
-    return this.ismdAndUp
-      ? 'calc(100vh - 128px - 144px)'
-      : 'calc(100vh - 80px - 112px)';
-  },
+  mixins: [ismdAndUp],
   computed: {
     items: () => [
       {
@@ -107,7 +99,7 @@ export default {
       {
         icon: 'iconfont icon-history',
         text: '最近播放',
-        route: '/music/historylist'
+        route: '/music/history'
       },
       {
         icon: 'iconfont icon-sousuo',
@@ -122,15 +114,48 @@ export default {
   }
 };
 </script>
-<style scoped>
-.music-main {
-  color: #999;
-  padding: 12px 12px 0px 12px;
-}
-.px-0 {
-  color: #999;
-}
-.sliderRight {
-  min-width: 300px;
-}
+<style lang="sass" scoped>
+.nav
+  height: 48px
+  display: grid
+  background-color: transparent
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr
+  &-title
+    font-size: 12px
+    text-align: center
+
+.button
+  display: flex
+  flex-direction: column-reverse
+  position: relative
+  height: 48px
+  cursor: pointer
+
+.active
+  color: #ff9800
+
+.normal
+  color: rgba(255, 255, 255, 0.7)
+
+.title
+  position: relative
+  text-shadow: 0 2px 10px rgb(0 0 0 / 20%)
+  line-height: 36px
+  font-size: 16px !important
+  width: 100%
+  text-align: center
+  color: orange
+
+.sm-font-size
+  font-size: 14px !important
+
+.music-main
+  color: #999
+  padding: 0 12px
+
+.px-0
+  color: #999
+
+.sliderRight
+  min-width: 300px
 </style>
