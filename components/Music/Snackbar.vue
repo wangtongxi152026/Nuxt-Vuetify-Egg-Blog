@@ -1,17 +1,15 @@
 <template>
   <v-snackbar class="bgc" v-model="snackbar" :timeout="timeout" top>
     {{ msg }}
-    <v-btn  text @click="hide">
-      <!-- Close -->
-      <v-icon left size='25' class='iconfont icon-chahao1'></v-icon>
-      <!-- <v-icon class="iconfont icon-chahao1"></v-icon> -->
+    <v-btn text @click="hide">
+      <v-icon left size="25" class="iconfont icon-chahao1"></v-icon>
     </v-btn>
   </v-snackbar>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: 'Snackbar',
   props: {
     msg: {
       type: String,
@@ -21,19 +19,32 @@ export default {
       type: Number,
       default: 1500
     },
+    value: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    value(val) {
+      if (val) {
+        this.snackbar = val;
+      }
+    },
+    snackbar(val, oldval) {
+      if (val !== oldval) {
+        this.$emit('input', val);
+      }
+    }
   },
   methods: {
-    show () {
-      this.snackbar = true
-    },
-    hide () {
-      this.snackbar = false
-    },
+    hide() {
+      this.snackbar = false;
+    }
   },
   data: () => ({
-    snackbar: false,
-  }),
-}
+    snackbar: false
+  })
+};
 </script>
 
 <style scoped>

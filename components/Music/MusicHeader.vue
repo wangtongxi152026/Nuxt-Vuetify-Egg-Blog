@@ -1,24 +1,42 @@
 <template>
   <div>
-    <v-col v-if="user.userId" class="py-0" justify="space-between" align="center">
+    <v-col
+      v-if="user.userId"
+      class="py-0"
+      justify="space-between"
+      align="center"
+    >
       <nuxt-link to="/music/userlist" tag="span">
         <v-avatar size="40">
           <v-img :src="`${user.avatarUrl}?param=40y40`"></v-img>
         </v-avatar>
 
         <v-chip color="#7e7e7e" outlined>{{ user.nickname }}</v-chip>
-        <v-btn class="pb-1" text color="#7e7e7e" @click.stop="logout">退出</v-btn>
+        <v-btn class="pb-1" text color="#7e7e7e" @click.stop="logout"
+          >退出</v-btn
+        >
       </nuxt-link>
 
-      <Dialog ref="Dialog" @handleConfirm="dologout" msg="退出当前用户"></Dialog>
+      <Dialog
+        v-model="showDialog"
+        @handleConfirm="dologout"
+        msg="退出当前用户"
+      ></Dialog>
     </v-col>
 
     <div v-else>
       <v-dialog dark v-model="dialog" persistent max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn text color="info" class="ml-10" @click.stop="dialog = true" v-on="on">UID登录</v-btn>
+          <v-btn
+            text
+            color="info"
+            class="ml-10"
+            @click.stop="dialog = true"
+            v-on="on"
+            >UID登录</v-btn
+          >
         </template>
-        <v-card>
+        <v-card class='login-card'>
           <v-card-title>
             <span class="headline info--text">网易云UID登录</span>
           </v-card-title>
@@ -54,38 +72,39 @@
 </template>
 
 <script>
-import { getUserPlaylist } from "@/api";
-import { mapGetters, mapActions } from "vuex";
-import Dialog from "~/components/Music/Dialog";
+import { getUserPlaylist } from '@/api';
+import { mapGetters, mapActions } from 'vuex';
+import Dialog from '~/components/Music/Dialog';
 export default {
-  data () {
+  data() {
     return {
-      inputUid: "",
+      inputUid: '',
       user: {}, //头像名称
       dialog: false,
+      showDialog: false,
       UIDRules: [
         v => {
           let reg = /(^\s+)|(\s+$)/g;
-          return reg.test(v) ? "不可以为空~" : true;
+          return reg.test(v) ? '不可以为空~' : true;
         },
         v => {
           let num = /^[1-9]\d*$/;
-          return num.test(v) || "UID必须是数字格式~";
+          return num.test(v) || 'UID必须是数字格式~';
         }
       ]
     };
   },
   components: { Dialog },
-  created () {
+  created() {
     this.uid && this._getUserPlaylist(this.uid);
   },
-  computed: { ...mapGetters("music", ["uid"]) },
+  computed: { ...mapGetters('music', ['uid']) },
   methods: {
-    ...mapActions("music", ["setUseruid"]),
-    _getUserPlaylist (uid) {
+    ...mapActions('music', ['setUseruid']),
+    _getUserPlaylist(uid) {
       getUserPlaylist(uid).then(res => {
         if (res.data.code === 200) {
-          this.inputUid = "";
+          this.inputUid = '';
           if (res.data.playlist.length === 0 || !res.data.playlist[0].creator) {
             alert(`未查询找 UID 为 ${uid} 的用户信息`);
             // this.$mmToast(`未查询找 UID 为 ${uid} 的用户信息`)
@@ -100,7 +119,7 @@ export default {
       });
     },
 
-    login () {
+    login() {
       if (this.$refs.form.validate()) {
         this._getUserPlaylist(this.inputUid);
         // 关闭登录窗口
@@ -108,11 +127,10 @@ export default {
       }
     },
     // 退出登录
-    logout () {
-      this.$refs.Dialog.show();
+    logout() {
+      this.showDialog = true;
     },
-    dologout () {
-      this.dialogout = false;
+    dologout() {
       this.user = {};
       this.setUseruid(null);
       // this.$mmToast('退出成功！')
@@ -120,7 +138,10 @@ export default {
   }
 };
 </script>
-<style  scoped>
+<style scoped>
+.login-card{
+  background: transparent;
+}
 .display-2 {
   z-index: 0;
 }

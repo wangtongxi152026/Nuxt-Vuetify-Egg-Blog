@@ -1,5 +1,5 @@
 import { playMode } from '~/plugins/config.js';
-
+import { getHistoryList } from '~/plugins/storage.js';
 const LISTLOOP_INDEX = 0;
 
 const state = () => ({
@@ -8,7 +8,6 @@ const state = () => ({
   playlist: [], //播放列表
   sequenceList: [], //顺序列表
   currentIndex: -1, // 当前音乐索引
-
   currentTime: 0, // 当前音乐时间
   mode: playMode[LISTLOOP_INDEX].code, //默认 列表循环 播放
   volume: 0.2,

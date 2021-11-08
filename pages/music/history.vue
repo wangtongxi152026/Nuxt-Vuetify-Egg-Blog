@@ -8,7 +8,11 @@
       @clear="clearHistoryList"
       :isHistoryList="true"
     />
-    <Dialog ref="Dialog" @handleConfirm="doclear" msg="清空播放历史"></Dialog>
+    <Dialog
+      v-model="showDialog"
+      @handleConfirm="doclear"
+      msg="清空播放历史"
+    ></Dialog>
   </div>
 </template>
 <script>
@@ -23,17 +27,20 @@ export default {
   computed: {
     ...mapGetters('music', ['historyList'])
   },
+  data() {
+    return {
+      showDialog: false
+    };
+  },
   methods: {
     ...mapMutations('music', {
       setCurrentIndex: 'SET_CURRENT_INDEX',
       setPlaying: 'SET_PLAYING'
     }),
     ...mapActions('music', [
-      'selectPlay',
       'clearHistory',
       'removeOneHistory',
-      'insertOnePlay',
-      'clearHistory'
+      'insertOnePlay'
     ]),
     // 选择播放
     selectHistory({ item }) {
@@ -41,14 +48,14 @@ export default {
     },
     // 删除一条历史
     deleteOneHistory({ index }) {
-      let list = this.historyList;
+      let list = [...this.historyList];
       list.splice(index, 1);
       this.removeOneHistory(list);
       // this.$mmToast('删除成功')
     },
     // 清空历史
     clearHistoryList() {
-      this.$refs.Dialog.show();
+      this.showDialog = true;
     },
     doclear() {
       this.clearHistory();

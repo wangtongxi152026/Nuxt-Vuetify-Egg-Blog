@@ -71,7 +71,7 @@
       </v-list-item-group>
       <Loading v-if="!isHistoryList && !list.length"></Loading>
     </Scroll>
-    <Snackbar ref="Snackbar"></Snackbar>
+    <Snackbar v-model="isShow"></Snackbar>
   </v-card>
 </template>
 
@@ -81,7 +81,6 @@ import Snackbar from '~/components/Music/Snackbar';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import Loading from '~/components/Music/Loading';
 import ismdAndUp from '~/components/Mixin/ismdAndUp';
-
 export default {
   name: 'Musiclist',
   components: { Loading, Scroll, Snackbar },
@@ -130,17 +129,17 @@ export default {
     // 删除事件
     deleteItem(index, item) {
       this.$emit('delete', { index, item }); // 触发删除事件
-      this.$refs.Snackbar.show();
+      this.isShow = true;
     },
     // 清空
     clearAll() {
       this.$emit('clear');
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      console.log(this.$refs.header1.$el.getBoundingClientRect().top);
-    });
+  data() {
+    return {
+      isShow: false
+    };
   },
   computed: {
     ...mapState('music', ['playing']),

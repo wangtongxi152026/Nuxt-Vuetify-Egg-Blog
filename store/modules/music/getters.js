@@ -19,5 +19,10 @@ export const currentIndex = state => state.currentIndex;
 export const currentTime = state => getcurTime() || state.currentTime;
 export const mode = state => getMode() || state.mode;
 export const volume = state => getVolume() || state.volume;
-export const historyList = state => state.historyList || getHistoryList();
+export const historyList = state => {
+  if (!!state.historyList.length) {
+    return state.historyList;
+  }
+  return getHistoryList() ?? [];
+};
 export const uid = state => getUId() || state.uid;
