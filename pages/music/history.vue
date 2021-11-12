@@ -6,7 +6,6 @@
       @select="selectHistory"
       @delete="deleteOneHistory"
       @clear="clearHistoryList"
-      :isHistoryList="true"
     />
     <Dialog
       v-model="showDialog"

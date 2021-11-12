@@ -1,3 +1,10 @@
+/*
+ * @Descripttion:
+ * @Author: wangtongxi
+ * @Date: 2020-02-16 09:41:48
+ * @LastEditors: wangtongxi
+ * @LastEditTime: 2021-11-12 10:05:32
+ */
 import ajax from './ajax';
 
 export function login(params) {
@@ -59,12 +66,3 @@ export function getCategoryList(params) {
 export function getTimelineList(params) {
   return ajax.post('/blog/getTimelineList', params);
 }
-// export function getTimelineDetail(params) {
-//   return ajax.post('/blog/getTimelineDetail', params);
-// }
-// export function getProjectList(params) {
-//   return ajax.post('/blog/getProjectList', params);
-// }
-// export function getProjectDetail(params) {
-//   return ajax.post('/blog/getProjectDetail', params);
-// }

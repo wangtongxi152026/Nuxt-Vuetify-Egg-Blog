@@ -68,6 +68,11 @@ export default {
     },
     refresh() {
       this.$nextTick(() => {
+         this.scroller = new BScroll(
+          this.$refs.scroller,
+          Object.assign({}, defaultOpt, this.options)
+        );
+        this.$emit('init', this.scroller);
         this.scroller.refresh();
       });
     }
@@ -79,7 +84,8 @@ export default {
           console.log('Scroll组件,data:', newValue, oldValue);
           this.refresh();
         }
-      }
+      },
+      immediate:true
     }
   }
 };

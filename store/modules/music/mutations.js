@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @Author: wangtongxi
+ * @Date: 2020-02-10 19:27:47
+ * @LastEditors: wangtongxi
+ * @LastEditTime: 2021-11-10 10:17:39
+ */
 import * as types from './mutation_types';
 
 const mutations = {
@@ -45,6 +52,9 @@ const mutations = {
   // 修改uid
   [types.SET_MUSICBG](state, payload) {
     state.musicBG = payload;
+  },
+  [types.SET_LOADING](state, payload) {
+    state.loading = payload;
   }
 };
 

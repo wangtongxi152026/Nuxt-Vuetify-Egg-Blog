@@ -1,8 +1,16 @@
+/*
+ * @Descripttion: 
+ * @Author: wangtongxi
+ * @Date: 2020-02-10 19:27:47
+ * @LastEditors: wangtongxi
+ * @LastEditTime: 2021-11-10 10:16:25
+ */
 import { playMode } from '~/plugins/config.js';
 import { getHistoryList } from '~/plugins/storage.js';
 const LISTLOOP_INDEX = 0;
 
 const state = () => ({
+  loading: false, //播放器
   audio: null, //播放器
   playing: false, //播放状态
   playlist: [], //播放列表

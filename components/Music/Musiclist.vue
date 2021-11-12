@@ -69,7 +69,7 @@
           没有历史记录哦
         </p>
       </v-list-item-group>
-      <Loading v-if="!isHistoryList && !list.length"></Loading>
+      <Loading v-if="$store.state.music.loading"></Loading>
     </Scroll>
     <Snackbar v-model="isShow"></Snackbar>
   </v-card>
@@ -95,7 +95,7 @@ export default {
       type: Boolean,
       default: true
     },
-    isHistoryList: {
+    loading: {
       type: Boolean,
       default: false
     }

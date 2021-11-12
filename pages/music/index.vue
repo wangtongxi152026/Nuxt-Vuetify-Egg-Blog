@@ -29,8 +29,10 @@ import Loading from '~/components/Music/Loading';
 export default {
   components: { MCard, Scroll, Loading },
   layout: 'music',
-  created() {
-    this._getMusicList();
+  mounted() {
+    this.$nextTick(() => {
+      this._getMusicList();
+    });
   },
   methods: {
     async _getMusicList() {
