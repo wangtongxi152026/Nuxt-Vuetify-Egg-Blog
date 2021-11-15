@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:27:46
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-10 16:40:30
+ * @LastEditTime: 2021-11-12 14:31:55
 -->
 <template>
   <Musiclist
@@ -17,27 +17,25 @@
 // 歌单表单
 import Musiclist from '~/components/Music/Musiclist';
 import { getPlaylistDetails } from '~/api';
-import { formatTopSongs } from '~/plugins/song';
 import { mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'listdetail',
   components: { Musiclist },
   layout: 'music',
-  created() {
+  async created() {
     // 获取歌单详情
-    // this._getPlaylistDetail();
-    getPlaylistDetails(this.$route.params.id)
-      .then(playlist => {
-        this.setLoading(true);
 
-        document.title = playlist.name;
-        this.detailList = playlist.tracks;
-        this.setLoading(false);
-      })
-      .catch(() => {
-        this.setLoading(false);
-      });
+    try {
+      this.setLoading(true);
+      let playlist = await getPlaylistDetails(this.getListID);
+      document.title = playlist.name;
+      this.detailList = playlist.tracks;
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.setLoading(false);
   },
   computed: {
     // 歌单id
@@ -45,7 +43,6 @@ export default {
       return this.$route.params.id;
     }
   },
-
   data() {
     return {
       detailList: []

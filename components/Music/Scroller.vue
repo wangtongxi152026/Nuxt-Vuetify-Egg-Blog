@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @Author: wangtongxi
+ * @Date: 2020-02-10 19:28:03
+ * @LastEditors: wangtongxi
+ * @LastEditTime: 2021-11-12 11:51:04
+-->
 <template>
   <div class="scroller" ref="scroller">
     <slot></slot>
@@ -44,16 +51,7 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      console.log(this.scroller);
-      if (!this.scroller) {
-        this.scroller = new BScroll(
-          this.$refs.scroller,
-          Object.assign({}, defaultOpt, this.options)
-        );
-        this.$emit('init', this.scroller);
-      }
-    });
+    this.refresh();
   },
   props: {
     data: { default: null },
@@ -68,11 +66,13 @@ export default {
     },
     refresh() {
       this.$nextTick(() => {
-         this.scroller = new BScroll(
-          this.$refs.scroller,
-          Object.assign({}, defaultOpt, this.options)
-        );
-        this.$emit('init', this.scroller);
+        if (!this.scroller) {
+          this.scroller = new BScroll(
+            this.$refs.scroller,
+            Object.assign({}, defaultOpt, this.options)
+          );
+          this.$emit('init', this.scroller);
+        }
         this.scroller.refresh();
       });
     }
@@ -85,7 +85,7 @@ export default {
           this.refresh();
         }
       },
-      immediate:true
+      immediate: true
     }
   }
 };

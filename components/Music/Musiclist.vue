@@ -1,6 +1,7 @@
 <template>
-  <v-card ref="header1" :height="getTabHeight" max-width="100vw" class="body-2">
-    <Scroll :data="list.length || getTabHeight">
+  <v-card :height="getTabHeight" max-width="100vw" class="body-2">
+    <Loading v-if="$store.state.music.loading"></Loading>
+    <Scroll v-else :data="list.length || getTabHeight">
       <v-list-item-group>
         <v-list-item>
           <v-row class="d-flex align-center">
@@ -69,7 +70,6 @@
           没有历史记录哦
         </p>
       </v-list-item-group>
-      <Loading v-if="$store.state.music.loading"></Loading>
     </Scroll>
     <Snackbar v-model="isShow"></Snackbar>
   </v-card>

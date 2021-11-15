@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @Author: wangtongxi
+ * @Date: 2020-02-10 19:28:03
+ * @LastEditors: wangtongxi
+ * @LastEditTime: 2021-11-12 15:26:33
+-->
 <template>
   <v-dialog dark v-model="dialog" persistent max-width="500px">
     <template v-slot:activator="{ on }">
@@ -16,12 +23,18 @@
 
         <v-form ref="form">
           <form>
-            <v-text-field @keyup.enter="login" class="px-2 error--text" :rules="UIDRules" :counter="9" v-model="uid"
-              label="请输入您的网易云UID" required>
+            <v-text-field
+              @keyup.enter="login"
+              class="px-2 error--text"
+              :rules="UIDRules"
+              :counter="9"
+              v-model="uid"
+              label="请输入您的网易云UID"
+              required
+            >
             </v-text-field>
           </form>
         </v-form>
-
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -37,10 +50,10 @@ import { getUserPlaylist } from '@/api';
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Popup',
-  data () {
+  data() {
     return {
       uid: '',
-      user: {},//头像，名称
+      user: {}, //头像，名称
       dialog: false,
       UIDRules: [
         v => !!v || '不可以为空~',
@@ -51,18 +64,15 @@ export default {
       ]
     };
   },
-  computed: {
-    // ...mapState('music', ['uid'])
-  },
   methods: {
     ...mapActions('music', ['setUseruid']),
-    _getUserPlaylist (uid) {
+    _getUserPlaylist(uid) {
       getUserPlaylist(uid).then(res => {
         if (res.data.code === 200) {
-          this.uid = ''
+          this.uid = '';
           if (res.data.playlist.length === 0 || !res.data.playlist[0].creator) {
             console.log(`未查询找 UID 为 ${uid} 的用户信息`);
-            // this.$mmToast(`未查询找 UID 为 ${uid} 的用户信息`)
+            this.$message.error(`未查询找 UID 为 ${uid} 的用户信息`);
             return;
           }
           this.setUseruid(uid);
@@ -71,15 +81,10 @@ export default {
       });
     },
 
-    login () {
+    login() {
       if (this.$refs.form.validate()) {
         console.log(this.uid);
         _getUserPlaylist(this.uid);
-        // setTimeout(() => {
-        //   this.loading = false;
-        //   this.$emit('showTip')
-        //   this.$router.push('/music/userlist')
-        // }, 1500);
       }
     }
   }

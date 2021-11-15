@@ -3,12 +3,10 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:04
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-04 11:14:12
+ * @LastEditTime: 2021-11-12 10:30:49
 -->
 <template>
   <v-app class="bar">
-    <!-- <CoreToolbar />
-    <CoreDrawer /> -->
     <CoreViewMusic />
     <audio ref="audio"></audio>
   </v-app>
@@ -23,8 +21,6 @@ export default {
   },
 
   components: {
-    CoreToolbar: () => import('~/core/Toolbar'),
-    CoreDrawer: () => import('~/core/Drawer'),
     CoreViewMusic: () => import('~/core/ViewMusic')
   },
 

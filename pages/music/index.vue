@@ -1,15 +1,15 @@
 <template>
   <div :style="{ height: getTabHeight }">
     <Loading v-if="loading"></Loading>
-    <Scroll v-else :data="length || getTabHeight">
+    <Scroll v-else :data="length">
       <div>
-        <div class="headline font-weight-light py-3">云村榜单</div>
+        <div class="headline font-weight-light my-3">云村榜单</div>
         <div class="box">
           <template v-for="item in list">
             <MCard :key="item.name" :item="item"></MCard>
           </template>
         </div>
-        <div class="headline font-weight-light py-3">推荐歌单</div>
+        <div class="headline font-weight-light my-3">推荐歌单</div>
         <div class="box">
           <template v-for="item in hotList">
             <MCard :key="item.name" :picType="0" :item="item"></MCard>
@@ -29,10 +29,8 @@ import Loading from '~/components/Music/Loading';
 export default {
   components: { MCard, Scroll, Loading },
   layout: 'music',
-  mounted() {
-    this.$nextTick(() => {
-      this._getMusicList();
-    });
+  created() {
+    this._getMusicList();
   },
   methods: {
     async _getMusicList() {
@@ -61,24 +59,6 @@ export default {
         console.log(error);
       }
       this.loading = false;
-    },
-    async _getToplistDetail() {
-      const res = await getToplistDetail();
-      if (res.data.code === 200) {
-        let list = res.data.list.filter(item => {
-          // 将包含前四个的选出来
-          if (item.ToplistType) {
-            return item;
-          }
-        });
-        this.list = list;
-      }
-    },
-    async _getPersonalized() {
-      const res = await getPersonalized();
-      if (res.data.code === 200) {
-        this.hotList = res.data.result;
-      }
     }
   },
 
@@ -103,21 +83,36 @@ export default {
 <style lang="less" scoped>
 .box {
   display: grid;
-  grid-gap: 0.8rem;
 }
-@media (min-width: 600px) {
+@media only screen and (max-width: 479px) {
   .box {
+    grid-gap: 0.8rem;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .box {
+    grid-gap: 0.8rem;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 959px) {
+  .box {
+    grid-gap: 1rem;
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
 
-@media (min-width: 960px) {
+@media screen and (min-width: 960px) and (max-width: 1199px) {
   .box {
+    grid-gap: 1.5rem;
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
-@media (min-width: 1264px) {
+@media screen and (min-width: 1200px) {
   .box {
+    column-gap: 2rem;
+    row-gap: 1rem;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
