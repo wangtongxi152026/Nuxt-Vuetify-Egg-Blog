@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @Author: wangtongxi
+ * @Date: 2020-02-10 19:28:03
+ * @LastEditors: wangtongxi
+ * @LastEditTime: 2021-11-16 15:11:30
+-->
 <template>
   <div @click="toDetail" class="card pb-1">
     <img
@@ -36,12 +43,12 @@ export default {
 <style lang="less" scoped>
 @media only screen and (max-width: 479px) {
   .card {
-    height: 159.5px;
+    height: 160px;
   }
 }
 @media screen and (min-width: 1200px) {
   .card {
-    height: 218.5px;
+    height: 218px;
   }
 }
 .card {

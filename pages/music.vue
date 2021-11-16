@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="display: flex" class="px-2 pt-2">
-      <v-icon color="orange darken-2"> mdi-arrow-left </v-icon>
+      <v-icon @click="back" color="orange darken-2"> mdi-arrow-left </v-icon>
       <div class="title">在线播放器Player</div>
     </div>
     <v-container class="music-main">
@@ -61,6 +61,9 @@ export default {
     ...mapMutations('music', {
       setSequenceList: 'SET_SEQUENCE_LIST'
     }),
+    back(){
+      this.$router.push('/')
+    },
     async _getPlaylistDetail(id) {
       const res = await this.$axios.get('/musc/playlist/detail', {
         params: {

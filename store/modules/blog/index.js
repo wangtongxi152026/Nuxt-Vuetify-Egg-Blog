@@ -12,7 +12,9 @@ const mutations = {
   setDrawer: (state, payload) => {
     state.drawer = payload;
   },
-  toggleDrawer: state => (state.drawer = !state.drawer),
+  toggleDrawer: state => {
+    state.drawer = !state.drawer;
+  },
   set_token: (state, payload) => {
     setToken(payload);
     state.token = payload;

@@ -86,7 +86,7 @@
             v-if="!ismdAndUp"
             class="ml-1 align-self-center"
             color="orange"
-            @click="toggleDrawer"
+            @click="setDrawer(true)"
           />
 
           <template v-else>
@@ -226,15 +226,15 @@ export default {
   },
 
   watch: {
-    ismdAndUp: {
-      handler: function(value) {
-        console.log({ ismdAndUp: value });
-        if (value) {
-          this.$store.commit('blog/setDrawer', false);
-        }
-      },
-      immediate: true
-    },
+    // ismdAndUp: {
+    //   handler: function(value) {
+    //     console.log({ ismdAndUp: value });
+    //     if (value) {
+    //       this.$store.commit('blog/setDrawer', false);
+    //     }
+    //   },
+    //   immediate: true
+    // },
     hasItems(val) {
       if (!val) return;
       this.$refs.drawer.isActive = false;

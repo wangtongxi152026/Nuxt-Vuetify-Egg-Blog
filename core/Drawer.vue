@@ -1,8 +1,7 @@
 <template>
   <v-navigation-drawer
     id="core-navigation-drawer"
-    @input="inputHandle"
-    :value="drawer"
+    v-model="showDrower"
     app
     dark
   >
@@ -59,137 +58,140 @@ import ismdAndUp from '~/components/Mixin/ismdAndUp';
 export default {
   components: { Avatar, ItemGroup, BaseItem },
   mixins: [ismdAndUp],
-  data: () => ({
-    items: [
-      {
-        icon: 'mdi-home',
-        title: '首页',
-        to: '/'
-      },
-      {
-        group: '/music',
-        icon: 'mdi-music',
-        title: '音乐',
-        children: [
-          { icon: PREFIX + 'tuijian', title: '推荐音乐', to: '/music' },
-          {
-            icon: PREFIX + 'login',
-            title: '我的音乐',
-            to: '/music/userlist'
-          },
-          { icon: PREFIX + 'sousuo', title: '搜索音乐', to: '/music/search' },
-          {
-            icon: PREFIX + 'history',
-            title: '刚刚听过',
-            to: '/music/history'
-          },
-          {
-            icon: PREFIX + 'bofangliebiao',
-            title: '播放列表',
-            to: '/music/playlist'
-          }
-        ]
-      },
-      // {
-      //   group: '/components',
-      //   icon: 'mdi-view-comfy',
-      //   title: 'components',
-      //   children: [
-      //     {
-      //       title: 'multi',
-      //       group: '',
-      //       children: [
-      //         {
-      //           title: 'example',
-      //           href: '#'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       title: 'buttons',
-      //       to: 'buttons'
-      //     },
-      //     {
-      //       title: 'grid',
-      //       to: 'grid-system'
-      //     },
-      //     {
-      //       title: 'tabs',
-      //       to: 'tabs'
-      //     },
-      //     {
-      //       title: 'notifications',
-      //       to: 'notifications'
-      //     },
-      //     {
-      //       title: 'icons',
-      //       to: 'icons'
-      //     },
-      //     {
-      //       title: 'typography',
-      //       to: 'typography'
-      //     }
-      //   ]
-      // },
-      // {
-      //   group: '/forms',
-      //   icon: 'mdi-clipboard-outline',
-      //   title: 'forms',
-      //   children: [
-      //     {
-      //       title: 'rforms',
-      //       to: 'regular'
-      //     },
-      //     {
-      //       title: 'eforms',
-      //       to: 'extended'
-      //     },
-      //     {
-      //       title: 'vforms',
-      //       to: 'validation'
-      //     },
-      //     {
-      //       title: 'wizard',
-      //       to: 'wizard'
-      //     }
-      //   ]
-      // },
-      // {
-      //   group: '/tables',
-      //   icon: 'mdi-grid',
-      //   title: 'tables',
-      //   children: [
-      //     {
-      //       title: 'rtables',
-      //       to: 'regular-tables'
-      //     },
-      //     {
-      //       title: 'etables',
-      //       to: 'extended-tables'
-      //     },
-      //     {
-      //       title: 'dtables',
-      //       to: 'data-tables'
-      //     }
-      //   ]
-      // },
-      // {
-      //   icon: 'mdi-widgets',
-      //   title: 'widgets',
-      //   to: '/widgets'
-      // },
-      {
-        icon: 'mdi-chart-timeline-variant',
-        title: '关于本站',
-        to: '/timeline'
-      },
-      {
-        icon: 'mdi-calendar-range',
-        title: '给我留言',
-        to: '/message'
-      }
-    ]
-  }),
+  data() {
+    return {
+      showDrower: false,
+      items: [
+        {
+          icon: 'mdi-home',
+          title: '首页',
+          to: '/'
+        },
+        {
+          group: '/music',
+          icon: 'mdi-music',
+          title: '音乐',
+          children: [
+            { icon: PREFIX + 'tuijian', title: '推荐音乐', to: '/music' },
+            {
+              icon: PREFIX + 'login',
+              title: '我的音乐',
+              to: '/music/userlist'
+            },
+            { icon: PREFIX + 'sousuo', title: '搜索音乐', to: '/music/search' },
+            {
+              icon: PREFIX + 'history',
+              title: '刚刚听过',
+              to: '/music/history'
+            },
+            {
+              icon: PREFIX + 'bofangliebiao',
+              title: '播放列表',
+              to: '/music/playlist'
+            }
+          ]
+        },
+        // {
+        //   group: '/components',
+        //   icon: 'mdi-view-comfy',
+        //   title: 'components',
+        //   children: [
+        //     {
+        //       title: 'multi',
+        //       group: '',
+        //       children: [
+        //         {
+        //           title: 'example',
+        //           href: '#'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       title: 'buttons',
+        //       to: 'buttons'
+        //     },
+        //     {
+        //       title: 'grid',
+        //       to: 'grid-system'
+        //     },
+        //     {
+        //       title: 'tabs',
+        //       to: 'tabs'
+        //     },
+        //     {
+        //       title: 'notifications',
+        //       to: 'notifications'
+        //     },
+        //     {
+        //       title: 'icons',
+        //       to: 'icons'
+        //     },
+        //     {
+        //       title: 'typography',
+        //       to: 'typography'
+        //     }
+        //   ]
+        // },
+        // {
+        //   group: '/forms',
+        //   icon: 'mdi-clipboard-outline',
+        //   title: 'forms',
+        //   children: [
+        //     {
+        //       title: 'rforms',
+        //       to: 'regular'
+        //     },
+        //     {
+        //       title: 'eforms',
+        //       to: 'extended'
+        //     },
+        //     {
+        //       title: 'vforms',
+        //       to: 'validation'
+        //     },
+        //     {
+        //       title: 'wizard',
+        //       to: 'wizard'
+        //     }
+        //   ]
+        // },
+        // {
+        //   group: '/tables',
+        //   icon: 'mdi-grid',
+        //   title: 'tables',
+        //   children: [
+        //     {
+        //       title: 'rtables',
+        //       to: 'regular-tables'
+        //     },
+        //     {
+        //       title: 'etables',
+        //       to: 'extended-tables'
+        //     },
+        //     {
+        //       title: 'dtables',
+        //       to: 'data-tables'
+        //     }
+        //   ]
+        // },
+        // {
+        //   icon: 'mdi-widgets',
+        //   title: 'widgets',
+        //   to: '/widgets'
+        // },
+        {
+          icon: 'mdi-chart-timeline-variant',
+          title: '关于本站',
+          to: '/timeline'
+        },
+        {
+          icon: 'mdi-calendar-range',
+          title: '给我留言',
+          to: '/message'
+        }
+      ]
+    };
+  },
   watch: {
     ismdAndUp: {
       handler: function(value) {
@@ -198,21 +200,17 @@ export default {
         }
       },
       immediate: true
+    },
+    '$store.state.blog.drawer': {
+      handler: function(val, oldValue) {
+        if (val !== oldValue) {
+          this.showDrower = val;
+        }
+      },
+      immediate: true
     }
   },
   computed: {
-    drawer: {
-      get() {
-        return this.$store.state.blog.drawer;
-      },
-      set(val) {
-        if (val) {
-          this.setDrawer(!val);
-        } else {
-          this.setDrawer(val);
-        }
-      }
-    },
     computedItems() {
       return this.items.map(this.mapItem);
     }
@@ -227,8 +225,9 @@ export default {
       };
     },
     inputHandle(val) {
-      if (val) {
-        this.setDrawer(!val);
+      if (!val) {
+        this.showDrower = false;
+        this.setDrawer(false);
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-card :height="getTabHeight" max-width="100vw" class="body-2">
+  <v-card :height="height" max-width="100vw" class="body-2">
     <Loading v-if="$store.state.music.loading"></Loading>
     <Scroll v-else :data="list.length || getTabHeight">
       <v-list-item-group>
@@ -95,9 +95,9 @@ export default {
       type: Boolean,
       default: true
     },
-    loading: {
-      type: Boolean,
-      default: false
+    height: {
+      type: String || Number,
+      default: 'calc(100vh - 80px - 44px - 48px)'
     }
   },
   mixins: [ismdAndUp],

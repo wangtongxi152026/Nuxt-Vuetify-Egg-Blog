@@ -1,6 +1,7 @@
 <template>
   <v-col cols="12" class="py-0">
     <v-text-field
+      ref="searchInput"
       class="pt-2"
       dark
       v-model="searchValue"
@@ -30,6 +31,7 @@
       :list="list"
       :showDelIcon="false"
       @select="selectSearch"
+      :height="height"
     ></MusicList>
     <Loading v-else-if="lodingShow"></Loading>
     <v-btn
@@ -48,51 +50,52 @@
 </template>
 
 <script>
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import ismdAndUp from '~/components/Mixin/ismdAndUp';
 
-import { search, searchHot, getMusicDetail } from "~/api";
-import { formatSongs } from "~/plugins/song";
-import MusicList from "~/components/Music/Musiclist";
-import Loading from "~/components/Music/Loading";
-import { mapActions } from "vuex";
+import { search, searchHot, getMusicDetail } from '~/api';
+import { formatSongs } from '~/plugins/song';
+import MusicList from '~/components/Music/Musiclist';
+import Loading from '~/components/Music/Loading';
+import { mapActions } from 'vuex';
 export default {
-  name: "music-serach",
-  layout: "music",
+  name: 'music-serach',
+  layout: 'music',
   created() {
-    this._searchHot()
-
+    this._searchHot();
+  },
+  mounted(){
+    this.height = `calc(100vh - 80px - 44px - 48px - ${this.$refs.searchInput.$el.clientHeight}px)`
   },
   mixins: [ismdAndUp],
   data() {
     return {
+      height: 'calc(100vh - 80px - 44px - 48px)',
       lodingShow: false,
       searchValue: '', // 搜索关键词
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页
-      icon: "iconfont icon-yinle"
-    }
+      icon: 'iconfont icon-yinle'
+    };
   },
   components: { MusicList, Loading },
   computed: {
     getTabHeight() {
       return ismdAndUp
-        ? "calc(100vh - 336px - 58px)"
-        : "calc(100vh - 80px - 112px - 58px )"
+        ? 'calc(100vh - 336px - 58px)'
+        : 'calc(100vh - 80px - 112px - 58px )';
     }
   },
   methods: {
-    ...mapActions("music", ["insertOnePlay"]),
+    ...mapActions('music', ['insertOnePlay']),
     async _searchHot() {
-      const res = await searchHot()
-      this.Artists = res.data.result.hots
+      const res = await searchHot();
+      this.Artists = res.data.result.hots;
     },
     doSearch() {
-
-
       if (!this.searchValue) {
-        this.$message.err('请输入搜索词')
-        return
+        this.$message.err('请输入搜索词');
+        return;
       }
       this.lodingShow = true;
       search(this.searchValue).then(res => {
@@ -101,8 +104,6 @@ export default {
           this.lodingShow = false;
         }
       });
-
-
     },
     // 索索结果中选择播放
     async selectSearch({ item }) {
@@ -111,10 +112,10 @@ export default {
       this.insertOnePlay({ item });
     },
     searchIcon() {
-      this.icon = "iconfont icon-search";
+      this.icon = 'iconfont icon-search';
     },
     musicIcon() {
-      this.icon = "iconfont icon-yinle";
+      this.icon = 'iconfont icon-yinle';
     },
     clear() {
       this.searchValue = null;

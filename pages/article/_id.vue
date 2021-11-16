@@ -33,7 +33,7 @@
             </v-btn>
           </p>
           <img
-            src="https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
+            src="//img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
             class="elevation-13 articlebg"
           />
 

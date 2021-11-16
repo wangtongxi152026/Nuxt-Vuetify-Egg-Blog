@@ -5,7 +5,7 @@
       <!-- <img class="post-image" :src="data.src" /> -->
       <img
         class="post-image elevation-13"
-        src="https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
+        src="//img.xjh.me/random_img.php?type=bg&ctype=nature&return=302"
       />
 
       <div class="article-details">
