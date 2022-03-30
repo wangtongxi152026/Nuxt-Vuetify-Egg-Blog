@@ -119,9 +119,8 @@ export default {
     },
     // 暂停播放的图标
     getPlayIcon() {
-      return this.playing
-        ? 'Xfont iconfont icon-zanting'
-        : 'Xfont iconfont icon-play_icon';
+      return `Xfont iconfont ${this.playing? 'icon-zanting':'icon-play_icon'}`
+
     },
     // 播放模式的图标
     getModeIcon() {
