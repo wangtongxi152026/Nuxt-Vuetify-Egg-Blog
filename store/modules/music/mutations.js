@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:27:47
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-10 10:17:39
+ * @LastEditTime: 2022-11-14 16:10:21
  */
 import * as types from './mutation_types';
 
@@ -55,6 +55,9 @@ const mutations = {
   },
   [types.SET_LOADING](state, payload) {
     state.loading = payload;
+  },
+  SetDeviceType(state, payload) {
+    state.deviceType = payload;
   }
 };
 

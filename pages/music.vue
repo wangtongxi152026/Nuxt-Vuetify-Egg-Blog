@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <div style="display: flex" class="px-2 pt-2">
-      <v-icon @click="back" color="orange darken-2"> mdi-arrow-left </v-icon>
+  <div class="music">
+    <div
+      style="display: flex"
+      class="px-2 pt-2"
+    >
+      <v-icon color="rgb(255, 255, 255, 0.7)" @click="back">
+        mdi-arrow-left
+      </v-icon>
       <div class="title">在线播放器Player</div>
     </div>
     <v-container class="music-main">
@@ -10,10 +15,7 @@
           <div class="nav">
             <template v-for="(item, i) in items">
               <div
-                :class="[
-                  $route.path == item.route ? 'active' : 'normal',
-                  'button'
-                ]"
+                :class="[isCurrentRouteStyleIcon(item.route), 'button']"
                 @click="click(item)"
                 :key="i"
               >
@@ -32,7 +34,7 @@
           </v-scroll-y-transition>
         </v-col>
         <v-col v-if="ismdAndUp" md="4" class="sliderRight px-0">
-          <LyricInfo></LyricInfo>
+          <LyricInfo />
         </v-col>
       </v-row>
       <CoreControl />
@@ -44,7 +46,8 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { formatTopSongs } from '~/plugins/song';
 import LyricInfo from '~/components/Music/LyricInfo';
 import MusicHeader from '~/components/Music/MusicHeader';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
+import { items } from '~/const';
 
 export default {
   components: {
@@ -54,15 +57,22 @@ export default {
   },
   layout: 'music',
   created() {
+    this.items = items();
     this._getPlaylistDetail(2796821320);
+  },
+  data() {
+    return { items: [] };
   },
   methods: {
     ...mapActions('music', ['setPlaylist']),
     ...mapMutations('music', {
       setSequenceList: 'SET_SEQUENCE_LIST'
     }),
-    back(){
-      this.$router.push('/')
+    back() {
+      this.$router.push('/');
+    },
+    isCurrentRouteStyleIcon(routepath) {
+      return this.$route.path == routepath ? 'active' : 'normal';
     },
     async _getPlaylistDetail(id) {
       const res = await this.$axios.get('/musc/playlist/detail', {
@@ -81,35 +91,8 @@ export default {
       this.$router.push({ path: e.route });
     }
   },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   computed: {
-    items: () => [
-      {
-        icon: 'iconfont icon-shijianzhou',
-        text: '播放列表',
-        route: '/music/playlist'
-      },
-      {
-        icon: 'iconfont icon-tuijian',
-        text: '推荐歌单',
-        route: '/music'
-      },
-      {
-        icon: 'iconfont icon-login',
-        text: '我的歌单',
-        route: '/music/userlist'
-      },
-      {
-        icon: 'iconfont icon-history',
-        text: '最近播放',
-        route: '/music/history'
-      },
-      {
-        icon: 'iconfont icon-sousuo',
-        text: '搜歌',
-        route: '/music/search'
-      }
-    ],
     ...mapGetters('music', ['currentSong']),
     isActive() {
       return this.ismdAndUp ? true : false;
@@ -118,6 +101,8 @@ export default {
 };
 </script>
 <style lang="sass" scoped>
+.music
+  color: rgba(255, 255, 255, 0.7)
 .nav
   height: 48px
   display: grid
@@ -147,13 +132,11 @@ export default {
   font-size: 16px !important
   width: 100%
   text-align: center
-  color: orange
 
 .sm-font-size
   font-size: 14px !important
 
 .music-main
-  color: #999
   padding: 0 12px
 
 .px-0

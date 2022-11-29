@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:03
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-12 11:51:04
+ * @LastEditTime: 2022-11-17 17:49:07
 -->
 <template>
   <div class="scroller" ref="scroller">
@@ -51,7 +51,7 @@ export default {
     };
   },
   mounted() {
-    this.refresh();
+    this.refresh && this.refresh();
   },
   props: {
     data: { default: null },
@@ -73,7 +73,7 @@ export default {
           );
           this.$emit('init', this.scroller);
         }
-        this.scroller.refresh();
+        this.scroller?.refresh && this.scroller?.refresh();
       });
     }
   },
@@ -82,10 +82,9 @@ export default {
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
           console.log('Scroll组件,data:', newValue, oldValue);
-          this.refresh();
+          // this.refresh();
         }
       },
-      immediate: true
     }
   }
 };

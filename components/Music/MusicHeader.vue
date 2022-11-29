@@ -133,7 +133,6 @@ export default {
     dologout() {
       this.user = {};
       this.setUseruid(null);
-      // this.$mmToast('退出成功！')
     }
   }
 };

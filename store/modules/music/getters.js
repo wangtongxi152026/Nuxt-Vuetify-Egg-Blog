@@ -6,16 +6,21 @@ import {
   getHistoryList,
   getcurTime
 } from '~/plugins/storage.js';
-export const currentSong = state => {
-  return state.playlist[state.currentIndex] || state.historyList[0] || {};
+const _getHistory = () => {
+  return getHistoryList() ?? [];
 };
-
 export const audio = state => state.audio;
 export const playing = state => state.playing;
 export const playlist = state => state.playlist;
 export const sequenceList = state => state.sequenceList;
 export const currentIndex = state => state.currentIndex;
-
+export const currentSong = state => {
+  debugger;
+  if (state.currentIndex !== -1 && state.playlist.length) {
+    return state.playlist[state.currentIndex];
+  }
+  return _getHistory()[0] || {};
+};
 export const currentTime = state => getcurTime() || state.currentTime;
 export const mode = state => getMode() || state.mode;
 export const volume = state => getVolume() || state.volume;
@@ -23,6 +28,6 @@ export const historyList = state => {
   if (!!state.historyList.length) {
     return state.historyList;
   }
-  return getHistoryList() ?? [];
+  return _getHistory();
 };
 export const uid = state => getUId() || state.uid;

@@ -24,7 +24,7 @@
 import { getToplistDetail, getPersonalized } from '~/api/index';
 import Scroll from '~/components/Music/Scroller';
 import MCard from '~/components/Music/MusicCard';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 import Loading from '~/components/Music/Loading';
 export default {
   components: { MCard, Scroll, Loading },
@@ -62,7 +62,7 @@ export default {
     }
   },
 
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   computed: {
     getTabHeight() {
       return this.ismdAndUp

@@ -40,12 +40,12 @@ import { getComment } from '@/api';
 import { mapGetters } from 'vuex';
 import Scroll from '~/components/Music/Scroller';
 import CommentCard from '~/components/Music/CommentCard';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 
 export default {
   name: 'comment',
   components: { Scroll, CommentCard },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   created() {
     this._getComment();
   },

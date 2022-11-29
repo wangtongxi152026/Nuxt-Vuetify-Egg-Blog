@@ -101,10 +101,10 @@
 import { register } from '~/api/api'
 import { getUserInfo, currentUser, getUser } from '~/api/api'
 import config from '~/util/config'
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp'
 
 export default {
-  layout: 'onlybody', mixins: [ismdAndUp],
+  layout: 'onlybody', mixins: [ismdAndUpMixin],
   components: {
     // Stars
   },

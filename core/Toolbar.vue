@@ -141,11 +141,11 @@ const HEIGHT_MD = 64;
 const HEIGHT_SM = 56;
 import { mapMutations, mapState } from 'vuex';
 import UserMenu from '~/components/UserMenu';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 const PREFIX = 'iconfont icon-';
 export default {
   name: 'CoreAppBar',
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   data() {
     return {
       previousScroll: 0,

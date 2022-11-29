@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:27:47
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-10 10:17:02
+ * @LastEditTime: 2022-11-14 16:10:11
  */
 export const SET_PLAYMODE = 'SET_PLAYMODE'; // 修改播放模式
 

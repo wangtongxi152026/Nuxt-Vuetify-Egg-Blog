@@ -31,7 +31,6 @@
               :class="{ rowHeight: ismdAndUp }"
               cols="12"
             >
-              <!-- 索引 -->
               <v-col cols="2" align="center" class="num index">{{
                 index + 1
               }}</v-col>
@@ -52,7 +51,7 @@
               </v-col>
               <!-- 时间 **-->
               <v-col cols="2" align="center" v-if="isTimeshow">
-                <span :class="{ durationTime: showDelIcon }">{{
+                <span style="" :class="{ durationTime: showDelIcon }">{{
                   item.duration | formatTime
                 }}</span>
               </v-col>
@@ -80,9 +79,14 @@ import Scroll from '~/components/Music/Scroller';
 import Snackbar from '~/components/Music/Snackbar';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import Loading from '~/components/Music/Loading';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 export default {
   name: 'Musiclist',
+  // asyncData({store}) {
+  //   console.log({store})
+  //   return {ismdAndUdpee:false}
+
+  // },
   components: { Loading, Scroll, Snackbar },
   props: {
     // 歌单列表
@@ -100,7 +104,7 @@ export default {
       default: 'calc(100vh - 80px - 44px - 48px)'
     }
   },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   methods: {
     ...mapMutations('music', {
       setPlaying: 'SET_PLAYING'
@@ -158,12 +162,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@textColor: rgba(255, 255, 255, 0.7);
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-  color: #999 !important;
+  color: @textColor !important;
 }
 .v-card {
+  color: @textColor;
   box-shadow: none;
-  background: transparent !important;
+  background: transparent;
   .rowHeight {
     height: 55px;
   }
@@ -175,6 +181,7 @@ export default {
   }
   .songname,
   .singer {
+    color: @textColor;
     // 1行显示溢出隐藏
     text-overflow: ellipsis;
     overflow: hidden;
@@ -183,7 +190,7 @@ export default {
     -webkit-box-orient: vertical;
   }
   .overline {
-    color: #6e6e6e;
+    color: #c1c1c1;
   }
   .iconfont {
     color: orange;

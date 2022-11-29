@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:03
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-16 15:11:30
+ * @LastEditTime: 2022-11-18 11:35:00
 -->
 <template>
   <div @click="toDetail" class="card pb-1">
@@ -48,21 +48,22 @@ export default {
 }
 @media screen and (min-width: 1200px) {
   .card {
-    height: 218px;
+    height:100%;
   }
 }
 .card {
   cursor: pointer;
   background-color: transparent !important;
   box-shadow: 0 0.1875rem 1.5rem rgba(0, 0, 0, 0.2);
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
+  overflow: hidden;
   cursor: pointer;
   // height: auto;
   &:hover > div:last-child {
     color: rgba(255, 255, 255, 0.6);
   }
   .img {
-    border-radius: 0.4rem;
+    // border-radius: 0.4rem;
     width: 100%;
     height: auto;
     object-fit: contain;

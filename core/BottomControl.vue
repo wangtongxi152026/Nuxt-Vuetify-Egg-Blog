@@ -57,13 +57,13 @@
 
 <script>
 import { playMode } from '~/plugins/config.js';
-import { Conveny } from '~/plugins/audioConveny';
+import DellConveny from '~/plugins/Conveny';
 import Volume from '~/components/Music/Volume';
 import ProgressBar from '~/components/Music/ProgressBar';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { shuffle, debounce } from '~/plugins/util.js';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
-
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
+import { getcurTime } from '~/plugins/storage.js';
 const LISTLOOP_INDEX = 0;
 const SEQUENCE_INDEX = 1;
 const LOOP_INDEX = 2;
@@ -71,21 +71,21 @@ const RANDOM_INDEX = 3;
 
 export default {
   components: { ProgressBar, Volume },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   mounted() {
     if (process.client) {
+      window.addEventListener('beforeunload', this.renewSong);
       this.$nextTick(() => {
-        Conveny.initAudio(this);
+        DellConveny.getInstance(this);
         this.initKeyDown();
         if (!this.currentSong) {
           return;
         } else {
           this.songReady = true;
           this.audio.src = this.currentSong.url;
-          this.audio.currentTime = this.currentTime;
+          this.audio.currentTime = getcurTime() ?? this.currentTime;
         }
-        // this.changeVolume(this.volume)
-        window.addEventListener('beforeunload', this.renewSong);
+        // this.changeVolume(this.volume);
       });
     }
   },
@@ -105,22 +105,27 @@ export default {
       'currentSong',
       'playlist',
       'currentIndex',
-      'currentTime',
       'historyList',
       'sequenceList'
     ]),
+    currentTime() {
+      return this.$store.state.music.currentTime;
+    },
     // 音乐的进度百分比
+
     percentMusic() {
-      return this.currentTime / this.currentSong.duration;
+      return Number((this.currentTime / this.currentSong.duration).toFixed(2));
     },
     // 当前播放模式
     currentMode() {
       return playMode[this.mode];
     },
+
     // 暂停播放的图标
     getPlayIcon() {
-      return `Xfont iconfont ${this.playing? 'icon-zanting':'icon-play_icon'}`
-
+      return `Xfont iconfont ${
+        this.playing ? 'icon-zanting' : 'icon-play_icon'
+      }`;
     },
     // 播放模式的图标
     getModeIcon() {
@@ -168,6 +173,7 @@ export default {
   },
   methods: {
     renewSong() {
+      debugger;
       this.setCurrentTime(this.audio.currentTime);
     },
     ...mapMutations('music', {
@@ -188,7 +194,8 @@ export default {
     },
     changeVolume(percent) {
       console.log('changeVolume', this.volume);
-      percent === 0 ? (this.isMute = true) : (this.isMute = false);
+      this.isMute = percent === 0 ? true : false;
+      percent = percent > 1 ? 1 : percent;
       this.setPlayVolume(percent);
       this.audio.volume = percent;
     },

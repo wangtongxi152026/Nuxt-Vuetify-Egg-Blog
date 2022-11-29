@@ -6,8 +6,14 @@
       <div class="progress" ref="progress"></div>
       <!-- 进度值2（歌曲缓冲进度） -->
       <div ref="cacheProgress" class="cacheProgress"></div>
-      <div class="progress-btn-wrapper" ref="progressBtn" @touchstart.prevent="dotStart" @touchmove="dotMove"
-        @touchend="dotEnd" @mousedown='dotStart'>
+      <div
+        class="progress-btn-wrapper"
+        ref="progressBtn"
+        @touchstart.prevent="dotStart"
+        @touchmove="dotMove"
+        @touchend="dotEnd"
+        @mousedown="dotStart"
+      >
         <div class="progress-btn"></div>
       </div>
     </div>
@@ -15,7 +21,7 @@
 </template>
 
 <script>
-const DOT_WIDTH = 15
+const DOT_WIDTH = 15;
 export default {
   name: 'ProgressBar',
   props: {
@@ -30,105 +36,105 @@ export default {
       default: 0
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      this.addEvents()
-      const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH
-      const offsetWidth = this.percent * barWidth
-      this._doMove(offsetWidth)
-    })
+      this.addEvents();
+      const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH;
+      const offsetWidth = this.percent * barWidth;
+      this._doMove(offsetWidth);
+    });
   },
-  beforeDestroy () {
-    this.removeEvents()
+  beforeDestroy() {
+    this.removeEvents();
   },
   watch: {
-    percent (newPercent) {
+    percent(newPercent) {
+      if (newPercent > 1) {
+        newPercent = 1;
+      }
       if (newPercent >= 0 && !this.touch.status) {
         // 总宽度
-        const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH
-        const offsetWidth = newPercent * barWidth
-        this._doMove(offsetWidth)
+        const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH;
+        const offsetWidth = newPercent * barWidth;
+        this._doMove(offsetWidth);
       }
     },
     // 进度值二（歌曲缓冲进度用）
-    cachePercent (newValue) {
-      const offsetWidth = this.$refs.progressBar.clientWidth * newValue
-      this.$refs.cacheProgress.style.width = `${offsetWidth}px`
+    cachePercent(newValue) {
+      const offsetWidth = this.$refs.progressBar.clientWidth * newValue;
+      this.$refs.cacheProgress.style.width = `${offsetWidth}px`;
     }
   },
   methods: {
     // 添加绑定事件
-    addEvents () {
-      document.addEventListener('mousemove', this.dotMove)
-      document.addEventListener('mouseup', this.dotEnd)
+    addEvents() {
+      document.addEventListener('mousemove', this.dotMove);
+      document.addEventListener('mouseup', this.dotEnd);
     },
     // 移除绑定事件
-    removeEvents () {
-      document.removeEventListener('mousemove', this.dotMove)
-      document.removeEventListener('mouseup', this.dotEnd)
+    removeEvents() {
+      document.removeEventListener('mousemove', this.dotMove);
+      document.removeEventListener('mouseup', this.dotEnd);
     },
-    barClick (e) {
+    barClick(e) {
       // 相对于视口的左上角位置而言的。
-      const DOMReact = this.$refs.progressBar.getBoundingClientRect()
-      const offsetWidth = e.pageX - DOMReact.left
-      this._doMove(offsetWidth)
+      const DOMReact = this.$refs.progressBar.getBoundingClientRect();
+      const offsetWidth = e.pageX - DOMReact.left;
+      this._doMove(offsetWidth);
       // 这里当我们点击 progressBtn 的时候，e.offsetX 获取不对
       // this._offset(e.offsetX)
-      this._commitPercentChange()
+      this._commitPercentChange();
     },
-    dotStart (e) {
-      this.touch.status = true
-      this.touch.startX = e.clientX || e.touches[0].pageX
-      // 
-      this.touch.left = this.$refs.progress.clientWidth
+    dotStart(e) {
+      this.touch.status = true;
+      this.touch.startX = e.clientX || e.touches[0].pageX;
+      //
+      this.touch.left = this.$refs.progress.clientWidth;
     },
-    dotMove (e) {
+    dotMove(e) {
       if (!this.touch.status) {
-        return
+        return;
       }
-      e.preventDefault()
-      let endX = e.clientX || e.touches[0].pageX
-      let dist = endX - this.touch.startX
+      e.preventDefault();
+      let endX = e.clientX || e.touches[0].pageX;
+      let dist = endX - this.touch.startX;
       // 运动距离
-      let offsetWidth =
-        Math.min(
-          // 进度条总长-按钮尺寸
-          this.$refs.progressBar.clientWidth - DOT_WIDTH,
-          Math.max(0, this.touch.left + dist)
-        )
+      let offsetWidth = Math.min(
+        // 进度条总长-按钮尺寸
+        this.$refs.progressBar.clientWidth - DOT_WIDTH,
+        Math.max(0, this.touch.left + dist)
+      );
       // 开始运动
-      this._doMove(offsetWidth)
-      this._commitPercentChange()
-
+      this._doMove(offsetWidth);
+      this._commitPercentChange();
     },
-    dotEnd () {
+    dotEnd() {
       // 拖动结束执行播放 或者 音量改变
-      this.touch.status = false
+      this.touch.status = false;
     },
     //运动函数
-    _doMove (offsetWidth) {
+    _doMove(offsetWidth) {
       // 进度条宽度变化
-      this.$refs.progress.style.width = `${offsetWidth}px`
-      this.$refs.progressBtn.style.transform = `translate3d(${offsetWidth}px,0,0)`
+      this.$refs.progress.style.width = `${offsetWidth}px`;
+      this.$refs.progressBtn.style.transform = `translate3d(${offsetWidth}px,0,0)`;
     },
     // 修改percent
-    _commitPercentChange () {
-      const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH
-      const percent = this.$refs.progress.clientWidth / barWidth
-      this.$emit('percentChange', percent)
-    },
-
+    _commitPercentChange() {
+      const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH;
+      const percent = this.$refs.progress.clientWidth / barWidth;
+      this.$emit('percentChange', percent);
+    }
   },
-  data () {
+  data() {
     return {
       touch: {
         status: false, // 是否可拖动
         startX: 0, // 记录最开始点击的X坐标
         left: 0 // 记录当前已经移动的距离
       }
-    }
-  },
-}
+    };
+  }
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -159,6 +165,7 @@ export default {
       top -13px
       width 30px
       height 30px
+      transition: all 0.5s
       .progress-btn
         position relative
         top 7.5px

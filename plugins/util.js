@@ -17,8 +17,8 @@ export function shuffle(arr) {
   let _arr = arr.slice();
   for (let i = 0; i < _arr.length; i++) {
     let j = getRandomInt(0, i);
-    
-    [_arr[i], _arr[j]] = [_arr[j], _arr[i]]
+
+    [_arr[i], _arr[j]] = [_arr[j], _arr[i]];
     // let t = _arr[i];
     // _arr[i] = _arr[j];
     // _arr[j] = t;
@@ -53,7 +53,10 @@ export function parseLyric(lrc) {
       let sec = Number(String(t.match(/:\d*/i)).slice(1));
       let time = min * 60 + sec;
       if (clause !== '') {
-        lrcObj.push({ time: time, text: clause });
+        lrcObj.push({
+          time: time,
+          text: clause
+        });
       }
     }
   }
@@ -98,4 +101,32 @@ export function format(time) {
     formatTime = `${dateObj.year}年${dateObj.month + 1}月${dateObj.date}日`;
   }
   return formatTime;
+}
+
+// 节流
+export function throttle(cb, delay) {
+  // 上次操作的时间
+  let lastTime = 0;
+  // 计时器
+  let timer = null;
+  return function() {
+    /** @不在时间间隔内 **/
+    // 当前操作的时间
+    const triggerTime = Date.now();
+    // 如果 当前操作的时间 - 上次操作的时间 > 时间间隔，则执行 cb
+    if (triggerTime - lastTime > delay) {
+      lastTime = triggerTime;
+      cb.call(this, ...arguments);
+    } else {
+      /** @在时间间隔内 **/
+      // 用户若一直操作，则重置计时器
+      timer && clearTimeout(timer);
+      // 设置定时器，到达我们设置的 delay 间隔，就给用户执行一次
+      timer = setTimeout(() => {
+        lastTime = triggerTime;
+        clearTimeout(timer);
+        cb.call(this, ...arguments);
+      }, delay);
+    }
+  };
 }

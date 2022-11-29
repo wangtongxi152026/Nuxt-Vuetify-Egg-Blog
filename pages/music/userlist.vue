@@ -19,7 +19,8 @@ import MCard from "~/components/Music/MusicCard";
 import MusicHeader from "~/components/Music/MusicHeader";
 import { getUserPlaylist } from "@/api";
 import { mapGetters } from "vuex";
-import NoData from "~/components/Music/NoData"; import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import NoData from "~/components/Music/NoData"; 
+import ismdAndUpMixin  from '~/components/Mixin/ismdAndUp'
 export default {
   name: "music-userlist",
   layout: "music",
@@ -33,7 +34,7 @@ export default {
     };
   },
 
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   watch: {
     uid (newUid) {
       if (newUid) {

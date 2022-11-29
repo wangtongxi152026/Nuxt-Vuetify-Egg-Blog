@@ -2,60 +2,65 @@
   <div class="d-flex">
     <v-icon :class="getVolumeIcon" class="mx-3" @click="toggleVolume"></v-icon>
     <div style="width:100px" v-if="ismdAndUp">
-      <PorgressBar :percent="percentVolume" @percentChange="handleVolumeChange"></PorgressBar>
+      <PorgressBar
+        :percent="percentVolume"
+        @percentChange="handleVolumeChange"
+      ></PorgressBar>
     </div>
   </div>
 </template>
 
 <script>
 import PorgressBar from '~/components/Music/ProgressBar';
-import { mapGetters } from 'vuex'; import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import { mapGetters } from 'vuex';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 
 export default {
   name: 'Volume',
-  components: { PorgressBar }, mixins: [ismdAndUp],
-  mounted () {
+  components: { PorgressBar },
+  mixins: [ismdAndUpMixin],
+  mounted() {
     // 还原上次音量
+    debugger;
     this.$nextTick(() => {
-      this.handleVolumeChange(this.volume)
-    })
+      this.handleVolumeChange(this.volume);
+    });
   },
   computed: {
     ...mapGetters('music', ['volume']),
     // 决定音量进度条===>>state中volume对应的百分比
-    percentVolume () {
-      return this.volume
+    percentVolume() {
+      return this.volume;
     },
     // 获得音量图标
-    getVolumeIcon () {
-      return this.isMute ? 'iconfont icon-jingyin1' : 'iconfont icon-yinliang'
+    getVolumeIcon() {
+      return this.isMute ? 'iconfont icon-jingyin1' : 'iconfont icon-yinliang';
     },
     isMute: {
-      get () {
-        return this.percentVolume === 0
+      get() {
+        return this.percentVolume === 0;
       },
-      set (newMute) {
-        const volume = newMute ? 0 : this.lastVolume
+      set(newMute) {
+        const volume = newMute ? 0 : this.lastVolume;
         if (newMute) {
-          this.lastVolume = this.percentVolume
+          this.lastVolume = this.percentVolume;
         }
-        this.handleVolumeChange(volume)
+        this.handleVolumeChange(volume);
       }
     }
   },
   methods: {
-    toggleVolume () {
+    toggleVolume() {
       console.log(this.isMute, 'this.isMute');
-      this.isMute = !this.isMute
+      this.isMute = !this.isMute;
     },
-    handleVolumeChange (percent) {
-      this.$emit('volumeChange', percent)
-    },
-
+    handleVolumeChange(percent) {
+      debugger
+      this.$emit('volumeChange', percent);
+    }
   }
-}
+};
 </script>
-
 
 <style scoped>
 .iconfont {

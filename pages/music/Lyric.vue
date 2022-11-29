@@ -55,11 +55,11 @@ import Scroll from '~/components/Music/Scroller';
 import { mapGetters } from 'vuex';
 import { getLyric } from '~/api';
 import { parseLyric } from '~/plugins/util.js';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 
 export default {
   components: { Scroll },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   data() {
     return {
       lyric: [], //歌词
@@ -68,7 +68,7 @@ export default {
       top: 0 // 歌词居中
     };
   },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   mounted() {
     // 开局加载歌词
     if (this.currentSong) {

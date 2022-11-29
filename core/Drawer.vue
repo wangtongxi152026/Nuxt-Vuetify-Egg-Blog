@@ -53,11 +53,11 @@ import BaseItem from '~/components/BaseItem';
 import ItemGroup from '~/components/ItemGroup';
 import Avatar from '~/components/Avatar';
 const PREFIX = 'iconfont icon-';
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 
 export default {
   components: { Avatar, ItemGroup, BaseItem },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   data() {
     return {
       showDrower: false,

@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:04
  * @LastEditors: wangtongxi
- * @LastEditTime: 2021-11-23 18:03:25
+ * @LastEditTime: 2022-11-14 15:01:07
 -->
 <template>
   <v-content>
@@ -35,7 +35,6 @@ export default {
   background-attachment: scroll;
   transition: all 0.8s;
   filter: blur(10px) brightness(0.5);
-  transform: scale(1.1);
   opacity: 0.7;
 }
 </style>

@@ -3,9 +3,17 @@
     <div class="musicCd">
       <!-- 支架 -->
       <img class="play-bar-support" src="~/assets/image/play-bar-support.png" />
-      <img :class="{playing}" class="play-bar" src="~/assets/image/play-bar.png" />
+      <img
+        :class="{ playing }"
+        class="play-bar"
+        src="~/assets/image/play-bar.png"
+      />
       <div class="img-outer-border" ref="disc">
-        <div :class="{paused: !playing}" class="img-outer elevation-1" ref="discRotate">
+        <div
+          :class="{ paused: !playing }"
+          class="img-outer elevation-1"
+          ref="discRotate"
+        >
           <v-avatar class="img-wrap" size="130">
             <img :src="musicPicUrl" />
           </v-avatar>
@@ -15,22 +23,30 @@
 
     <v-row>
       <v-col cols="12">
-        <div ref="musicLyric" class="lyric" :class=" ismdAndUp ?'lgHeight':'smHeight'">
-          <Scroll :data="lyric.length" ref="musicScroll">
-            <div class="lyric-items body-2">
-              <template v-if="lyric.length">
+        <div
+          ref="musicLyric"
+          class="lyric"
+          :class="ismdAndUp ? 'lgHeight' : 'smHeight'"
+        >
+          <template v-if="currentSong.id && lyric.length">
+            <Scroll :data="lyric.length" ref="musicScroll">
+              <div class="lyric-items body-2">
                 <p
-                  :class="{activeLyric:lyricIndex===index}"
-                  v-for="(item,index) in lyric"
+                  :class="{ activeLyric: lyricIndex === index }"
+                  v-for="(item, index) in lyric"
                   :key="index"
                   ref="lyrics"
-                >{{ item.text }}</p>
-              </template>
-              <p class="align" v-else-if="!currentSong.id">没有在播放音乐哦</p>
-              <p class="align" v-else-if="nolyric">该歌曲没有歌词~</p>
-              <p class="align" v-else>歌词出现了惜败。。。</p>
-            </div>
-          </Scroll>
+                >
+                  {{ item.text }}
+                </p>
+              </div>
+            </Scroll>
+          </template>
+          <div v-else class="lyric-items body-2">
+            <p class="align" v-if="!currentSong.id">没有在播放音乐哦</p>
+            <p class="align" v-else-if="nolyric">该歌曲没有歌词~</p>
+            <p class="align" v-else>歌词出现了惜败。。。</p>
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -38,15 +54,16 @@
 </template>
 
 <script>
-import Scroll from "~/components/Music/Scroller";
-import { mapState, mapGetters } from "vuex";
-import { getLyric } from "@/api";
-import { parseLyric } from "~/plugins/util.js";
-import ismdAndUp from '~/components/Mixin/ismdAndUp'
+import Scroll from '~/components/Music/Scroller';
+import { mapState, mapGetters } from 'vuex';
+import { getLyric } from '@/api';
+import { parseLyric } from '~/plugins/util.js';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 
 export default {
-  components: { Scroll }, mixins: [ismdAndUp],
-  data () {
+  components: { Scroll },
+  mixins: [ismdAndUpMixin],
+  data() {
     return {
       lyric: [], //歌词
       nolyric: false, // 是否有歌词
@@ -54,9 +71,10 @@ export default {
       top: 0 // 歌词居中
     };
   },
-  mounted () {
+  mounted() {
     // 开局加载歌词
-    this._getLyric(this.currentSong.id);
+    console.log(this.currentSong);
+    this.currentSong.id && this._getLyric(this.currentSong.id);
     // window.addEventListener('resize', () => {
     //   clearTimeout(this.resizeTimer)
     //   this.resizeTimer = setTimeout(() => this.clacTop(), 60)
@@ -64,23 +82,23 @@ export default {
     // this.$nextTick(() => this.clacTop())
   },
   computed: {
-    ...mapState("music", ["playing", "currentTime"]),
-    ...mapGetters("music", ["currentSong"]),
+    ...mapState('music', ['playing', 'currentTime']),
+    ...mapGetters('music', ['currentSong']),
 
     getTabHeight() {
       return this.ismdAndUp
         ? 'calc(100vh - 80px - 44px - 48px)'
         : 'calc(100vh - 80px - 44px - 48px)';
     },
-    musicPicUrl () {
+    musicPicUrl() {
       return this.currentSong.image
         ? `${this.currentSong.image}?param=150y150`
-        : require("~/assets/image/player_cover.png");
+        : require('~/assets/image/player_cover.png');
     }
   },
   watch: {
     // 获取lyricIndex
-    currentTime (newTime) {
+    currentTime(newTime) {
       if (this.nolyric) {
         return;
       }
@@ -93,12 +111,12 @@ export default {
       this.lyricIndex = lyricIndex;
       // 时间干煸
     },
-    lyricIndex (newIndex, oldIndex) {
+    lyricIndex(newIndex, oldIndex) {
       if (newIndex !== oldIndex) {
         this.scrollToCurLyric();
       }
     },
-    currentSong (newSong, oldSong) {
+    currentSong(newSong, oldSong) {
       if (!newSong.id) {
         // 当在 playlist为空时，无歌词
         return;
@@ -113,7 +131,7 @@ export default {
   },
 
   methods: {
-    scrollToCurLyric () {
+    scrollToCurLyric() {
       if (this.lyricIndex) {
         const { lyrics, musicScroll } = this.$refs;
         if (lyrics && lyrics[this.lyricIndex]) {
@@ -126,16 +144,16 @@ export default {
       }
     },
     // 计算歌词居中的 top值
-    clacTop () {
+    clacTop() {
       const dom = this.$refs.musicLyric;
-      if (window.getComputedStyle(dom).display === "none") {
+      if (window.getComputedStyle(dom).display === 'none') {
         return;
       }
       // 歌词半瓶时的高度
       this.top = Math.floor(dom.offsetHeight / 36 / 2);
     },
 
-    _getLyric (id) {
+    _getLyric(id) {
       getLyric(id).then(res => {
         if (res.status === 200) {
           if (res.data.nolyric) {
@@ -151,7 +169,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .smHeight {
   height: calc(100vh - 80px - 64px - 250px);
 }

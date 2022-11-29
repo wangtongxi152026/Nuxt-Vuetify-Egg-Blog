@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>throttle</title>
+</head>
+
+<body>
+  <script>
+    function coloring() {
+      let r = Math.floor(Math.random() * 255);
+      let g = Math.floor(Math.random() * 255);
+      let b = Math.floor(Math.random() * 255);
+      document.body.style.background = `rgb(${r},${g},${b})`
+    }
+    //定时器版
+    function throttle(fn, delay) {
+      let timer
+      return function (...args) {
+        if (!timer) {
+          timer = setTimeout(() => {
+            timer = null
+            fn.apply(this, args)
+          }, delay)
+        }
+      }
+    }
+    //时间戳版
+    function throttl1e(cb, delay) {
+      // 上次操作的时间
+      let lastTime = 0;
+      // 计时器
+      let timer = null;
+      return function () {
+        /** @不在时间间隔内 **/
+        // 当前操作的时间
+        const triggerTime = Date.now();
+        // 如果 当前操作的时间 - 上次操作的时间 > 时间间隔，则执行 cb
+        if (triggerTime - lastTime > delay) {
+          lastTime = triggerTime;
+          cb.call(this, ...arguments);
+        } else {
+          /** @在时间间隔内 **/
+          // 用户若一直操作，则重置计时器
+          timer && clearTimeout(timer);
+          // 设置定时器，到达我们设置的 delay 间隔，就给用户执行一次
+          timer = setTimeout(() => {
+            lastTime = triggerTime;
+            clearTimeout(timer);
+            cb.call(this, ...arguments);
+          }, delay);
+        }
+      };
+    }
+
+    window.addEventListener("resize", throttl1e(coloring, 1000))
+
+  </script>
+</body>
+
+</html>

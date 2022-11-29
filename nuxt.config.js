@@ -59,6 +59,9 @@ module.exports = {
   //   middleware: 'auth'
   //   // middleware: 'axiosMiddle'
   // },
+  router: {
+    middleware: ["device"],
+  },
   loading: { color: '#80bd01' },
   plugins: [
     // { src: '~/plugins/axios' },

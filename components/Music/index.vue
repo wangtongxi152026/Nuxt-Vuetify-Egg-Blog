@@ -30,7 +30,7 @@ import ismdAndUp from '~/components/Mixin/ismdAndUp'
 export default {
 
   components: { MCard, Scroll },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   created() {
     // 获取前四条数据
     this._getToplistDetail();

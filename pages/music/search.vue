@@ -25,32 +25,36 @@
         </v-slide-x-reverse-transition>
       </template>
     </v-text-field>
-    <MusicList
-      v-if="list.length"
-      class="mt--1"
-      :list="list"
-      :showDelIcon="false"
-      @select="selectSearch"
-      :height="height"
-    ></MusicList>
+    <template v-if="list.length">
+      <MusicList
+        class="mt--1"
+        :list="list"
+        :showDelIcon="false"
+        @select="selectSearch"
+        :height="height"
+      ></MusicList>
+    </template>
+
     <Loading v-else-if="lodingShow"></Loading>
     <v-btn
       v-else
-      color="grey mr-4 mb-4"
       small
-      depressed
-      v-for="(item, index) in Artists.slice(0, 10)"
-      :key="index"
+      color="transparent"
+      text
+      v-for="item in Artists"
+      :key="item.first"
       @click="selectHot(item.first)"
     >
-      <v-icon color="red" left>mdi-fire</v-icon>
-      <span class="caption">{{ item.first }}</span>
+      <v-icon color="pink" left>mdi-fire</v-icon>
+      <span style="color:rgba(255, 255, 255, 0.7)" class="caption">{{
+        item.first
+      }}</span>
     </v-btn>
   </v-col>
 </template>
 
 <script>
-import ismdAndUp from '~/components/Mixin/ismdAndUp';
+import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 
 import { search, searchHot, getMusicDetail } from '~/api';
 import { formatSongs } from '~/plugins/song';
@@ -63,10 +67,10 @@ export default {
   created() {
     this._searchHot();
   },
-  mounted(){
-    this.height = `calc(100vh - 80px - 44px - 48px - ${this.$refs.searchInput.$el.clientHeight}px)`
+  mounted() {
+    this.height = `calc(100vh - 80px - 44px - 48px - ${this.$refs.searchInput.$el.clientHeight}px)`;
   },
-  mixins: [ismdAndUp],
+  mixins: [ismdAndUpMixin],
   data() {
     return {
       height: 'calc(100vh - 80px - 44px - 48px)',
@@ -90,7 +94,9 @@ export default {
     ...mapActions('music', ['insertOnePlay']),
     async _searchHot() {
       const res = await searchHot();
-      this.Artists = res.data.result.hots;
+      if (res.status === 200 && res.data.result.hots.length) {
+        this.Artists = res.data.result.hots.slice(0, 10);
+      }
     },
     doSearch() {
       if (!this.searchValue) {
