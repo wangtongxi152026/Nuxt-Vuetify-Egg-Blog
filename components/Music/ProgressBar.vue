@@ -159,6 +159,7 @@ export default {
       height 100%
       border-radius 3px
       background #525252
+      transition: all 0.5s
     .progress-btn-wrapper
       position absolute
       left 0px
