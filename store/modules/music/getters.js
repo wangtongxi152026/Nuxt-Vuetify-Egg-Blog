@@ -22,7 +22,13 @@ export const currentSong = state => {
 };
 export const currentTime = state => getcurTime() || state.currentTime;
 export const mode = state => getMode() || state.mode;
-export const volume = state => getVolume() || state.volume;
+
+export const volume = state => () => {
+  const volume = getVolume();
+  debugger;
+  return volume || state.volume;
+};
+
 export const historyList = state => {
   if (!!state.historyList.length) {
     return state.historyList;

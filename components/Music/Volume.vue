@@ -19,48 +19,34 @@ export default {
   name: 'Volume',
   components: { PorgressBar },
   mixins: [ismdAndUpMixin],
-  mounted() {
-    this.$nextTick(() => {
-      this.handleVolumeChange(this.volume);
-    });
-  },
   data() {
     return {
-      lastVolume: 0
+      lastVol: 0
     };
   },
   computed: {
-    ...mapGetters('music', ['volume']),
     // 决定音量进度条===>>state中volume对应的百分比
     percentVolume() {
-      return this.volume;
+      return this.$store.state.music.volume;
     },
     // 获得音量图标
     getVolumeIcon() {
-      return this.isMute ? 'iconfont icon-jingyin1' : 'iconfont icon-yinliang';
-    },
-    isMute: {
-      get() {
-        return this.percentVolume === 0;
-      },
-      set(newMute) {
-        const volume = newMute ? 0 : this.lastVolume;
-        if (newMute) {
-          this.lastVolume = this.percentVolume;
-        }
-        this.handleVolumeChange(volume);
-      }
+      return this.percentVolume === 0
+        ? 'iconfont icon-jingyin1'
+        : 'iconfont icon-yinliang';
     }
   },
   methods: {
     toggleVolume() {
-      this.isMute = !this.isMute;
-      console.log(this.isMute, 'this.isMute');
+      if (this.percentVolume) {
+        this.lastVol = this.percentVolume;
+        this.handleVolumeChange(0);
+      } else {
+        this.handleVolumeChange(this.lastVol);
+      }
     },
     handleVolumeChange(percent) {
-      // debugger
-      this.lastVolume = percent;
-      this.$emit('volumeChange', percent);
+      this.$emit('changeVolume', percent);
     }
   }
 };

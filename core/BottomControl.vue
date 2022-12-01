@@ -38,7 +38,7 @@
         @click="$router.push(`/music/comment/${currentSong.id}`)"
       ></v-icon>
 
-      <Volume v-if="ismdAndUp" @volumeChange="changeVolume"></Volume>
+      <Volume v-if="ismdAndUp" @changeVolume="changeVolume"></Volume>
     </div>
 
     <v-tooltip open-on-click top>
@@ -63,7 +63,7 @@ import ProgressBar from '~/components/Music/ProgressBar';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { shuffle, debounce } from '~/plugins/util.js';
 import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
-import { getcurTime } from '~/plugins/storage.js';
+import { getcurTime, getVolume } from '~/plugins/storage.js';
 import {
   LISTLOOP_INDEX,
   SEQUENCE_INDEX,
@@ -77,15 +77,16 @@ export default {
   mounted() {
     if (process.client) {
       window.addEventListener('beforeunload', this.renewSong);
+      this.initKeyDown();
+
       this.$nextTick(() => {
         DellConveny.getInstance(this);
-        this.initKeyDown();
         if (this.currentSong.id) {
           this.songReady = true;
           this.audio.src = this.currentSong.url;
           this.audio.currentTime = getcurTime() ?? this.currentTime;
         }
-        // this.changeVolume(this.volume);
+        this.changeVolume(getVolume() ?? this.volume);
       });
     }
   },
@@ -112,7 +113,9 @@ export default {
       return this.$store.state.music.currentTime;
     },
     // 音乐的进度百分比
-
+    volume() {
+      return this.$store.state.music.volume;
+    },
     percentMusic() {
       return Number((this.currentTime / this.currentSong.duration).toFixed(2));
     },
@@ -173,7 +176,6 @@ export default {
   },
   methods: {
     renewSong() {
-      debugger;
       this.setCurrentTime(this.audio.currentTime);
     },
     ...mapMutations('music', {
@@ -193,18 +195,16 @@ export default {
       this.audio.currentTime = this.currentSong.duration * percent;
     },
     changeVolume(percent) {
-      console.log('changeVolume', this.volume);
-      this.isMute = percent === 0 ? true : false;
-      percent = percent > 1 ? 1 : percent;
       this.setPlayVolume(percent);
       this.audio.volume = percent;
+      console.log('changeVolume', percent);
     },
     initKeyDown() {
       document.onkeydown = e => {
         let v = this.volume;
         let plus = null;
         let reduce = null;
-        switch (e.ctrlKey && e.keyCode) {
+        switch (e.ctrlKey || e.keyCode) {
           case 32: // 播放暂停  空格
             this.play();
             break;

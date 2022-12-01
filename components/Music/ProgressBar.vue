@@ -121,7 +121,8 @@ export default {
     // 修改percent
     _commitPercentChange() {
       const barWidth = this.$refs.progressBar.clientWidth - DOT_WIDTH;
-      const percent = this.$refs.progress.clientWidth / barWidth;
+      let percent = this.$refs.progress.clientWidth / barWidth;
+      percent = percent > 1 ? 1 : percent;
       this.$emit('percentChange', percent);
     }
   },
