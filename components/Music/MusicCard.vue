@@ -3,10 +3,11 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:03
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-11-18 11:35:00
+ * @LastEditTime: 2022-12-01 09:42:23
 -->
 <template>
   <div @click="toDetail" class="card pb-1">
+    <span>{{ item.playCount | numberFormat }}</span>
     <img
       v-lazy="`${picType === 1 ? item.coverImgUrl : item.picUrl}?param=300y300`"
       class="img"
@@ -16,7 +17,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'MCard',
@@ -45,13 +45,38 @@ export default {
   .card {
     height: 160px;
   }
+  span {
+    position: absolute;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    border-radius: 0.5rem;
+    line-height: 1rem;
+    font-size: 0.5rem;
+    background: #484545;
+    opacity: 0.8;
+    right: 0.3rem;
+    top: 0.3rem;
+  }
 }
 @media screen and (min-width: 1200px) {
   .card {
-    height:100%;
+    height: 100%;
+  }
+  span {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    border-radius: 0.7rem;
+    line-height: 1.5rem;
+    font-size: 0.2rem;
+    width: fit-content;
+    background: #484545;
+    opacity: 0.7;
+    right: 0.5rem;
+    top: 0.5rem;
   }
 }
 .card {
+  position: relative;
   cursor: pointer;
   background-color: transparent !important;
   box-shadow: 0 0.1875rem 1.5rem rgba(0, 0, 0, 0.2);
@@ -61,6 +86,14 @@ export default {
   // height: auto;
   &:hover > div:last-child {
     color: rgba(255, 255, 255, 0.6);
+  }
+  span {
+    position: absolute;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    text-align: center;
+    width: fit-content;
+    background: #484545;
   }
   .img {
     // border-radius: 0.4rem;

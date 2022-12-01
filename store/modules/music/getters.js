@@ -15,7 +15,6 @@ export const playlist = state => state.playlist;
 export const sequenceList = state => state.sequenceList;
 export const currentIndex = state => state.currentIndex;
 export const currentSong = state => {
-  debugger;
   if (state.currentIndex !== -1 && state.playlist.length) {
     return state.playlist[state.currentIndex];
   }

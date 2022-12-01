@@ -20,11 +20,14 @@ export default {
   components: { PorgressBar },
   mixins: [ismdAndUpMixin],
   mounted() {
-    // 还原上次音量
-    debugger;
     this.$nextTick(() => {
       this.handleVolumeChange(this.volume);
     });
+  },
+  data() {
+    return {
+      lastVolume: 0
+    };
   },
   computed: {
     ...mapGetters('music', ['volume']),
@@ -51,11 +54,12 @@ export default {
   },
   methods: {
     toggleVolume() {
-      console.log(this.isMute, 'this.isMute');
       this.isMute = !this.isMute;
+      console.log(this.isMute, 'this.isMute');
     },
     handleVolumeChange(percent) {
-      debugger
+      // debugger
+      this.lastVolume = percent;
       this.$emit('volumeChange', percent);
     }
   }

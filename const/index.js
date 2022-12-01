@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2022-11-14 15:19:40
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-11-14 15:28:19
+ * @LastEditTime: 2022-11-30 14:54:40
  */
 const prefix = 'iconfont icon-';
 export const items = () => [
@@ -33,3 +33,7 @@ export const items = () => [
     route: '/music/search'
   }
 ];
+export const LISTLOOP_INDEX = 0;
+export const SEQUENCE_INDEX = 1;
+export const LOOP_INDEX = 2;
+export const RANDOM_INDEX = 3;

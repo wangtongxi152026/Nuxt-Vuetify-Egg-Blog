@@ -64,10 +64,12 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { shuffle, debounce } from '~/plugins/util.js';
 import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
 import { getcurTime } from '~/plugins/storage.js';
-const LISTLOOP_INDEX = 0;
-const SEQUENCE_INDEX = 1;
-const LOOP_INDEX = 2;
-const RANDOM_INDEX = 3;
+import {
+  LISTLOOP_INDEX,
+  SEQUENCE_INDEX,
+  LOOP_INDEX,
+  RANDOM_INDEX
+} from '~/const';
 
 export default {
   components: { ProgressBar, Volume },
@@ -78,9 +80,7 @@ export default {
       this.$nextTick(() => {
         DellConveny.getInstance(this);
         this.initKeyDown();
-        if (!this.currentSong) {
-          return;
-        } else {
+        if (this.currentSong.id) {
           this.songReady = true;
           this.audio.src = this.currentSong.url;
           this.audio.currentTime = getcurTime() ?? this.currentTime;
@@ -352,6 +352,9 @@ export default {
 }
 
 .controler {
+  & >>> .v-icon.v-icon::after{
+      height: 0
+  }
   bottom: 0;
   display: flex;
   left: 0;

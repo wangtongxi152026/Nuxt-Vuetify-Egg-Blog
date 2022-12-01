@@ -130,3 +130,24 @@ export function throttle(cb, delay) {
     }
   };
 }
+
+export function numberFormat(val) {
+  let num = 10000;
+  let sizesValue = '';
+  if (val < 1000) {
+    // 如果小于10000则直接返回
+    sizesValue = '';
+  } else if (val >= 10000 && val < 99999999) {
+    sizesValue = '万';
+  } else if (val >= 100000000) {
+    sizesValue = '亿';
+  }
+  // 大于一万则运行下方计算
+  let i = Math.floor(Math.log(val) / Math.log(num));
+  /**
+   * toFixed(0)看你们后面想要取值多少，我是不取所以填了0，一般都是取2个值
+   */
+  let sizes = (val / Math.pow(num, i)).toFixed(0);
+  sizes = sizes + sizesValue;
+  return sizes;
+}

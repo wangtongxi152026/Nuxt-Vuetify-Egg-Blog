@@ -154,19 +154,20 @@ export default {
       border-radius 3px
       background #FF9800
       z-index 1
+      // transition all 0.5s
     .cacheProgress
       position absolute
       height 100%
       border-radius 3px
       background #525252
-      transition: all 0.5s
+      // transition all 0.5s
     .progress-btn-wrapper
       position absolute
       left 0px
       top -13px
       width 30px
       height 30px
-      transition: all 0.5s
+      // transition all 0.5s
       .progress-btn
         position relative
         top 7.5px
