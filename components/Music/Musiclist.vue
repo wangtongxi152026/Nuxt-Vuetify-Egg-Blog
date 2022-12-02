@@ -193,7 +193,7 @@ export default {
     color: #c1c1c1;
   }
   .iconfont {
-    color: orange;
+    color: @textColor;
     font-size: 28px;
   }
   .icon-chahao1 {

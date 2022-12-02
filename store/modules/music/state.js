@@ -3,9 +3,10 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:27:47
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-11-29 17:35:25
+ * @LastEditTime: 2022-12-02 15:47:09
  */
 import { playMode } from '~/plugins/config.js';
+import { getcurTime, getVolume } from '~/plugins/storage.js';
 const LISTLOOP_INDEX = 0;
 
 const state = () => ({
@@ -17,7 +18,7 @@ const state = () => ({
   sequenceList: [], //顺序列表
   currentIndex: -1, // 当前音乐索引
   mode: playMode[LISTLOOP_INDEX].code, //默认 列表循环 播放
-  volume: 0.2,
+  volume: getVolume() || 0.2,
   historyList: [],
   uid: '', // 网易云用户UID
   deviceType: '' // 设备类型

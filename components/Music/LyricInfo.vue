@@ -74,16 +74,19 @@ export default {
     if (this.currentSong.id) {
       this._getLyric(this.currentSong.id);
     }
-
-    // window.addEventListener('resize', () => {
-    //   clearTimeout(this.resizeTimer)
-    //   this.resizeTimer = setTimeout(() => this.clacTop(), 60)
-    // })
-    // this.$nextTick(() => this.clacTop())
+    if (process.client && this.lyric.length) {
+      window.addEventListener('resize', () => {
+        clearTimeout(this.resizeTimer);
+        this.resizeTimer = setTimeout(() => this.clacTop(), 60);
+      });
+      this.$nextTick(() => this.clacTop());
+    }
   },
   computed: {
-    ...mapGetters('music', ['playing', 'currentTime', 'currentSong']),
-
+    ...mapGetters('music', ['playing', 'currentSong']),
+    currentTime() {
+      return this.$store.state.music.currentTime;
+    },
     getTabHeight() {
       return this.ismdAndUp
         ? 'calc(100vh - 336px)'
@@ -178,7 +181,7 @@ export default {
   height: calc(100vh - 80px - 64px - 250px);
 }
 .lgHeight {
-  height: calc(100vh - 224px - 64px - 250px);
+  height: calc(100vh - 90px - 80px - 250px);
 }
 
 @keyframes rotate {

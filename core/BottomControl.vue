@@ -69,7 +69,7 @@ import {
   SEQUENCE_INDEX,
   LOOP_INDEX,
   RANDOM_INDEX
-} from '~/const';
+} from '~/plugins/config.js';
 
 export default {
   components: { ProgressBar, Volume },
@@ -98,17 +98,18 @@ export default {
   },
 
   computed: {
-    ...mapGetters('music', [
-      'playing',
-      'mode',
-      'volume',
-      'audio',
-      'currentSong',
-      'playlist',
-      'currentIndex',
-      'historyList',
-      'sequenceList'
-    ]),
+    ...mapGetters('music', {
+      audio: 'audio',
+      playing: 'playing',
+      currentSong: 'currentSong',
+      playlist: 'playlist',
+      currentIndex: 'currentIndex',
+      historyList: 'historyList',
+      sequenceList: 'sequenceList'
+    }),
+    mode() {
+      return this.$store.state.music.mode;
+    },
     currentTime() {
       return this.$store.state.music.currentTime;
     },
@@ -307,7 +308,7 @@ export default {
     },
     // 切换播放顺序
     modeChange() {
-      const mode = (this.mode + 1) % 4;
+      let mode = (this.mode + 1) % 4;
       console.log(mode);
       this.setPlayMode(mode);
       if (mode === playMode[LOOP_INDEX].code) {
@@ -339,8 +340,7 @@ export default {
   data() {
     return {
       cache: 0, //缓存进度
-      songReady: false, // 歌曲准备就绪？
-      isMute: false // 是否静音
+      songReady: false // 歌曲准备就绪？
     };
   }
 };

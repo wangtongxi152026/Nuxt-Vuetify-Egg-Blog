@@ -68,7 +68,9 @@ export default {
     this._searchHot();
   },
   mounted() {
-    this.height = `calc(100vh - 80px - 44px - 48px - ${this.$refs.searchInput.$el.clientHeight}px)`;
+    this.$nextTick(() => {
+      this.height = `calc(100vh - 80px - 44px - 48px - ${this.$refs.searchInput.$el.clientHeight}px)`;
+    });
   },
   mixins: [ismdAndUpMixin],
   data() {

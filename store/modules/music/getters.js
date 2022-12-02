@@ -14,6 +14,13 @@ export const playing = state => state.playing;
 export const playlist = state => state.playlist;
 export const sequenceList = state => state.sequenceList;
 export const currentIndex = state => state.currentIndex;
+export function mode(state) {
+  const mode = getMode();
+  // debugger;
+  console.log(mode, state.mode);
+  return mode || state.mode;
+}
+
 export const currentSong = state => {
   if (state.currentIndex !== -1 && state.playlist.length) {
     return state.playlist[state.currentIndex];
@@ -21,11 +28,9 @@ export const currentSong = state => {
   return _getHistory()[0] || {};
 };
 export const currentTime = state => getcurTime() || state.currentTime;
-export const mode = state => getMode() || state.mode;
 
-export const volume = state => () => {
+export const volume = state => {
   const volume = getVolume();
-  debugger;
   return volume || state.volume;
 };
 

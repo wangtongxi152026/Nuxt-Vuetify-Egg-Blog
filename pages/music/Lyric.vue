@@ -82,8 +82,10 @@ export default {
     // this.$nextTick(() => this.clacTop())
   },
   computed: {
-    ...mapGetters('music', ['playing', 'currentTime', 'currentSong']),
-
+    ...mapGetters('music', ['playing', 'currentSong']),
+    currentTime() {
+      return this.$store.state.music.currentTime;
+    },
     getTabHeight() {
       return this.ismdAndUp
         ? 'calc(100vh - 80px - 44px - 48px)'

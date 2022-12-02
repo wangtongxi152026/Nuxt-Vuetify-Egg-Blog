@@ -47,7 +47,7 @@ import { formatTopSongs } from '~/plugins/song';
 import LyricInfo from '~/components/Music/LyricInfo';
 import MusicHeader from '~/components/Music/MusicHeader';
 import ismdAndUpMixin from '~/components/Mixin/ismdAndUp';
-import { items } from '~/const';
+import { items } from '~/plugins/config.js';
 
 export default {
   components: {

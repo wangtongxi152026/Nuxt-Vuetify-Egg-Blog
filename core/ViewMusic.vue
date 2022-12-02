@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:04
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-11-14 15:01:07
+ * @LastEditTime: 2022-12-02 15:34:00
 -->
 <template>
   <v-content>
@@ -17,7 +17,9 @@ import { mapGetters } from 'vuex';
 import coreMusciCover from './core-musci-cover.jpg';
 export default {
   computed: {
-    ...mapGetters('music', ['currentSong']),
+    ...mapGetters('music', {
+      currentSong: 'currentSong'
+    }),
     musicPicUrl() {
       return this.currentSong.image
         ? `${this.currentSong.image}?param=150y150`
