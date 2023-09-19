@@ -1,9 +1,9 @@
 <!--
- * @Descripttion: 
+ * @Descripttion:
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:03
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-11-17 17:49:07
+ * @LastEditTime: 2023-09-19 15:35:56
 -->
 <template>
   <div class="scroller" ref="scroller">
@@ -51,7 +51,12 @@ export default {
     };
   },
   mounted() {
-    this.refresh && this.refresh();
+    this.$nextTick(() => {
+      window.scroller = this.scroller;
+
+      window.refresh = this.refresh;
+      this.refresh();
+    });
   },
   props: {
     data: { default: null },
@@ -66,6 +71,7 @@ export default {
     },
     refresh() {
       this.$nextTick(() => {
+        console.log(this.scroller, 'this.scroller');
         if (!this.scroller) {
           this.scroller = new BScroll(
             this.$refs.scroller,
@@ -73,18 +79,20 @@ export default {
           );
           this.$emit('init', this.scroller);
         }
-        this.scroller?.refresh && this.scroller?.refresh();
+        this.scroller.refresh && this.scroller.refresh();
       });
     }
   },
   watch: {
     data: {
+      immediate: true,
+      deep: true,
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
-          console.log('Scroll组件,data:', newValue, oldValue);
-          // this.refresh();
+          console.log('Scroll组件:', newValue, oldValue);
+          this.refresh();
         }
-      },
+      }
     }
   }
 };

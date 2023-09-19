@@ -1,9 +1,9 @@
 <!--
- * @Descripttion: 
+ * @Descripttion:
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:03
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-12-02 17:12:18
+ * @LastEditTime: 2023-09-19 15:45:10
 -->
 <template>
   <div @click="toDetail" class="card pb-1">
@@ -49,7 +49,6 @@ export default {
   border-radius: 0.3rem;
   overflow: hidden;
   cursor: pointer;
-  // height: auto;
   &:hover > div:last-child {
     color: rgba(255, 255, 255, 0.6);
   }
@@ -73,9 +72,9 @@ export default {
     top: 0.3rem;
   }
   .img {
-    // border-radius: 0.4rem;
     width: 100%;
     height: auto;
+    aspect-ratio: 1/1;
     object-fit: contain;
   }
   .caption {
@@ -110,18 +109,5 @@ export default {
   .card {
     height: 100%;
   }
-  // span {
-  //   position: absolute;
-  //   padding-left: 0.4rem;
-  //   padding-right: 0.4rem;
-  //   border-radius: 0.7rem;
-  //   line-height: 1.5rem;
-  //   font-size: 0.2rem;
-  //   width: fit-content;
-  //   background: #484545;
-  //   opacity: 0.7;
-  //   right: 0.5rem;
-  //   top: 0.5rem;
-  // }
 }
 </style>

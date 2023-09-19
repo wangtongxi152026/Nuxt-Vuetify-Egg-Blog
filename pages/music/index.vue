@@ -5,15 +5,16 @@
       <div>
         <div class="headline font-weight-light my-3">云村榜单</div>
         <div class="box">
-          <template v-for="item in list">
-            <MCard :key="item.name" :item="item"></MCard>
-          </template>
+          <MCard v-for="item in list" :key="item.name" :item="item"></MCard>
         </div>
         <div class="headline font-weight-light my-3">推荐歌单</div>
         <div class="box">
-          <template v-for="item in hotList">
-            <MCard :key="item.name" :picType="0" :item="item"></MCard>
-          </template>
+          <MCard
+            v-for="item in hotList"
+            :key="item.name"
+            :picType="0"
+            :item="item"
+          ></MCard>
         </div>
       </div>
     </Scroll>
@@ -34,6 +35,7 @@ export default {
   },
   methods: {
     async _getMusicList() {
+      let len = 0;
       try {
         this.loading = true;
         let value = await Promise.all([getToplistDetail(), getPersonalized()]);
@@ -48,17 +50,19 @@ export default {
                 }
               });
               this.list = list;
-              this.length += res.data.list.length;
+              len += res.data.list.length;
             } else if (index === 1) {
               this.hotList = res.data.result;
-              this.length += res.data.result.length;
+              len += res.data.result.length;
             }
           }
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        this.length = len;
+        this.loading = false;
       }
-      this.loading = false;
     }
   },
 
