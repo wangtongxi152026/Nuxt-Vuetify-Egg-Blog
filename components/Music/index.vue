@@ -1,6 +1,6 @@
 <template>
   <!-- <v-container> -->
-  <Scroll :data="getDatalength">
+  <Scroll :dataL="getDatalength">
     <div class="box">
       <v-row>
         <v-col cols="12" class="py-0">

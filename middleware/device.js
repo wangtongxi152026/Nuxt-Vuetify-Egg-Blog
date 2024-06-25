@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2022-11-14 15:46:45
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-11-14 16:14:54
+ * @LastEditTime: 2024-06-25 23:16:27
  */
 import { deviceType } from '~/util/deviceType';
 export default function(context) {
@@ -17,11 +17,10 @@ export default function(context) {
   console.log({deviceType:context.deviceType.type})
   // debugger;
   context.store.commit('music/SetDeviceType', context.deviceType.type);
-
   // 若是判断UA非移动端的,就在这里做处理了..
   // context.redirect(status,url) 这个可以重定向到外部网站
   // 若是内部访问可以直接用router对象push
   if (context.deviceType.type === 'pc') {
-    // context.redirect(301,'https://wwww.baidu.com')
+    //
   }
 }

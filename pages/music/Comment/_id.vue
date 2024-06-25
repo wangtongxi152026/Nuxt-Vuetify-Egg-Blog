@@ -1,6 +1,6 @@
 <template>
   <v-container class="comment pb-0" :style="{ height: getTabHeight }">
-    <Scroll ref="Scroll" :data="getListLength || getTabHeight" @init="pullUp">
+    <Scroll ref="Scroll" :dataL="getListLength || getTabHeight" @init="pullUp">
       <div>
         <v-row>
           <v-col cols="12">

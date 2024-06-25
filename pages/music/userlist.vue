@@ -1,6 +1,6 @@
 <template>
   <div :style="{'height':getTabHeight}">
-    <Scroll :data="getlistlen">
+    <Scroll :dataL="getlistlen">
       <div>
         <MusicHeader></MusicHeader>
         <v-row v-if="userList.length">
@@ -19,7 +19,7 @@ import MCard from "~/components/Music/MusicCard";
 import MusicHeader from "~/components/Music/MusicHeader";
 import { getUserPlaylist } from "@/api";
 import { mapGetters } from "vuex";
-import NoData from "~/components/Music/NoData"; 
+import NoData from "~/components/Music/NoData";
 import ismdAndUpMixin  from '~/components/Mixin/ismdAndUp'
 export default {
   name: "music-userlist",

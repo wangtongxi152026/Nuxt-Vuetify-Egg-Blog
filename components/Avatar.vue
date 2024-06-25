@@ -8,7 +8,6 @@
         <v-list-item-avatar class="align-self-center" color="grey">
           <v-img :src="src" />
         </v-list-item-avatar>
-
         <v-list-item-content>
           <v-list-item-title>{{userinfo.name}}</v-list-item-title>
         </v-list-item-content>

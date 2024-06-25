@@ -29,7 +29,7 @@
           :class="ismdAndUp ? 'lgHeight' : 'smHeight'"
         >
           <template v-if="currentSong.id && lyric.length">
-            <Scroll :data="lyric.length" ref="musicScroll">
+            <Scroll :dataL="lyric.length" ref="musicScroll">
               <div class="lyric-items body-2">
                 <p
                   :class="{ activeLyric: lyricIndex === index }"

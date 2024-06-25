@@ -1,7 +1,7 @@
 <template>
   <div :style="{ height: getTabHeight }">
     <Loading v-if="loading"></Loading>
-    <Scroll v-else :data="length">
+    <Scroll v-else :dataL="length">
       <div>
         <div class="headline font-weight-light my-3">云村榜单</div>
         <div class="box">

@@ -27,7 +27,7 @@
           class="lyric"
           :class="!ismdAndUp ? 'smHeight' : 'lgHeight'"
         >
-          <Scroll :data="lyric.length" ref="musicScroll">
+          <Scroll :dataL="lyric.length" ref="musicScroll">
             <div class="lyric-items body-2">
               <template v-if="lyric.length">
                 <p

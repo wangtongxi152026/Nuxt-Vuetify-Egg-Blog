@@ -1,7 +1,7 @@
 <template>
-  <v-card :height="height" max-width="100vw" class="body-2">
+  <v-card style="background: transparent;" :height="height" max-width="100vw" class="body-2">
     <Loading v-if="$store.state.music.loading"></Loading>
-    <Scroll v-else :data="list.length || getTabHeight">
+    <Scroll v-else :dataL="list.length || getTabHeight">
       <v-list-item-group>
         <v-list-item>
           <v-row class="d-flex align-center">

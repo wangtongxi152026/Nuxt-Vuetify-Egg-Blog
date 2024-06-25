@@ -28,7 +28,7 @@
           class="lyric"
           :class="ismdAndUp ? 'lgHeight' : 'smHeight'"
         >
-          <Scroll :data="lyric.length" ref="musicScroll">
+          <Scroll :dataL="lyric.length" ref="musicScroll">
             <div class="lyric-items body-2 text">
               <p
                 :class="{ activeLyric: lyricIndex === index }"

@@ -119,6 +119,6 @@ export default {
   // background-position: center
   // background-size: cover
   width: 100%
-  height: 350px 
+  height: 350px
   transform: translateY(-40px)
 </style>

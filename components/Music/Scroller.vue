@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:03
  * @LastEditors: wangtongxi
- * @LastEditTime: 2023-09-19 15:35:56
+ * @LastEditTime: 2024-06-25 22:47:54
 -->
 <template>
   <div class="scroller" ref="scroller">
@@ -59,7 +59,7 @@ export default {
     });
   },
   props: {
-    data: { default: null },
+    dataL: { default: null },
     options: { type: Object, default: () => ({}) }
   },
   methods: {
@@ -71,7 +71,6 @@ export default {
     },
     refresh() {
       this.$nextTick(() => {
-        console.log(this.scroller, 'this.scroller');
         if (!this.scroller) {
           this.scroller = new BScroll(
             this.$refs.scroller,
@@ -79,12 +78,14 @@ export default {
           );
           this.$emit('init', this.scroller);
         }
+        console.log(this.scroller, 'this.scroller');
+
         this.scroller.refresh && this.scroller.refresh();
       });
     }
   },
   watch: {
-    data: {
+    dataL: {
       immediate: true,
       deep: true,
       handler(newValue, oldValue) {

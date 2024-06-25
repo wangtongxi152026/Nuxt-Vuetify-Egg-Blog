@@ -18,14 +18,15 @@ export default {
   layout: 'music',
   async created() {
     // 获取歌单详情
-
     try {
       this.setLoading(true);
       let playlist = await getPlaylistDetails(this.getListID);
-      document.title = playlist.name;
+      this.$nextTick(() => {
+        document.title = playlist.name;
+      });
       this.detailList = playlist.tracks;
     } catch (error) {
-      console.log(error);
+      console.log('listdetail', error);
     }
 
     this.setLoading(false);
