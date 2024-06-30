@@ -6,7 +6,6 @@ import FastClick from 'fastclick';
   doc.addEventListener(
     'DOMContentLoaded',
     function() {
-      console.log('DOMContentLoaded');
       FastClick.attach(doc.body); //解决手机浏览器点击事件300ms延迟的bug
     },
     false

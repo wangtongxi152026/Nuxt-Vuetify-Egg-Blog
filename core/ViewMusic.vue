@@ -1,9 +1,9 @@
 <!--
- * @Descripttion: 
+ * @Descripttion:
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:28:04
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-12-02 15:34:00
+ * @LastEditTime: 2024-06-30 20:43:47
 -->
 <template>
   <v-content>
@@ -16,6 +16,26 @@
 import { mapGetters } from 'vuex';
 import coreMusciCover from './core-musci-cover.jpg';
 export default {
+  fetch({ store }) {
+    debugger
+    console.log('fetch store App', { store });
+    // store.commit(["music/SET_AUDIO"], this.$refs.audio);
+  },
+  asyncData({
+    isDev,
+    route,
+    store,
+    env,
+    params,
+    query,
+    req,
+    res,
+    redirect,
+    error
+  }) {
+    debugger
+    console.log('asyncData store App', { store });
+  },
   computed: {
     ...mapGetters('music', {
       currentSong: 'currentSong'

@@ -3,7 +3,7 @@
  * @Author: wangtongxi
  * @Date: 2020-02-10 19:27:47
  * @LastEditors: wangtongxi
- * @LastEditTime: 2022-12-02 15:47:09
+ * @LastEditTime: 2024-06-30 21:17:00
  */
 import { playMode } from '~/plugins/config.js';
 import { getcurTime, getVolume } from '~/plugins/storage.js';

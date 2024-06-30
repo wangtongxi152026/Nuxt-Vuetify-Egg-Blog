@@ -7,30 +7,31 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from "vuex";
-import { getPlaylistDetail } from "~/api";
-import { formatTopSongs } from "~/plugins/song";
+import { mapMutations, mapActions, mapState } from 'vuex';
+import { getPlaylistDetail } from '~/api';
+import { formatTopSongs } from '~/plugins/song';
 
 export default {
-  name: "App",
+  name: 'App',
   fetch({ store }) {
-    store.commit(["music/SET_AUDIO"], this.$refs.audio);
+    store.commit(['music/SET_AUDIO'], this.$refs.audio);
   },
-
-  created() {
-    this.$nextTick(() => this.setAudio());
+  mounted() {
+    this.$nextTick(() => {
+      window.$audio = this.$refs.audio;
+      this.setAudio(this.$refs.audio);
+    });
   },
   data() {
     return {};
   },
   components: {
-    CoreAppBar: () => import("~/core/onlybody/AppBar"),
-
-    CoreView: () => import("~/core/onlybody/View")
+    CoreAppBar: () => import('~/core/onlybody/AppBar'),
+    CoreView: () => import('~/core/onlybody/View')
   },
   methods: {
-    ...mapMutations("music", {
-      setAudio: "SET_AUDIO"
+    ...mapMutations('music', {
+      setAudio: 'SET_AUDIO'
     })
   }
 };

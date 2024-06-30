@@ -17,9 +17,13 @@ import { mapMutations } from 'vuex';
 
 export default {
   name: 'App',
+
   mounted() {
     if (!this.$store.state.music.audio) {
-      this.$nextTick(() => this.setAudio());
+      this.$nextTick(() => {
+        window.$refaudio = this.$refs.audio;
+        this.setAudio(this.$refs.audio);
+      });
     }
   },
   components: {

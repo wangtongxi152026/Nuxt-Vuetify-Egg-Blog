@@ -87,11 +87,12 @@ const VOLUME_KEY = '__Player_volume__';
 // 获取音量
 export function getVolume() {
   const volume = storage.get(VOLUME_KEY, null);
-  return Number(volume);
+  debugger
+  return Number(volume) || 0.2;
 }
 // 存储音量
 export function setVolume(volume) {
-  storage.set(VOLUME_KEY, volume);
+  storage.set(VOLUME_KEY, Number(volume) || 0.2);
   return volume;
 }
 
